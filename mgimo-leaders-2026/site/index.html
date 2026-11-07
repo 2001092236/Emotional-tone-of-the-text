@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Исторический корпус текстов Трампа, Путина и Зеленского за 2026 год — МГИМО." />
+  <title>Политический дискурс | Корпус 2026</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header class="header">
+      <div class="brand"><div class="brandmark">M</div><div><div class="eyebrow">МГИМО / СТРАТЕГИЧЕСКИЙ АНАЛИЗ</div><div class="subtitle">Исследовательский корпус · 2026</div></div></div>
+      <span class="pill">Только исторические данные</span>
+    </header>
+    <main>
+      <section class="hero">
+        <div class="eyebrow">КОРПУС ПУБЛИЧНЫХ ТЕКСТОВ</div>
+        <h1>Политический дискурс<br><span>Трамп · Путин · Зеленский</span></h1>
+        <p class="intro">Тексты из открытых архивов с датами, источниками и атрибуцией. Период: с 1 января 2026 года до даты ручной выгрузки. Сайт не отслеживает публикации в реальном времени.</p>
+        <div class="heroMeta"><span><span class="dot"></span>Воспроизводимый сбор</span><span>Без GPU и сервера</span><span>Год: 2026</span></div>
+      </section>
+      <section class="kpis" aria-label="Основные показатели">
+        <div class="kpi"><div class="kpiLabel">Документов</div><div class="kpiNumber" id="total">—</div><div class="kpiFoot">По загруженным источникам</div></div>
+        <div class="kpi"><div class="kpiLabel">Слов</div><div class="kpiNumber" id="words">—</div><div class="kpiFoot">Тексты, не медиа</div></div>
+        <div class="kpi"><div class="kpiLabel">Период</div><div class="kpiNumber">2026</div><div class="kpiFoot">Без данных 2025 года</div></div>
+        <div class="kpi"><div class="kpiLabel">Покрытие</div><div class="kpiNumber" id="coverage">—</div><div class="kpiFoot">Требует внешней проверки</div></div>
+      </section>
+      <section class="section twoCols">
+        <div><div class="sectionTop"><div><h2>Активность по месяцам</h2><p>Число сохранённых текстов, без поправки на жанр.</p></div></div><div id="timeline" class="timeline" role="img" aria-label="Динамика числа документов по месяцам"></div></div>
+        <div><div class="sectionTop"><div><h2>Источники и статусы</h2><p>Наличие публикаций не гарантирует полноту.</p></div></div><div id="sources" class="sources"></div></div>
+      </section>
+      <section class="section">
+        <div class="sectionTop"><div><h2>Исходные тексты</h2><p>Нажми на документ, чтобы раскрыть текст и ссылку на первоисточник.</p></div><div class="count" id="matches">0 результатов</div></div>
+        <div class="controls">
+          <label>Политик<select id="leader"><option value="all">Все трое</option><option value="trump">Дональд Трамп</option><option value="putin">Владимир Путин</option><option value="zelenskyy">Владимир Зеленский</option></select></label>
+          <label>Месяц<select id="month"></select></label>
+          <label class="search">Поиск по загруженным текстам<input id="search" type="search" placeholder="Слово или фраза…"/></label>
+          <label>Атрибуция<select id="attribution"><option value="all">Все типы</option><option value="direct">Прямая / официальная речь</option><option value="other">Другие / неустановленные</option></select></label>
+        </div>
+        <div id="status" class="status" role="status">Подключаем данные корпуса…</div>
+        <div id="documents" class="documents"></div>
+        <div class="pagination"><button id="more" class="more" type="button" hidden>Показать ещё</button></div>
+      </section>
+      <footer><div>МГИМО · Исследовательский прототип · 2026</div><div>Тексты не равнозначны подтверждённому личному авторству. Все показатели относятся только к загруженной выборке.</div></footer>
+    </main>
+  </div>
+  <script src="./app.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+name: One-time 2026 historical backfill
+on:
+  workflow_dispatch:
+    inputs:
+      source:
+        description: Which leader to load
+        required: true
+        type: choice
+        default: all
+        options: [all, trump, putin, zelenskyy]
+      max_pages:
+        description: Archive pages (110 for full attempt; 2 for smoke test)
+        required: true
+        default: '110'
+        type: string
+permissions:
+  contents: write
+concurrency:
+  group: mgimo-historical-backfill-2026
+  cancel-in-progress: false
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Load historical 2026 texts (no scheduling)
+        id: collect
+        continue-on-error: true
+        run: python -m corpus2026.cli backfill --source '${{ inputs.source }}' --since 2026-01-01 --until "$(date -u +%F)" --max-pages '${{ inputs.max_pages }}'
+      - name: Validate generated dataset
+        run: |
+          python -m corpus2026.cli build-site
+          python -m compileall -q corpus2026
+      - name: Commit 2026 corpus and generated static data
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/2026 site/data
+          if ! git diff --cached --quiet; then
+            git commit -m 'data: historical 2026 backfill (${{ inputs.source }})'
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi
+      - name: Warn if any source was partial or inaccessible
+        if: steps.collect.outcome != 'success'
+        run: |
+          echo 'At least one source had incomplete/blocked access. See data/2026/run_report.json.' >> "$GITHUB_STEP_SUMMARY"
+          exit 1

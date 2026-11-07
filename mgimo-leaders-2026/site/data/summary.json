@@ -1,0 +1,25 @@
+{
+  "year":2026,
+  "description":"Исторический корпус (без realtime); источники различаются по жанру и атрибуции",
+  "leaders":{
+    "trump":"Дональд Трамп",
+    "putin":"Владимир Путин",
+    "zelenskyy":"Владимир Зеленский"
+  },
+  "total":0,
+  "words":0,
+  "by_leader":{
+    "trump":0,
+    "putin":0,
+    "zelenskyy":0
+  },
+  "by_month":{
+    "trump":{},
+    "putin":{},
+    "zelenskyy":{}
+  },
+  "by_source":{},
+  "files":{},
+  "coverage_verified":false,
+  "status":"not_loaded"
+}
