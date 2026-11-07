@@ -1,0 +1,1216 @@
+{
+  "schema_version": 1,
+  "status": "experimental",
+  "year": 2026,
+  "method": "Регуляризованная PLSA (ARTM-подход) + NMF (контрольная модель)",
+  "created_at": "2026-11-07 UTC",
+  "limitations": [
+    "Не используется BigARTM / ITAR; реализована лишь часть семейства ARTM",
+    "Темы по языкам не выровнены; сравнение тем между лидерами запрещено без дополнительной проверки",
+    "Исследовательские корпуса имеют неполное покрытие и различные виды текстов",
+    "Темы не прошли экспертную разметку; NPMI и разнообразие — автоматические индикаторы"
+  ],
+  "papers": [
+    {
+      "name": "Воронцов, Потапенко, 2012",
+      "url": "https://crm.ics.org.ru/uploads/crmissues/crm_2012_4/12403.pdf"
+    },
+    {
+      "name": "Веселова, Воронцов, 2020",
+      "url": "https://aclanthology.org/2020.acl-srw.9.pdf"
+    },
+    {
+      "name": "Горбулев, Алексеев, Воронцов, 2024 (ITAR)",
+      "url": "https://arxiv.org/pdf/2408.05840"
+    }
+  ],
+  "leaders": {
+    "trump": {
+      "status": "experimental",
+      "language": "en",
+      "documents": 4220,
+      "sample_documents": 1400,
+      "vocabulary_size": 2400,
+      "topics": [
+        {
+          "id": "artm_1",
+          "keywords": [
+            "tax",
+            "always",
+            "endorsement",
+            "complete",
+            "total",
+            "economy",
+            "never",
+            "secure",
+            "district",
+            "congressional",
+            "election",
+            "second"
+          ],
+          "proportion": 0.14232691560959626,
+          "coherence": 0.6725677434822531,
+          "by_month": {
+            "2026-01": 0.076973,
+            "2026-02": 0.142064,
+            "2026-03": 0.057154,
+            "2026-04": 0.045432,
+            "2026-05": 0.092787,
+            "2026-06": 0.114275,
+            "2026-07": 0.043111,
+            "2026-08": 0.167965,
+            "2026-09": 0.074182,
+            "2026-10": 0.27618,
+            "2026-11": 0.47231
+          },
+          "examples": [
+            {
+              "id": "571edc39c37d00c603d07ec4",
+              "date": "2026-10-31",
+              "title": "Truth Social · 2026-10-31",
+              "url": "https://truthsocial.com/@realDonaldTrump/117537140530720832",
+              "attribution": "secondary_archive"
+            },
+            {
+              "id": "20f4d249a8a3f14cd4222b79",
+              "date": "2026-10-22",
+              "title": "Truth Social · 2026-10-22",
+              "url": "https://truthsocial.com/@realDonaldTrump/117486880515701383",
+              "attribution": "secondary_archive"
+            },
+            {
+              "id": "52677d1f40e5e6f5b67bc268",
+              "date": "2026-07-10",
+              "title": "Truth Social · 2026-07-10",
+              "url": "https://truthsocial.com/@realDonaldTrump/116897493274525628",
+              "attribution": "secondary_archive"
+            }
+          ]
+        },
+        {
+          "id": "artm_2",
+          "keywords": [
+            "president",
+            "trump",
+            "states",
+            "iran",
+            "donald",
+            "united",
+            "america",
+            "country",
+            "thank",
+            "matter",
+            "world",
+            "attention"
+          ],
+          "proportion": 0.226573893641291,
+          "coherence": 0.19294172408123392,
+          "by_month": {
+            "2026-01": 0.265572,
+            "2026-02": 0.22236,
+            "2026-03": 0.289587,
+            "2026-04": 0.271005,
+            "2026-05": 0.258611,
+            "2026-06": 0.244459,
+            "2026-07": 0.26188,
+            "2026-08": 0.211234,
+            "2026-09": 0.325027,
+            "2026-10": 0.108724,
+            "2026-11": 0.036639
+          },
+          "examples": [
+            {
+              "id": "69536dc1836c10a9b16979ca",
+              "date": "2026-03-18",
+              "title": "Truth Social · 2026-03-18",
+              "url": "https://truthsocial.com/@realDonaldTrump/116249873076369025",
+              "attribution": "secondary_archive"
+            },
+            {
+              "id": "1bbd1cc86c4cde8c70e00266",
+              "date": "2026-03-16",
+              "title": "Truth Social · 2026-03-16",
+              "url": "https://truthsocial.com/@realDonaldTrump/116241557064413752",
+              "attribution": "secondary_archive"
+            },
+            {
+              "id": "7a04f5659f3608218c83cb48",
+              "date": "2026-08-12",
+              "title": "Truth Social · 2026-08-12",
+              "url": "https://truthsocial.com/@realDonaldTrump/117082485763139425",
+              "attribution": "secondary_archive"
+            }
+          ]
+        },
+        {
+          "id": "artm_3",
+          "keywords": [
+            "trump",
+            "president",
+            "congress",
+            "donald",
+            "great",
+            "com",
+            "https",
+            "house",
+            "people",
+            "white",
+            "never",
+            "get"
+          ],
+          "proportion": 0.16974169703530845,
+          "coherence": 0.03446583626823028,
+          "by_month": {
+            "2026-01": 0.161272,
+            "2026-02": 0.134249,
+            "2026-03": 0.190538,
+            "2026-04": 0.243298,
+            "2026-05": 0.20513,
+            "2026-06": 0.186315,
+            "2026-07": 0.194049,
+            "2026-08": 0.173062,
+            "2026-09": 0.126343,
+            "2026-10": 0.149886,
+            "2026-11": 0.103486
+          },
+          "examples": [
+            {
+              "id": "0c7121c39dd360280b4fafcf",
+              "date": "2026-03-02",
+              "title": "Truth Social · 2026-03-02",
+              "url": "https://truthsocial.com/@realDonaldTrump/116162239179331317",
+              "attribution": "secondary_archive"
+            },
+            {
+              "id": "ffbec5f26afefc556de588ea",
+              "date": "2026-02-05",
+              "title": "Truth Social · 2026-02-05",
+              "url": "https://truthsocial.com/@realDonaldTrump/116016151311489400",
+              "attribution": "secondary_archive"
+            },
+            {
+              "id": "5e0e4327f013627d37fe1e3e",
+              "date": "2026-08-30",
+              "title": "Truth Social · 2026-08-30",
+              "url": "https://truthsocial.com/@realDonaldTrump/117184421232259468",
+              "attribution": "secondary_archive"
+            }
+          ]
+        },
+        {
+          "id": "artm_4",
+          "keywords": [
+            "regulations",
+            "state",
+            "next",
+            "law",
+            "great",
+            "district",
+            "border",
+            "made",
+            "crime",
+            "stop",
+            "secure",
+            "amendment"
+          ],
+          "proportion": 0.10260893808047923,
+          "coherence": 0.45371893503409216,
+          "by_month": {
+            "2026-01": 0.09975,
+            "2026-02": 0.154692,
+            "2026-03": 0.082247,
+            "2026-04": 0.069478,
+            "2026-05": 0.153512,
+            "2026-06": 0.132603,
+            "2026-07": 0.067253,
+            "2026-08": 0.121906,
+            "2026-09": 0.059161,
+            "2026-10": 0.061962,
+            "2026-11": 0.127095
+          },
+          "examples": [
+            {
+              "id": "5e66c89f74637b0ee0c589f9",
+              "date": "2026-04-22",
+              "title": "Truth Social · 2026-04-22",
+              "url": "https://truthsocial.com/@realDonaldTrump/116449875545717304",
+              "attribution": "secondary_archive"
+            },
+            {
+              "id": "ba3b8a11e9c50b1c86ef0389",
+              "date": "2026-08-10",
+              "title": "Truth Social · 2026-08-10",
+              "url": "https://truthsocial.com/@realDonaldTrump/117073728976736398",
+              "attribution": "secondary_archive"
+            },
+            {
+              "id": "b7dcdda2651ff2c2781aae3c",
+              "date": "2026-07-13",
+              "title": "Truth Social · 2026-07-13",
+              "url": "https://truthsocial.com/@realDonaldTrump/116914606172298586",
+              "attribution": "secondary_archive"
+            }
+          ]
+        },
+        {
+          "id": "artm_5",
+          "keywords": [
+            "trump",
+            "president",
+            "com",
+            "vote",
+            "https",
+            "donald",
+            "great",
+            "get",
+            "america",
+            "person",
+            "www",
+            "iowa"
+          ],
+          "proportion": 0.15236626158144032,
+          "coherence": 0.12053597917968353,
+          "by_month": {
+            "2026-01": 0.145643,
+            "2026-02": 0.125518,
+            "2026-03": 0.152157,
+            "2026-04": 0.165561,
+            "2026-05": 0.166212,
+            "2026-06": 0.153274,
+            "2026-07": 0.209087,
+            "2026-08": 0.130917,
+            "2026-09": 0.173816,
+            "2026-10": 0.174616,
+            "2026-11": 0.078703
+          },
+          "examples": [
+            {
+              "id": "f69b945962e9044882274cd1",
+              "date": "2026-02-06",
+              "title": "Truth Social · 2026-02-06",
+              "url": "https://truthsocial.com/@realDonaldTrump/116022020081960274",
+              "attribution": "secondary_archive"
+            },
+            {
+              "id": "b9122c54c48a14e0a0598296",
+              "date": "2026-03-19",
+              "title": "Truth Social · 2026-03-19",
+              "url": "https://truthsocial.com/@realDonaldTrump/116257915423728314",
+              "attribution": "secondary_archive"
+            },
+            {
+              "id": "adac737b8230b3d554df5696",
+              "date": "2026-04-12",
+              "title": "Truth Social · 2026-04-12",
+              "url": "https://truthsocial.com/@realDonaldTrump/116389798405349626",
+              "attribution": "secondary_archive"
+            }
+          ]
+        },
+        {
+          "id": "artm_6",
+          "keywords": [
+            "indiana",
+            "state",
+            "country",
+            "democrats",
+            "great",
+            "https",
+            "america",
+            "rino",
+            "com",
+            "president",
+            "trump",
+            "made"
+          ],
+          "proportion": 0.10573847074765524,
+          "coherence": 0.14937907186078705,
+          "by_month": {
+            "2026-01": 0.157779,
+            "2026-02": 0.107354,
+            "2026-03": 0.139456,
+            "2026-04": 0.136588,
+            "2026-05": 0.071893,
+            "2026-06": 0.09196,
+            "2026-07": 0.083743,
+            "2026-08": 0.10584,
+            "2026-09": 0.142662,
+            "2026-10": 0.089351,
+            "2026-11": 0.036884
+          },
+          "examples": [
+            {
+              "id": "7702466feecbcec635e6c998",
+              "date": "2026-01-19",
+              "title": "Truth Social · 2026-01-19",
+              "url": "https://truthsocial.com/@realDonaldTrump/115919038563850124",
+              "attribution": "secondary_archive"
+            },
+            {
+              "id": "c97a3d2c47062de8dfe5a442",
+              "date": "2026-04-23",
+              "title": "Truth Social · 2026-04-23",
+              "url": "https://truthsocial.com/@realDonaldTrump/116451778358145321",
+              "attribution": "secondary_archive"
+            },
+            {
+              "id": "eb2d801a4cffc8908ce7ad7e",
+              "date": "2026-01-28",
+              "title": "Truth Social · 2026-01-28",
+              "url": "https://truthsocial.com/@realDonaldTrump/115973871778215181",
+              "attribution": "secondary_archive"
+            }
+          ]
+        },
+        {
+          "id": "artm_7",
+          "keywords": [
+            "governor",
+            "transgender",
+            "great",
+            "american",
+            "trump",
+            "president",
+            "congress",
+            "america",
+            "election",
+            "donald",
+            "com",
+            "regulations"
+          ],
+          "proportion": 0.10064382330422952,
+          "coherence": 0.10661003683741821,
+          "by_month": {
+            "2026-01": 0.093011,
+            "2026-02": 0.113764,
+            "2026-03": 0.08886,
+            "2026-04": 0.068638,
+            "2026-05": 0.051855,
+            "2026-06": 0.077113,
+            "2026-07": 0.140878,
+            "2026-08": 0.089077,
+            "2026-09": 0.098808,
+            "2026-10": 0.139281,
+            "2026-11": 0.144884
+          },
+          "examples": [
+            {
+              "id": "9d3e2f0ab97185b159c8d53f",
+              "date": "2026-07-13",
+              "title": "Truth Social · 2026-07-13",
+              "url": "https://truthsocial.com/@realDonaldTrump/116912825130233110",
+              "attribution": "secondary_archive"
+            },
+            {
+              "id": "e999e8039ba3362badbf358d",
+              "date": "2026-08-30",
+              "title": "Truth Social · 2026-08-30",
+              "url": "https://truthsocial.com/@realDonaldTrump/117186610792493785",
+              "attribution": "secondary_archive"
+            },
+            {
+              "id": "aeb7c3bf5a6bb29bb4e79640",
+              "date": "2026-02-26",
+              "title": "Truth Social · 2026-02-26",
+              "url": "https://truthsocial.com/@realDonaldTrump/116134395444173210",
+              "attribution": "secondary_archive"
+            }
+          ]
+        }
+      ],
+      "method": "regularized_plsa_sparse_decorrelation",
+      "quality": {
+        "npmi_mean": 0.2472,
+        "topic_diversity_10": 0.6429,
+        "nmf_npmi_mean": -0.828,
+        "nmf_reconstruction_error": 37.4166
+      },
+      "attribution_note": "Вторичный архив Truth Social",
+      "source_documents": {
+        "cnn_truth_archive": 4220
+      }
+    },
+    "putin": {
+      "status": "experimental",
+      "language": "ru",
+      "documents": 1069,
+      "sample_documents": 1069,
+      "vocabulary_size": 2400,
+      "topics": [
+        {
+          "id": "artm_1",
+          "keywords": [
+            "сайте",
+            "кремля",
+            "подробнее",
+            "видео",
+            "республики",
+            "россии",
+            "путин",
+            "президент",
+            "владимир",
+            "rutube",
+            "президента",
+            "путина"
+          ],
+          "proportion": 0.14442603470279872,
+          "coherence": 0.13657007482995226,
+          "by_month": {
+            "2026-01": 0.148745,
+            "2026-02": 0.169929,
+            "2026-03": 0.151869,
+            "2026-04": 0.171931,
+            "2026-05": 0.122863,
+            "2026-06": 0.154194,
+            "2026-07": 0.164429,
+            "2026-08": 0.139428,
+            "2026-09": 0.125347,
+            "2026-10": 0.148529,
+            "2026-11": 0.048071
+          },
+          "examples": [
+            {
+              "id": "ecbe0fffc6b6e81fbffaa00b",
+              "date": "2026-06-02",
+              "title": "Telegram · 2026-06-02",
+              "url": "https://t.me/news_kremlin/7584",
+              "attribution": "institutional_press_channel"
+            },
+            {
+              "id": "db2699dd45617ba4e092fb17",
+              "date": "2026-07-04",
+              "title": "Telegram · 2026-07-04",
+              "url": "https://t.me/news_kremlin/7721",
+              "attribution": "institutional_press_channel"
+            },
+            {
+              "id": "270ca38fda38d3f412323eea",
+              "date": "2026-09-08",
+              "title": "Telegram · 2026-09-08",
+              "url": "https://t.me/news_kremlin/8002",
+              "attribution": "institutional_press_channel"
+            }
+          ]
+        },
+        {
+          "id": "artm_2",
+          "keywords": [
+            "владимир",
+            "путин",
+            "кремля",
+            "сайте",
+            "подробнее",
+            "провёл",
+            "глава",
+            "встречу",
+            "rutube",
+            "правительства",
+            "государства",
+            "президента"
+          ],
+          "proportion": 0.15108278239906367,
+          "coherence": 0.2655857249865408,
+          "by_month": {
+            "2026-01": 0.208838,
+            "2026-02": 0.214879,
+            "2026-03": 0.221581,
+            "2026-04": 0.160215,
+            "2026-05": 0.146772,
+            "2026-06": 0.128125,
+            "2026-07": 0.164049,
+            "2026-08": 0.151282,
+            "2026-09": 0.100565,
+            "2026-10": 0.090242,
+            "2026-11": 0.287327
+          },
+          "examples": [
+            {
+              "id": "bae367dbf15c07f9b72f2e29",
+              "date": "2026-05-31",
+              "title": "Telegram · 2026-05-31",
+              "url": "https://t.me/news_kremlin/7573",
+              "attribution": "institutional_press_channel"
+            },
+            {
+              "id": "45b4cab0bf48211635220293",
+              "date": "2026-03-10",
+              "title": "Telegram · 2026-03-10",
+              "url": "https://t.me/news_kremlin/7250",
+              "attribution": "institutional_press_channel"
+            },
+            {
+              "id": "7735ab92cc265add767c1f46",
+              "date": "2026-06-01",
+              "title": "Telegram · 2026-06-01",
+              "url": "https://t.me/news_kremlin/7579",
+              "attribution": "institutional_press_channel"
+            }
+          ]
+        },
+        {
+          "id": "artm_3",
+          "keywords": [
+            "президента",
+            "пресс",
+            "секретаря",
+            "дмитрия",
+            "колл",
+            "конференс",
+            "пескова",
+            "россии",
+            "полное",
+            "сша",
+            "сегодня",
+            "видео"
+          ],
+          "proportion": 0.10468459510999757,
+          "coherence": 0.6651543970634469,
+          "by_month": {
+            "2026-01": 0.044108,
+            "2026-02": 0.032787,
+            "2026-03": 0.152487,
+            "2026-04": 0.154425,
+            "2026-05": 0.090766,
+            "2026-06": 0.124253,
+            "2026-07": 0.151967,
+            "2026-08": 0.067714,
+            "2026-09": 0.099204,
+            "2026-10": 0.104056,
+            "2026-11": 0.087901
+          },
+          "examples": [
+            {
+              "id": "2ca3e160e23920f9fed0650d",
+              "date": "2026-07-07",
+              "title": "Telegram · 2026-07-07",
+              "url": "https://t.me/news_kremlin/7724",
+              "attribution": "institutional_press_channel"
+            },
+            {
+              "id": "0df03966277523c21d5856fd",
+              "date": "2026-04-07",
+              "title": "Telegram · 2026-04-07",
+              "url": "https://t.me/news_kremlin/7341",
+              "attribution": "institutional_press_channel"
+            },
+            {
+              "id": "ee8a92f26a524a4bb15b968e",
+              "date": "2026-04-02",
+              "title": "Telegram · 2026-04-02",
+              "url": "https://t.me/news_kremlin/7330",
+              "attribution": "institutional_press_channel"
+            }
+          ]
+        },
+        {
+          "id": "artm_4",
+          "keywords": [
+            "кремля",
+            "сайте",
+            "подробнее",
+            "видео",
+            "rutube",
+            "владимир",
+            "путин",
+            "президент",
+            "полное",
+            "россии",
+            "провёл",
+            "безопасности"
+          ],
+          "proportion": 0.17455983269168013,
+          "coherence": 0.268814624134827,
+          "by_month": {
+            "2026-01": 0.165916,
+            "2026-02": 0.124362,
+            "2026-03": 0.140739,
+            "2026-04": 0.156366,
+            "2026-05": 0.135275,
+            "2026-06": 0.168101,
+            "2026-07": 0.164785,
+            "2026-08": 0.254162,
+            "2026-09": 0.203763,
+            "2026-10": 0.178392,
+            "2026-11": 0.234054
+          },
+          "examples": [
+            {
+              "id": "634f778cc1b06b153b5924e6",
+              "date": "2026-09-24",
+              "title": "Telegram · 2026-09-24",
+              "url": "https://t.me/news_kremlin/8085",
+              "attribution": "institutional_press_channel"
+            },
+            {
+              "id": "c944dca26895fcb273dcb62f",
+              "date": "2026-03-13",
+              "title": "Telegram · 2026-03-13",
+              "url": "https://t.me/news_kremlin/7260",
+              "attribution": "institutional_press_channel"
+            },
+            {
+              "id": "b4cf00e2831c0c32bf486b2b",
+              "date": "2026-06-25",
+              "title": "Telegram · 2026-06-25",
+              "url": "https://t.me/news_kremlin/7691",
+              "attribution": "institutional_press_channel"
+            }
+          ]
+        },
+        {
+          "id": "artm_5",
+          "keywords": [
+            "россии",
+            "путин",
+            "владимир",
+            "президент",
+            "республики",
+            "президентом",
+            "российской",
+            "федерации",
+            "путина",
+            "ходе",
+            "президента",
+            "владимира"
+          ],
+          "proportion": 0.10957896199562364,
+          "coherence": 0.13438718918836162,
+          "by_month": {
+            "2026-01": 0.125729,
+            "2026-02": 0.177723,
+            "2026-03": 0.133382,
+            "2026-04": 0.105992,
+            "2026-05": 0.1472,
+            "2026-06": 0.089289,
+            "2026-07": 0.12829,
+            "2026-08": 0.097921,
+            "2026-09": 0.090047,
+            "2026-10": 0.072055,
+            "2026-11": 0.086173
+          },
+          "examples": [
+            {
+              "id": "4a20ab5cdd7c338ea10f5272",
+              "date": "2026-03-05",
+              "title": "Telegram · 2026-03-05",
+              "url": "https://t.me/news_kremlin/7235",
+              "attribution": "institutional_press_channel"
+            },
+            {
+              "id": "78006733753b90164bc8fb5d",
+              "date": "2026-05-26",
+              "title": "Telegram · 2026-05-26",
+              "url": "https://t.me/news_kremlin/7529",
+              "attribution": "institutional_press_channel"
+            },
+            {
+              "id": "cbb58e75b97594bb281f9a2c",
+              "date": "2026-08-18",
+              "title": "Telegram · 2026-08-18",
+              "url": "https://t.me/news_kremlin/7861",
+              "attribution": "institutional_press_channel"
+            }
+          ]
+        },
+        {
+          "id": "artm_6",
+          "keywords": [
+            "видео",
+            "кремля",
+            "сайте",
+            "подробнее",
+            "rutube",
+            "полное",
+            "путин",
+            "владимир",
+            "президент",
+            "кремле",
+            "вконтакте",
+            "владимира"
+          ],
+          "proportion": 0.2054617814861328,
+          "coherence": 0.3228326703734275,
+          "by_month": {
+            "2026-01": 0.190562,
+            "2026-02": 0.12752,
+            "2026-03": 0.106203,
+            "2026-04": 0.14267,
+            "2026-05": 0.221266,
+            "2026-06": 0.233712,
+            "2026-07": 0.137542,
+            "2026-08": 0.21369,
+            "2026-09": 0.242333,
+            "2026-10": 0.307642,
+            "2026-11": 0.179866
+          },
+          "examples": [
+            {
+              "id": "f74673d3b0403e3e93cb8045",
+              "date": "2026-06-05",
+              "title": "Telegram · 2026-06-05",
+              "url": "https://t.me/news_kremlin/7606",
+              "attribution": "institutional_press_channel"
+            },
+            {
+              "id": "b9a02c78027da8482d5fc20b",
+              "date": "2026-10-22",
+              "title": "Telegram · 2026-10-22",
+              "url": "https://t.me/news_kremlin/8202",
+              "attribution": "institutional_press_channel"
+            },
+            {
+              "id": "0beeb041c752de6b008cec1d",
+              "date": "2026-10-22",
+              "title": "Telegram · 2026-10-22",
+              "url": "https://t.me/news_kremlin/8203",
+              "attribution": "institutional_press_channel"
+            }
+          ]
+        },
+        {
+          "id": "artm_7",
+          "keywords": [
+            "владимир",
+            "путин",
+            "россии",
+            "государств",
+            "сотрудничества",
+            "российско",
+            "россия",
+            "поздравил",
+            "разговор",
+            "областях",
+            "владимира",
+            "путина"
+          ],
+          "proportion": 0.11020601161470339,
+          "coherence": 0.12666004413103873,
+          "by_month": {
+            "2026-01": 0.116102,
+            "2026-02": 0.152799,
+            "2026-03": 0.093739,
+            "2026-04": 0.108401,
+            "2026-05": 0.135859,
+            "2026-06": 0.102325,
+            "2026-07": 0.088938,
+            "2026-08": 0.075802,
+            "2026-09": 0.138741,
+            "2026-10": 0.099085,
+            "2026-11": 0.076608
+          },
+          "examples": [
+            {
+              "id": "4a21c6aaa2f9f79bdba71557",
+              "date": "2026-02-28",
+              "title": "Telegram · 2026-02-28",
+              "url": "https://t.me/news_kremlin/7213",
+              "attribution": "institutional_press_channel"
+            },
+            {
+              "id": "1692ae33bf6a03e71211e9bc",
+              "date": "2026-09-13",
+              "title": "Telegram · 2026-09-13",
+              "url": "https://t.me/news_kremlin/8046",
+              "attribution": "institutional_press_channel"
+            },
+            {
+              "id": "017823699e2ec55f89edaae6",
+              "date": "2026-03-04",
+              "title": "Telegram · 2026-03-04",
+              "url": "https://t.me/news_kremlin/7229",
+              "attribution": "institutional_press_channel"
+            }
+          ]
+        }
+      ],
+      "method": "regularized_plsa_sparse_decorrelation",
+      "quality": {
+        "npmi_mean": 0.2743,
+        "topic_diversity_10": 0.5143,
+        "nmf_npmi_mean": -0.7153,
+        "nmf_reconstruction_error": 32.6956
+      },
+      "attribution_note": "Тексты пресс-службы Кремля, не персональная речь Путина",
+      "source_documents": {
+        "telegram_news_kremlin": 1069
+      }
+    },
+    "zelenskyy": {
+      "status": "experimental",
+      "language": "uk",
+      "documents": 1140,
+      "sample_documents": 1140,
+      "vocabulary_size": 2400,
+      "topics": [
+        {
+          "id": "artm_1",
+          "keywords": [
+            "людей",
+            "росіяни",
+            "зараз",
+            "росія",
+            "удари",
+            "хто",
+            "життя",
+            "жаль",
+            "проти",
+            "війну",
+            "ракет",
+            "наших"
+          ],
+          "proportion": 0.1443809121985178,
+          "coherence": 0.2240503079003445,
+          "by_month": {
+            "2026-05": 0.146313,
+            "2026-06": 0.113266,
+            "2026-07": 0.111276,
+            "2026-08": 0.11831,
+            "2026-09": 0.184709,
+            "2026-10": 0.199489,
+            "2026-11": 0.122757
+          },
+          "examples": [
+            {
+              "id": "3b10289e570f32444730eb0d",
+              "date": "2026-06-15",
+              "title": "Telegram · 2026-06-15",
+              "url": "https://t.me/V_Zelenskiy_official/19487",
+              "attribution": "leader_channel_unverified_author"
+            },
+            {
+              "id": "f682db052d058dbaa271c94d",
+              "date": "2026-10-21",
+              "title": "Telegram · 2026-10-21",
+              "url": "https://t.me/V_Zelenskiy_official/21458",
+              "attribution": "leader_channel_unverified_author"
+            },
+            {
+              "id": "10892f236c1d45ed49407df8",
+              "date": "2026-11-03",
+              "title": "Telegram · 2026-11-03",
+              "url": "https://t.me/V_Zelenskiy_official/21628",
+              "attribution": "leader_channel_unverified_author"
+            }
+          ]
+        },
+        {
+          "id": "artm_2",
+          "keywords": [
+            "the",
+            "and",
+            "our",
+            "ukraine",
+            "for",
+            "this",
+            "that",
+            "with",
+            "russia",
+            "all",
+            "have",
+            "will"
+          ],
+          "proportion": 0.0552442901925342,
+          "coherence": 0.9001103409060561,
+          "by_month": {
+            "2026-05": 0.022718,
+            "2026-06": 0.065426,
+            "2026-07": 0.048171,
+            "2026-08": 0.070015,
+            "2026-09": 0.053945,
+            "2026-10": 0.044174,
+            "2026-11": 0.047939
+          },
+          "examples": [
+            {
+              "id": "d3dd34dc246187c8fb601c1c",
+              "date": "2026-06-04",
+              "title": "Telegram · 2026-06-04",
+              "url": "https://t.me/V_Zelenskiy_official/19349",
+              "attribution": "leader_channel_unverified_author"
+            },
+            {
+              "id": "c74e6391b3cc99c4c2198ee8",
+              "date": "2026-09-28",
+              "title": "Telegram · 2026-09-28",
+              "url": "https://t.me/V_Zelenskiy_official/21118",
+              "attribution": "leader_channel_unverified_author"
+            },
+            {
+              "id": "ed9bf978da286251800d51b9",
+              "date": "2026-08-26",
+              "title": "Telegram · 2026-08-26",
+              "url": "https://t.me/V_Zelenskiy_official/20606",
+              "attribution": "leader_channel_unverified_author"
+            }
+          ]
+        },
+        {
+          "id": "artm_3",
+          "keywords": [
+            "are",
+            "всім",
+            "war",
+            "людей",
+            "зараз",
+            "необхідні",
+            "хто",
+            "служби",
+            "україні",
+            "were",
+            "серед",
+            "the"
+          ],
+          "proportion": 0.0707970965132769,
+          "coherence": -0.2220114318720721,
+          "by_month": {
+            "2026-05": 0.044203,
+            "2026-06": 0.046841,
+            "2026-07": 0.069491,
+            "2026-08": 0.073446,
+            "2026-09": 0.076678,
+            "2026-10": 0.0837,
+            "2026-11": 0.083616
+          },
+          "examples": [
+            {
+              "id": "cd32130794e5666eb87067a7",
+              "date": "2026-07-01",
+              "title": "Telegram · 2026-07-01",
+              "url": "https://t.me/V_Zelenskiy_official/19696",
+              "attribution": "leader_channel_unverified_author"
+            },
+            {
+              "id": "b57d61c62b01b3fcc3ad0b7c",
+              "date": "2026-08-10",
+              "title": "Telegram · 2026-08-10",
+              "url": "https://t.me/V_Zelenskiy_official/20360",
+              "attribution": "leader_channel_unverified_author"
+            },
+            {
+              "id": "458b7dd5d5eebce7bc3e6c6b",
+              "date": "2026-10-29",
+              "title": "Telegram · 2026-10-29",
+              "url": "https://t.me/V_Zelenskiy_official/21569",
+              "attribution": "leader_channel_unverified_author"
+            }
+          ]
+        },
+        {
+          "id": "artm_4",
+          "keywords": [
+            "підтримку",
+            "україни",
+            "важливо",
+            "україна",
+            "зараз",
+            "росія",
+            "обговорили",
+            "над",
+            "буде",
+            "зустрічі",
+            "нашої",
+            "час"
+          ],
+          "proportion": 0.18754779161328974,
+          "coherence": 0.09768646853144443,
+          "by_month": {
+            "2026-05": 0.229319,
+            "2026-06": 0.213557,
+            "2026-07": 0.178247,
+            "2026-08": 0.140961,
+            "2026-09": 0.21409,
+            "2026-10": 0.173314,
+            "2026-11": 0.243656
+          },
+          "examples": [
+            {
+              "id": "81ccbec2b857efc3cda8dbd7",
+              "date": "2026-07-13",
+              "title": "Telegram · 2026-07-13",
+              "url": "https://t.me/V_Zelenskiy_official/19903",
+              "attribution": "leader_channel_unverified_author"
+            },
+            {
+              "id": "a3ad39ec4df02e9cbeb341de",
+              "date": "2026-08-07",
+              "title": "Telegram · 2026-08-07",
+              "url": "https://t.me/V_Zelenskiy_official/20322",
+              "attribution": "leader_channel_unverified_author"
+            },
+            {
+              "id": "2aecfebf27694f2feb5921be",
+              "date": "2026-06-16",
+              "title": "Telegram · 2026-06-16",
+              "url": "https://t.me/V_Zelenskiy_official/19503",
+              "attribution": "leader_channel_unverified_author"
+            }
+          ]
+        },
+        {
+          "id": "artm_5",
+          "keywords": [
+            "україни",
+            "наших",
+            "хто",
+            "росії",
+            "наші",
+            "всім",
+            "людей",
+            "життя",
+            "україні",
+            "війну",
+            "нашим",
+            "сил"
+          ],
+          "proportion": 0.17274407698840438,
+          "coherence": 0.12555094753437893,
+          "by_month": {
+            "2026-05": 0.124124,
+            "2026-06": 0.169571,
+            "2026-07": 0.181031,
+            "2026-08": 0.241012,
+            "2026-09": 0.151959,
+            "2026-10": 0.142005,
+            "2026-11": 0.115238
+          },
+          "examples": [
+            {
+              "id": "adf31774318429b3dc79413e",
+              "date": "2026-09-22",
+              "title": "Telegram · 2026-09-22",
+              "url": "https://t.me/V_Zelenskiy_official/20984",
+              "attribution": "leader_channel_unverified_author"
+            },
+            {
+              "id": "4b0bb6addbb534902f2c340a",
+              "date": "2026-09-14",
+              "title": "Telegram · 2026-09-14",
+              "url": "https://t.me/V_Zelenskiy_official/20862",
+              "attribution": "leader_channel_unverified_author"
+            },
+            {
+              "id": "07cc7bfd0f3c7142933f210b",
+              "date": "2026-10-28",
+              "title": "Telegram · 2026-10-28",
+              "url": "https://t.me/V_Zelenskiy_official/21553",
+              "attribution": "leader_channel_unverified_author"
+            }
+          ]
+        },
+        {
+          "id": "artm_6",
+          "keywords": [
+            "україна",
+            "буде",
+            "тому",
+            "якщо",
+            "україні",
+            "зараз",
+            "може",
+            "війни",
+            "більше",
+            "цього",
+            "україни",
+            "час"
+          ],
+          "proportion": 0.17462499803536413,
+          "coherence": 0.11564243685475437,
+          "by_month": {
+            "2026-05": 0.363731,
+            "2026-06": 0.206071,
+            "2026-07": 0.166667,
+            "2026-08": 0.146454,
+            "2026-09": 0.143924,
+            "2026-10": 0.189609,
+            "2026-11": 0.238267
+          },
+          "examples": [
+            {
+              "id": "c79685728df27d3183e7d990",
+              "date": "2026-09-17",
+              "title": "Telegram · 2026-09-17",
+              "url": "https://t.me/V_Zelenskiy_official/20918",
+              "attribution": "leader_channel_unverified_author"
+            },
+            {
+              "id": "aeec778302114b6a29a12789",
+              "date": "2026-07-13",
+              "title": "Telegram · 2026-07-13",
+              "url": "https://t.me/V_Zelenskiy_official/19910",
+              "attribution": "leader_channel_unverified_author"
+            },
+            {
+              "id": "f4b93fc821091f5494b87d91",
+              "date": "2026-10-20",
+              "title": "Telegram · 2026-10-20",
+              "url": "https://t.me/V_Zelenskiy_official/21450",
+              "attribution": "leader_channel_unverified_author"
+            }
+          ]
+        },
+        {
+          "id": "artm_7",
+          "keywords": [
+            "україни",
+            "наших",
+            "обговорили",
+            "нашої",
+            "україні",
+            "вдячний",
+            "оборони",
+            "рішення",
+            "разом",
+            "захисту",
+            "щодо",
+            "важливо"
+          ],
+          "proportion": 0.19466083445861276,
+          "coherence": 0.12413301373695056,
+          "by_month": {
+            "2026-05": 0.069591,
+            "2026-06": 0.185269,
+            "2026-07": 0.245116,
+            "2026-08": 0.209801,
+            "2026-09": 0.174694,
+            "2026-10": 0.16771,
+            "2026-11": 0.148526
+          },
+          "examples": [
+            {
+              "id": "919e5208cb163865ab97ff03",
+              "date": "2026-07-20",
+              "title": "Telegram · 2026-07-20",
+              "url": "https://t.me/V_Zelenskiy_official/20066",
+              "attribution": "leader_channel_unverified_author"
+            },
+            {
+              "id": "d1ee3aba2fb87171d59d471e",
+              "date": "2026-08-23",
+              "title": "Telegram · 2026-08-23",
+              "url": "https://t.me/V_Zelenskiy_official/20528",
+              "attribution": "leader_channel_unverified_author"
+            },
+            {
+              "id": "ff0869d11af9ae404377cdbb",
+              "date": "2026-06-28",
+              "title": "Telegram · 2026-06-28",
+              "url": "https://t.me/V_Zelenskiy_official/19651",
+              "attribution": "leader_channel_unverified_author"
+            }
+          ]
+        }
+      ],
+      "method": "regularized_plsa_sparse_decorrelation",
+      "quality": {
+        "npmi_mean": 0.195,
+        "topic_diversity_10": 0.7143,
+        "nmf_npmi_mean": -0.5579,
+        "nmf_reconstruction_error": 33.7639
+      },
+      "attribution_note": "Посты Telegram, авторство отдельных сообщений не подтверждено",
+      "source_documents": {
+        "telegram_v_zelenskiy_official": 1140
+      }
+    }
+  }
+}
