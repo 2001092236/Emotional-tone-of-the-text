@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+<title id="title">Эмблема исследовательского корпуса: текст и структура данных</title>
+<rect width="64" height="64" rx="13" fill="#24475A"/>
+<path d="M14 13V51M19 13V51" stroke="#F6F9F6" stroke-width="2.4" stroke-linecap="round"/>
+<path d="M27 18H50M27 25H45M27 32H48M27 39H42M27 46H50" stroke="#D8E7E9" stroke-width="2" stroke-linecap="round"/>
+<circle cx="45" cy="25" r="3.2" fill="#8BC0BC"/>
+<circle cx="42" cy="39" r="3.2" fill="#8BC0BC"/>
+<path d="M45 28.2L42 35.8" stroke="#8BC0BC" stroke-width="1.5" opacity=".8"/>
+</svg>

@@ -1,50 +1,92 @@
 <!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="description" content="Исторический корпус текстов Трампа, Путина и Зеленского за 2026 год — МГИМО." />
-  <title>Политический дискурс | Корпус 2026</title>
-  <link rel="stylesheet" href="./style.css" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f7f8f6">
+  <meta name="description" content="Независимый исследовательский корпус публичных высказываний Дональда Трампа, Владимира Путина и Владимира Зеленского за 2026 год. Публикации, источники, темы и качество покрытия.">
+  <title>Корпус публичных высказываний — исследовательский проект</title>
+  <link rel="icon" href="assets/mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="wrap">
-    <header class="header">
-      <div class="brand"><div class="brandmark">M</div><div><div class="eyebrow">МГИМО / СТРАТЕГИЧЕСКИЙ АНАЛИЗ</div><div class="subtitle">Исследовательский корпус · 2026</div></div></div>
-      <span class="pill">Только исторические данные</span>
+  <div class="site-shell">
+    <header class="masthead">
+      <a class="brand" href="./" aria-label="Корпус — главная">
+        <img src="assets/mark.svg" alt="" width="46" height="46">
+        <span class="brand-copy"><strong>Корпус</strong><small>Публичные высказывания</small></span>
+      </a>
+      <div class="mast-links"><span class="edition">ИССЛЕДОВАТЕЛЬСКАЯ ВЕРСИЯ · 2026</span><a href="https://github.com/2001092236/Emotional-tone-of-the-text" target="_blank" rel="noopener noreferrer">Исходный код <span aria-hidden="true">↗</span></a></div>
     </header>
+
     <main>
-      <section class="hero">
-        <div class="eyebrow">КОРПУС ПУБЛИЧНЫХ ТЕКСТОВ</div>
-        <h1>Политический дискурс<br><span>Трамп · Путин · Зеленский</span></h1>
-        <p class="intro">Тексты из открытых архивов с датами, источниками и атрибуцией. Период: с 1 января 2026 года до даты ручной выгрузки. Сайт не отслеживает публикации в реальном времени.</p>
-        <div class="heroMeta"><span><span class="dot"></span>Воспроизводимый сбор</span><span>Без GPU и сервера</span><span>Год: 2026</span></div>
-      </section>
-      <section class="kpis" aria-label="Основные показатели">
-        <div class="kpi"><div class="kpiLabel">Документов</div><div class="kpiNumber" id="total">—</div><div class="kpiFoot">По загруженным источникам</div></div>
-        <div class="kpi"><div class="kpiLabel">Слов</div><div class="kpiNumber" id="words">—</div><div class="kpiFoot">Тексты, не медиа</div></div>
-        <div class="kpi"><div class="kpiLabel">Период</div><div class="kpiNumber">2026</div><div class="kpiFoot">Без данных 2025 года</div></div>
-        <div class="kpi"><div class="kpiLabel">Покрытие</div><div class="kpiNumber" id="coverage">—</div><div class="kpiFoot">Требует внешней проверки</div></div>
-      </section>
-      <section class="section twoCols">
-        <div><div class="sectionTop"><div><h2>Активность по месяцам</h2><p>Число сохранённых текстов, без поправки на жанр.</p></div></div><div id="timeline" class="timeline" role="img" aria-label="Динамика числа документов по месяцам"></div></div>
-        <div><div class="sectionTop"><div><h2>Источники и статусы</h2><p>Наличие публикаций не гарантирует полноту.</p></div></div><div id="sources" class="sources"></div></div>
-      </section>
-      <section class="section">
-        <div class="sectionTop"><div><h2>Исходные тексты</h2><p>Нажми на документ, чтобы раскрыть текст и ссылку на первоисточник.</p></div><div class="count" id="matches">0 результатов</div></div>
-        <div class="controls">
-          <label>Политик<select id="leader"><option value="all">Все трое</option><option value="trump">Дональд Трамп</option><option value="putin">Владимир Путин</option><option value="zelenskyy">Владимир Зеленский</option></select></label>
-          <label>Месяц<select id="month"></select></label>
-          <label class="search">Поиск по загруженным текстам<input id="search" type="search" placeholder="Слово или фраза…"/></label>
-          <label>Атрибуция<select id="attribution"><option value="all">Все типы</option><option value="direct">Прямая / официальная речь</option><option value="other">Другие / неустановленные</option></select></label>
+      <section class="intro" aria-labelledby="main-title">
+        <div class="eyebrow"><span class="eyebrow-mark"></span> Независимый анализ политического дискурса</div>
+        <div class="intro-grid">
+          <div>
+            <h1 id="main-title">Что и как говорят<br><em>политические лидеры</em></h1>
+            <p class="lead">Тексты, темы и динамика публичной коммуникации. Каждое наблюдение связано с датой, каналом публикации и первоисточником.</p>
+          </div>
+          <div class="intro-graphic" aria-hidden="true">
+            <svg viewBox="0 0 320 208" role="presentation">
+              <g fill="none" stroke="#CBDDDE" stroke-width="1"><path d="M22 174H301"/><path d="M22 130H301"/><path d="M22 86H301"/><path d="M22 42H301"/><path d="M22 42V174"/></g>
+              <g stroke="#B9D0CE" stroke-width="1.5" fill="none"><path d="M32 141L72 130L114 119L156 93L202 106L244 64L286 78"/><path d="M32 165L72 160L114 139L156 146L202 126L244 139L286 105"/></g>
+              <path d="M32 141L72 130L114 119L156 93L202 106L244 64L286 78" fill="none" stroke="#446E7B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+              <g fill="#446E7B"><circle cx="32" cy="141" r="3"/><circle cx="72" cy="130" r="3"/><circle cx="114" cy="119" r="3"/><circle cx="156" cy="93" r="3"/><circle cx="202" cy="106" r="3"/><circle cx="244" cy="64" r="3"/><circle cx="286" cy="78" r="3"/></g>
+              <g stroke="#B0CFC9" stroke-width="2.5"><line x1="50" y1="195" x2="83" y2="195"/><line x1="125" y1="195" x2="158" y2="195"/></g>
+              <g fill="#8ABAB1"><circle cx="50" cy="195" r="4.5"/><circle cx="83" cy="195" r="4.5"/><circle cx="125" cy="195" r="4.5"/><circle cx="158" cy="195" r="4.5"/></g>
+            </svg>
+            <span>Структурные формы данных · иллюстрация, не результат анализа</span>
+          </div>
         </div>
-        <div id="status" class="status" role="status">Подключаем данные корпуса…</div>
-        <div id="documents" class="documents"></div>
-        <div class="pagination"><button id="more" class="more" type="button" hidden>Показать ещё</button></div>
+        <div class="scope-bar"><span><b>Три политика</b> · Россия, Украина, США</span><span><b>2026 год</b> · архивная выборка</span><span><b>Без онлайн-мониторинга</b> · зафиксированный срез</span></div>
       </section>
-      <footer><div>МГИМО · Исследовательский прототип · 2026</div><div>Тексты не равнозначны подтверждённому личному авторству. Все показатели относятся только к загруженной выборке.</div></footer>
+
+      <section class="workspace" aria-label="Интерактивный анализ">
+        <div class="filter-head"><h2>Исследовать корпус</h2><p>Меняй политика, даты и источник — все графики и списки пересчитываются по одной выборке.</p></div>
+        <div class="toolbar">
+          <fieldset class="leader-picker" aria-label="Политик"><legend>Политик</legend><div class="segmented" id="leaderButtons">
+            <button type="button" data-leader="all" aria-pressed="true">Все</button><button type="button" data-leader="trump" aria-pressed="false">Д. Трамп</button><button type="button" data-leader="putin" aria-pressed="false">В. Путин</button><button type="button" data-leader="zelenskyy" aria-pressed="false">В. Зеленский</button>
+          </div></fieldset>
+          <div class="date-range"><label>С даты<input type="date" id="startDate" min="2026-01-01" max="2026-12-31" value="2026-01-01"></label><span class="date-sep" aria-hidden="true">—</span><label>По дату<input type="date" id="endDate" min="2026-01-01" max="2026-12-31" value="2026-11-07"></label></div>
+          <label class="source-select">Источник<select id="sourceSelect"><option value="all">Все источники</option></select></label>
+        </div>
+        <div id="notification" class="notice" role="status" aria-live="polite">Загружаем реестр корпуса…</div>
+        <nav class="view-tabs" aria-label="Режим анализа"><button class="active" type="button" data-view="overview" aria-current="page">Обзор</button><button type="button" data-view="themes">Темы</button><button type="button" data-view="documents">Документы</button><a href="method.html">Методика исследования <span aria-hidden="true">↗</span></a></nav>
+        <div class="view active" id="view-overview">
+          <section class="numbers" aria-label="Показатели выборки">
+            <div><span class="num-label">Публикаций</span><strong id="metricDocuments">—</strong><small>В выбранных источниках</small></div>
+            <div><span class="num-label">Слов</span><strong id="metricWords">—</strong><small>Без учёта медиа</small></div>
+            <div><span class="num-label">Дней с публикациями</span><strong id="metricDays">—</strong><small>Уникальные календарные дни</small></div>
+            <div><span class="num-label">Покрытие</span><strong id="metricCoverage" class="num-warn">Не проверено</strong><small>Полнота годового архива</small></div>
+          </section>
+          <div class="two-col">
+            <section class="panel trend-panel" aria-labelledby="trendTitle">
+              <div class="panel-header"><div><span class="small-overline">ВРЕМЕННОЙ РЯД</span><h3 id="trendTitle">Динамика публикаций</h3><p>Количество документов по неделям. Нажатие на столбец выделяет неделю.</p></div><span class="unit">документы / неделя</span></div>
+              <div class="chart-wrap"><svg id="trendChart" role="img" aria-label="График публикаций по неделям" viewBox="0 0 760 270" preserveAspectRatio="xMidYMid meet"></svg></div>
+              <div class="legend" id="trendLegend"></div>
+              <p id="trendNote" class="chart-note">Данные отражают только доступные публикации. Различия между каналами не обязательно означают различия в активности политиков.</p>
+            </section>
+            <section class="panel sources-panel" aria-labelledby="sourcesTitle"><div class="panel-header"><div><span class="small-overline">ПРОИСХОЖДЕНИЕ</span><h3 id="sourcesTitle">Состав корпуса</h3><p>Сколько текстов получено из каждого канала.</p></div></div><div id="sourceBreakdown" class="breakdown"></div><div id="sourceCaveats" class="source-caveats"></div></section>
+          </div>
+          <section class="panel matrix-panel" aria-labelledby="matrixTitle"><div class="panel-header"><div><span class="small-overline">ИЗМЕРЕНИЯ КОРПУСА</span><h3 id="matrixTitle">Политик × канал × жанр</h3><p>Число найденных записей, не число всех существующих публикаций.</p></div></div><div class="matrix-scroll"><table id="matrixTable"><thead><tr><th scope="col">Политик</th><th scope="col">Truth Social</th><th scope="col">Telegram</th><th scope="col">Стенограммы и речи</th></tr></thead><tbody></tbody></table></div><p class="chart-note">Пустая ячейка означает отсутствие подтверждённых текстов в текущей загрузке; ноль не доказывает отсутствия публикаций в источнике.</p></section>
+        </div>
+        <div class="view" id="view-themes" hidden>
+          <section class="panel"><div class="panel-header"><div><span class="small-overline">ВЕРОЯТНОСТНОЕ ТЕМАТИЧЕСКОЕ МОДЕЛИРОВАНИЕ</span><h3>Смысловые линии корпуса</h3><p>Темы обучаются по каждому языковому корпусу отдельно. Ключевые слова — предварительная интерпретация модели, не установленные политические позиции.</p></div></div>
+            <div id="themeStatus" class="model-status"></div><div id="themeCards" class="theme-grid"></div><div id="themeDetail" class="theme-detail"></div><p class="chart-note">Основа эксперимента: NMF и регуляризованная PLSA (упрощённая реализация отдельных регуляризаторов ARTM). ITAR и полноценный BigARTM выделены в отдельный этап валидации. Межъязыковые темы напрямую не сравниваются.</p>
+          </section>
+        </div>
+        <div class="view" id="view-documents" hidden>
+          <section class="panel documents-panel"><div class="panel-header"><div><span class="small-overline">ПЕРВИЧНЫЕ МАТЕРИАЛЫ</span><h3>Документы и публикации</h3><p>Дата, канал, атрибуция и ссылка на оригинал указаны у каждой записи.</p></div><span class="results" id="docCount">—</span></div>
+          <div class="document-filters"><label>Поиск по текстам<input id="searchText" type="search" autocomplete="off" placeholder="Например, международные отношения"></label><label>Авторство<select id="attributionSelect"><option value="all">Любая атрибуция</option><option value="direct">Прямая / официальная речь</option><option value="institutional">Пресс-служба</option><option value="other">Посты и вторичные архивы</option></select></label></div>
+          <div class="document-list" id="documentList"></div><button class="more-button" type="button" id="moreDocuments" hidden>Показать ещё</button>
+          </section>
+        </div>
+      </section>
     </main>
+
+    <footer class="footer"><div><strong>Корпус публичных высказываний</strong><p>Независимый учебно-исследовательский прототип. Не является официальным сайтом МГИМО, органов власти или представленных политиков.</p></div><div><a href="method.html">Методика и ограничения</a><a href="https://github.com/2001092236/Emotional-tone-of-the-text" target="_blank" rel="noopener noreferrer">Код и версии данных</a><span>Обновления в реальном времени отключены</span></div></footer>
   </div>
-  <script src="./app.js" defer></script>
+  <script src="app.js" defer></script>
 </body>
 </html>

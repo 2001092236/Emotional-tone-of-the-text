@@ -1,0 +1,47 @@
+name: Анализ тем корпуса — однократный запуск
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'corpus2026/topic_model.py'
+permissions:
+  contents: write
+concurrency:
+  group: mgimo-topics-historical-2026
+  cancel-in-progress: false
+jobs:
+  analyze:
+    # Push runs only for the initial deployment of the topic algorithm, no cron.
+    if: github.event_name == 'workflow_dispatch' || startsWith(github.event.head_commit.message, 'Добавить тематический анализ')
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - run: pip install -r requirements-analysis.txt
+      - name: Train probabilistic topics on 2026 subset (CPU only)
+        run: python -m corpus2026.topic_model --data-dir data/2026 --out docs/data/topics.json --max-docs 1400 --topics 7 --iterations 30
+      - name: Validate provenance and data integrity
+        run: |
+          python - <<'PY'
+          import json
+          p=json.load(open('docs/data/topics.json',encoding='utf-8'))
+          assert p['year']==2026 and p['schema_version']==1
+          for name, item in p['leaders'].items():
+              assert item['status'] in ('experimental','insufficient_data')
+              assert len(item['topics']) <= 7
+              assert all(all(m.startswith('2026-') for m in t['by_month']) for t in item['topics'])
+          PY
+      - name: Commit model artifact
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add docs/data/topics.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'Данные: экспериментальные темы корпуса 2026'
+            git push origin 'HEAD:main'
+          fi

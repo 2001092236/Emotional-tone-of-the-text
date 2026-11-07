@@ -1,4 +1,4 @@
-name: Deploy MGIMO 2026 static site
+name: Публикация исследовательского сайта 2026
 on:
   push:
     branches: [main]
@@ -7,7 +7,7 @@ on:
       - '.github/workflows/pages.yml'
   workflow_dispatch:
   workflow_run:
-    workflows: ['One-time 2026 historical backfill']
+    workflows: ['Историческая выгрузка корпуса 2026']
     types: [completed]
 permissions:
   contents: read
@@ -18,6 +18,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   deploy:
+    name: Размещение сайта
     if: github.event_name != 'workflow_run' || github.event.workflow_run.head_branch == 'main'
     environment:
       name: github-pages

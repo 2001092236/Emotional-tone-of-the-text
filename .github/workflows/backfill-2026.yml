@@ -1,4 +1,4 @@
-name: One-time 2026 historical backfill
+name: Историческая выгрузка корпуса 2026
 on:
   push:
     branches: [main]
@@ -6,13 +6,13 @@ on:
   workflow_dispatch:
     inputs:
       source:
-        description: Which leader to load
+        description: Кого загружать
         required: true
         type: choice
         default: all
         options: [all, trump, putin, zelenskyy]
       max_pages:
-        description: Archive pages (110 for full attempt; 2 for smoke test)
+        description: Число архивных страниц (110 полный проход; 2 тест)
         required: true
         default: '110'
         type: string
@@ -24,6 +24,7 @@ concurrency:
 jobs:
   backfill:
     if: github.event_name == 'workflow_dispatch' || startsWith(github.event.head_commit.message, 'Bootstrap 2026 history')
+    name: Исторический сбор
     runs-on: ubuntu-latest
     timeout-minutes: 180
     steps:
@@ -36,7 +37,7 @@ jobs:
           cache: pip
       - run: pip install -r requirements-dev.txt
       - name: Run offline parsing and year-guard tests
-        run: python -m pytest -q
+        run: pytest -q
       - name: Load historical 2026 texts (no scheduling)
         id: collect
         continue-on-error: true
