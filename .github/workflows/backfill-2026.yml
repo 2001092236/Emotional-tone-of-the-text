@@ -1,5 +1,8 @@
 name: One-time 2026 historical backfill
 on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/backfill-2026.yml'] # One-time bootstrap when this file is published; no cron
   workflow_dispatch:
     inputs:
       source:
@@ -20,6 +23,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   backfill:
+    if: github.event_name == 'workflow_dispatch' || startsWith(github.event.head_commit.message, 'Bootstrap 2026 history')
     runs-on: ubuntu-latest
     timeout-minutes: 180
     steps:
@@ -36,7 +40,10 @@ jobs:
       - name: Load historical 2026 texts (no scheduling)
         id: collect
         continue-on-error: true
-        run: python -m corpus2026.cli backfill --source '${{ inputs.source }}' --since 2026-01-01 --until "$(date -u +%F)" --max-pages '${{ inputs.max_pages }}'
+        env:
+          SOURCE: ${{ inputs.source || 'all' }}
+          MAX_PAGES: ${{ inputs.max_pages || '110' }}
+        run: python -m corpus2026.cli backfill --source "$SOURCE" --since 2026-01-01 --until "$(date -u +%F)" --max-pages "$MAX_PAGES"
       - name: Validate generated dataset
         run: |
           python -m corpus2026.cli build-site
@@ -47,7 +54,7 @@ jobs:
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add data/2026 docs/data
           if ! git diff --cached --quiet; then
-            git commit -m 'data: historical 2026 backfill (${{ inputs.source }})'
+            git commit -m 'data: historical 2026 backfill (${{ inputs.source || 'all' }})'
             git push origin "HEAD:${GITHUB_REF_NAME}"
           fi
       - name: Warn if any source was partial or inaccessible
