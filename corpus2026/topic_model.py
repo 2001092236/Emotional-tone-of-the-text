@@ -11,6 +11,7 @@ import argparse
 import hashlib
 import json
 import math
+import re
 from collections import Counter, defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
@@ -29,6 +30,24 @@ STOPWORDS = {
  'ru': '''а без более бы был была были было быть в вам вас весь во вот все всего всею всех вы где да даже для до его ее ей ему если есть еще же за и из или им их к как какое какой когда кого который которые кто ли либо мне мной мог могла могли может можно мы на над нам нас не него неё ней нем нет ни но о об обо он она они оно от по под после при про раз с сам сама сами свое своей свои свой себя себе сейчас со так такая такие такой там те тебе тем теми теперь тех то того тоже той только том тот ту ты у уже хотя чем через что чтобы чья эта эти это этот эту я её мой мои моих меня мне как все был также далее потом кроме все также между на самом тут они бы а ведь что же сам это еще даже год года году лет время день дня день спасибо привет'''.split(),
  'uk': '''а аби але або аж без був була були було бути в вам вас ваш ваша ваше ваші ваших весь вже ви від він вона вони воно всіх все всі всього де для до дуже його її їм їх із і й є ще ж за і з як якби який яка які якій коли кого кому котрий краще маємо ми мій мною на нам нас не немає ним них ні ну о об ось от перед після по під при про раз року роки рік років це цих ці цей ця що щоб також та так такий такі там те тепер тих тільки тим то той тут ти у це ця цей цими сьогодні вже дякую нас наша нашого ми будемо мають'''.split(),
 }
+
+
+# These terms are disproportionately frequent in channel templates and would
+# produce topics about publication mechanics, not political content.
+BOILERPLATE = {
+ 'en': {'http','https','www','com','donald','trump','president','truthsocial'},
+ 'ru': {'сайте','кремля','подробнее','видео','ролик','полное','путин','владимир',
+        'президента','президент','пресс','секретаря','конференс','колл','пескова',
+        'rutube','смотреть','подписывайтесь'},
+ 'uk': {'президента','президент','зеленський','зеленського','посилання','читати',
+        'відео','дивіться','каналі','телеграм'},
+}
+
+
+def strip_web_boilerplate(text: str) -> str:
+    text = re.sub(r'https?://\S+|www\.\S+', ' ', text, flags=re.I)
+    text = re.sub(r'@[A-Za-z0-9_]+', ' ', text)
+    return text
 
 
 def safe_tokenizer_language(leader: str) -> str:
@@ -56,10 +75,11 @@ def stratified_subset(rows: list[dict], limit: int) -> list[dict]:
 
 def token_matrix(rows: list[dict], language: str, max_features: int = 2400):
     # Note: proper nouns are NOT in stopwords, which is intentional for discourse analysis.
-    vectorizer=CountVectorizer(lowercase=True,token_pattern=r"(?u)\b[^\W\d_][^\W\d_]{2,}\b",
-                               stop_words=sorted(set(STOPWORDS[language])),min_df=max(3,int(len(rows)*.002)),
-                               max_df=.70,max_features=max_features)
-    X=vectorizer.fit_transform([row['text'] for row in rows]).tocsr().astype(np.float64)
+    pattern = r'(?u)\b[a-z]{3,}\b' if language == 'en' else r'(?u)\b[а-яёіїєґ]{3,}\b'
+    vectorizer=CountVectorizer(lowercase=True,token_pattern=pattern,
+                               stop_words=sorted(set(STOPWORDS[language])|BOILERPLATE[language]),
+                               min_df=max(3,int(len(rows)*.002)),max_df=.70,max_features=max_features)
+    X=vectorizer.fit_transform([strip_web_boilerplate(row['text']) for row in rows]).tocsr().astype(np.float64)
     return X,np.asarray(vectorizer.get_feature_names_out())
 
 
@@ -163,7 +183,13 @@ def build_models(data_dir:Path,out_path:Path,max_docs_per_leader:int=1400,topics
         rows=stratified_subset(source_rows,max_docs_per_leader)
         language=safe_tokenizer_language(leader)
         X,vocab=token_matrix(rows,language)
-        if X.shape[1]<topics+3:raise ValueError('Vocabulary too small for '+leader)
+        # English-only Telegram posts are not Ukrainian discourse; likewise for
+        # other languages. Retain only documents with usable native-script terms.
+        keep=np.asarray((X>0).sum(axis=1)).ravel()>=3
+        X=X[keep,:]
+        rows=[row for row,ok in zip(rows,keep) if ok]
+        if len(rows)<50 or X.shape[1]<topics+3:
+            raise ValueError('Vocabulary or original-language sample too small for '+leader)
         model_K=min(topics, max(2,int(X.shape[1]/10)))
         theta,phi=artm_plsa(X,topics=model_K,iterations=iterations)
         coh=npmi_top_words(X,phi)
@@ -182,6 +208,7 @@ def build_models(data_dir:Path,out_path:Path,max_docs_per_leader:int=1400,topics
           'sample_documents':len(rows),'vocabulary_size':len(vocab),
           'topics':built,'method':'regularized_plsa_sparse_decorrelation',
           'quality':{'npmi_mean':round(float(np.mean(coh)),4),'topic_diversity_10':diversity,
+                     'negative_npmi_topics':sum(x<0 for x in coh),
                      'nmf_npmi_mean':round(float(np.mean(control_coh)),4),
                      'nmf_reconstruction_error':round(float(baseline.reconstruction_err_),4)},
           'attribution_note':('Тексты пресс-службы Кремля, не персональная речь Путина' if leader=='putin' else
