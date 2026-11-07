@@ -7,7 +7,7 @@ from collections import Counter, defaultdict
 from datetime import date, datetime, timezone
 from pathlib import Path
 from .core import LEADERS, START, END, in_range, merge_jsonl, read_jsonl
-from .sources import Client, AccessDenied, collect_trump, collect_official
+from .sources import Client, AccessDenied, collect_trump, collect_official, collect_telegram_public
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -76,8 +76,20 @@ def run_backfill(args) -> int:
             if name == 'trump':
                 docs, warnings = collect_trump(client, since, until, max_items=args.max_items)
             else:
-                docs, warnings = collect_official(client, name, since, until,
-                                                  max_pages=args.max_pages, max_items=args.max_items)
+                docs, warnings = [], []
+                subsource_reports = {}
+                for kind, collector in [('official', collect_official), ('telegram', collect_telegram_public)]:
+                    try:
+                        found, problems = collector(client, name, since, until,
+                                                   max_pages=args.max_pages, max_items=args.max_items)
+                        docs.extend(found)
+                        warnings.extend(f'{kind}: {w}' for w in problems)
+                        subsource_reports[kind] = {'status': 'partial' if problems else ('ok' if found else 'empty'),
+                                                   'documents': len(found)}
+                    except Exception as subexc:
+                        warnings.append(f'{kind}: {type(subexc).__name__}: {subexc}')
+                        subsource_reports[kind] = {'status': 'error', 'documents': 0,
+                                                   'error': str(subexc)}
             before = len(read_jsonl(data_dir / f'{name}.jsonl', name))
             total, changed = merge_jsonl(data_dir / f'{name}.jsonl', name, docs)
             report['sources'][name] = {
@@ -85,6 +97,7 @@ def run_backfill(args) -> int:
                 'observed': len(docs), 'stored': total, 'changed': changed,
                 'previously_stored': before, 'warnings': warnings[:60],
                 'is_full_year_verified': False,
+                'subsources': subsource_reports if name != 'trump' else {'truth_social': {'status': 'ok', 'documents': len(docs)}},
             }
             print(f'  {len(docs)} found; stored={total}; changed={changed}; warnings={len(warnings)}')
             if warnings or not docs:

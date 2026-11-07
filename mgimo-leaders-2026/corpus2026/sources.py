@@ -19,6 +19,7 @@ USER_AGENT = 'MGIMO-TextCorpus-Research/0.1 (academic source attribution; contac
 TRUMP_JSON = 'https://ix.cnn.io/data/truth-social/truth_archive.json'
 PUTIN_LIST = 'https://kremlin.ru/events/president/transcripts'
 ZELENSKYY_LIST = 'https://www.president.gov.ua/news/speeches'
+TG_CHANNELS = {'putin': 'news_kremlin', 'zelenskyy': 'V_Zelenskiy_official'}
 
 
 class AccessDenied(RuntimeError):
@@ -210,4 +211,82 @@ def collect_official(client: Client, leader: str, since: date, until: date,
             older_pages = 0
         if older_pages >= 2:
             break
+    return docs, errors
+
+
+def parse_telegram_preview(html: str, leader: str) -> list[dict]:
+    """Parse Telegram public preview pages; never ascribe Kremlin press posts to Putin personally."""
+    if leader not in TG_CHANNELS:
+        raise ValueError('Unsupported Telegram channel')
+    soup = BeautifulSoup(html, 'html.parser')
+    channel = TG_CHANNELS[leader]
+    records = []
+    for message in soup.select('.tgme_widget_message[data-post]'):
+        address = message.get('data-post') or ''
+        match = re.fullmatch(r'([^/]+)/(\d+)', address)
+        if not match or match.group(1).casefold() != channel.casefold():
+            continue
+        t = message.select_one('a.tgme_widget_message_date time[datetime], time[datetime]')
+        timestamp = utc_iso(t.get('datetime')) if t else None
+        content = message.select_one('.tgme_widget_message_text')
+        body = content.get_text(' ', strip=True) if content else ''
+        if timestamp and body.strip():
+            records.append(document(
+                leader=leader, source='telegram_' + channel.lower(),
+                external=match.group(2), published=timestamp,
+                url=f'https://t.me/{channel}/{match.group(2)}',
+                title=f'Telegram · {timestamp[:10]}', text=body,
+                genre='channel_post',
+                attribution='institutional_press_channel' if leader == 'putin' else 'leader_channel_unverified_author',
+                language='ru' if leader == 'putin' else 'uk'))
+    return records
+
+
+def collect_telegram_public(client: Client, leader: str, since: date, until: date,
+                            *, max_pages: int = 110, max_items: int = 0) -> tuple[list[dict], list[str]]:
+    """Public no-login preview with ?before=<oldest_message_id>. Completeness never assumed."""
+    if leader not in TG_CHANNELS:
+        raise ValueError('Unsupported Telegram channel')
+    channel = TG_CHANNELS[leader]
+    base = f'https://t.me/s/{channel}'
+    docs, errors, seen = [], [], set()
+    before = None
+    old_streak = 0
+    for page in range(max_pages):
+        url = base + (f'?before={before}' if before is not None else '')
+        try:
+            html = client.get(url).text
+        except AccessDenied:
+            raise
+        except Exception as exc:
+            errors.append(f'Telegram index {url}: {type(exc).__name__}: {exc}')
+            break
+        parsed = parse_telegram_preview(html, leader)
+        message_ids = [int(n) for n in re.findall(
+            r'data-post=[\"\']' + re.escape(channel) + r'/(\d+)', html, re.I)]
+        if not message_ids:
+            errors.append(f'No Telegram message identifiers on {url}; possible blocked or changed preview')
+            break
+        oldest = min(message_ids)
+        if before is not None and oldest >= before:
+            errors.append(f'No backward progress in Telegram history at {url}')
+            break
+        page_dates = []
+        for d in parsed:
+            page_dates.append(d['date'])
+            if not in_range(d['published_at'], since, until) or d['id'] in seen:
+                continue
+            docs.append(d)
+            seen.add(d['id'])
+            if max_items and len(docs) >= max_items:
+                return docs, errors
+        if page_dates and all(day < since.isoformat() for day in page_dates):
+            old_streak += 1
+        else:
+            old_streak = 0
+        if old_streak >= 2:
+            break
+        before = oldest
+    else:
+        errors.append('Maximum Telegram preview pages reached; archive may be incomplete')
     return docs, errors

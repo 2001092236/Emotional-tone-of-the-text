@@ -80,3 +80,34 @@ def test_rejects_2025_even_on_merge(tmp_path):
                url='https://example.org',title='Old',text='test',genre='speech',attribution='x',language='ru')
     with pytest.raises(ValueError):
         merge_jsonl(tmp_path/'putin.jsonl','putin',[d])
+
+
+def test_public_telegram_preview_parser_and_2026_filter():
+    from corpus2026.sources import parse_telegram_preview, collect_telegram_public
+    body='''<div class="tgme_widget_message" data-post="V_Zelenskiy_official/12000">
+    <div class="tgme_widget_message_text">Вітаю всіх з важливим рішенням.</div>
+    <a class="tgme_widget_message_date"><time datetime="2026-06-09T13:00:00+00:00"></time></a></div>
+    <div class="tgme_widget_message" data-post="V_Zelenskiy_official/11999">
+    <div class="tgme_widget_message_text">Старий пост 2025 року</div>
+    <a class="tgme_widget_message_date"><time datetime="2025-12-30T00:00:00+00:00"></time></a></div>'''
+    found = parse_telegram_preview(body, 'zelenskyy')
+    assert len(found) == 2
+    assert found[0]['date'] == '2026-06-09'
+    assert found[0]['attribution'] == 'leader_channel_unverified_author'
+    assert all(x['source'].startswith('telegram_') for x in found)
+    class Resp:
+        text=body
+    class Fake:
+        def get(self,url):return Resp()
+    docs, warnings=collect_telegram_public(Fake(),'zelenskyy',date(2026,1,1),date(2026,11,8),max_pages=2)
+    assert len(docs)==1 and docs[0]['date']=='2026-06-09'
+
+
+def test_kremlin_telegram_press_not_direct_speech():
+    from corpus2026.sources import parse_telegram_preview
+    body='''<div class="tgme_widget_message" data-post="news_kremlin/5555">
+    <div class="tgme_widget_message_text">Президент провёл встречу. Подробнее — на сайте.</div>
+    <time datetime="2026-07-10T11:00:00Z"></time></div>'''
+    result=parse_telegram_preview(body,'putin')
+    assert len(result)==1
+    assert result[0]['attribution']=='institutional_press_channel'

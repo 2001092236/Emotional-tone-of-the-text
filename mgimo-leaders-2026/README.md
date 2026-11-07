@@ -7,10 +7,10 @@ An academic public-source corpus for Donald Trump, Vladimir Putin and Volodymyr 
 | Leader | Primary data source | Text type | Authorship caution |
 |---|---|---|---|
 | Trump | [CNN's Truth Social JSON archive](https://ix.cnn.io/data/truth-social/truth_archive.json) | Social posts | Secondary archive; repost flags may be incomplete |
-| Putin | [Kremlin transcripts](https://kremlin.ru/events/president/transcripts) | Speeches/interviews | Attempts to isolate Putin's turns; otherwise marks `mixed_unverified` |
-| Zelenskyy | [president.gov.ua speeches](https://www.president.gov.ua/news/speeches) | Official speeches/addresses | Published prepared speeches, not necessarily individually authored |
+| Putin | [Kremlin transcripts](https://kremlin.ru/events/president/transcripts) + [Telegram press service](https://t.me/s/news_kremlin) | Speeches/interviews, institutional posts | Putin turns separated where possible; Telegram is **press-office text**, not personal speech |
+| Zelenskyy | [president.gov.ua speeches](https://www.president.gov.ua/news/speeches) + [Telegram public channel](https://t.me/s/V_Zelenskiy_official) | Official speeches and channel posts | Channel authorship is unverified at the individual-post level |
 
-Data includes original URLs, source, speaker/attribution class, date and full extracted text. Actual coverage and document count are **unknown until a successful run**. It must not be described as a complete corpus before an independent archive audit.
+Data includes original URLs, source, speaker/attribution class, date and full extracted text. For Putin and Zelenskyy, the one-off loader attempts both official archives and publicly previewable Telegram channels. Actual coverage and document count are **unknown until a successful run**. It must not be described as a complete corpus before an independent archive audit.
 
 ## Run locally (one-off)
 
@@ -41,7 +41,7 @@ Open <http://localhost:8000>. `--until` must not be in the future. Start with `-
 ## Caveats and errors
 
 - **Site access is not fully validated yet.** If an archive is blocked by `robots.txt`, unavailable to GitHub's IP ranges, anti-bot protected, or rate-limited, the pipeline stops or reports the individual source as `error`/`partial`; it never evades access controls.
-- `robots.txt` is checked once per origin; HTTP 401/403/429 is treated as an access denial.
+- `robots.txt` is checked once per origin; HTTP 401/403/429 is treated as an access denial. Telegram public `/s/` pagination is **best effort**, with missing/media-only posts and rate limits possible; its coverage must be audited before analysis.
 - Every article without a usable publication date is skipped; we never guess 2026 from the search page.
 - The `run_report.json` indicates whether source coverage was verified; by default this is false even when the collector returns no error (pagination and editorial completeness need independent validation).
 - Authors and speechwriters may differ; a prepared institutional speech should not be treated as spontaneous personal expression.
