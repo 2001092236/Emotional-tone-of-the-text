@@ -75,6 +75,13 @@
           <section class="panel"><div class="panel-header"><div><span class="small-overline">ВЕРОЯТНОСТНОЕ ТЕМАТИЧЕСКОЕ МОДЕЛИРОВАНИЕ</span><h3>Смысловые линии корпуса</h3><p>Темы обучаются по каждому языковому корпусу отдельно. Ключевые слова — предварительная интерпретация модели, не установленные политические позиции.</p></div></div>
             <div id="themeStatus" class="model-status"></div><div id="themeCards" class="theme-grid"></div><div id="themeDetail" class="theme-detail"></div><p class="chart-note">Основа эксперимента: NMF и регуляризованная PLSA (упрощённая реализация отдельных регуляризаторов ARTM). ITAR и полноценный BigARTM выделены в отдельный этап валидации. Межъязыковые темы напрямую не сравниваются.</p>
           </section>
+          <section class="panel lexical-panel" aria-labelledby="lexicalTitle">
+            <div class="panel-header"><div><span class="small-overline">СТАТИСТИКА ЛЕКСИЧЕСКИХ СДВИГОВ</span><h3 id="lexicalTitle">Что изменилось в словаре</h3>
+              <p>Сравнение первой и второй половины выбранных дат. Один политик, один исходный языковой корпус.</p></div></div>
+            <div id="lexicalStatus" class="shift-status"></div>
+            <div id="lexicalResult" class="lexical-results"></div>
+            <p class="chart-note">Метод: логарифмическое отношение шансов с информативным априорным распределением Дирихле и z-нормировкой (Monroe, Colaresi, Quinn, 2008). Это предварительные лексические различия, не вывод о взглядах, намерениях или личности политика. Токены не лемматизированы.</p>
+          </section>
         </div>
         <div class="view" id="view-documents" hidden>
           <section class="panel documents-panel"><div class="panel-header"><div><span class="small-overline">ПЕРВИЧНЫЕ МАТЕРИАЛЫ</span><h3>Документы и публикации</h3><p>Дата, канал, атрибуция и ссылка на оригинал указаны у каждой записи.</p></div><span class="results" id="docCount">—</span></div>
@@ -87,6 +94,7 @@
 
     <footer class="footer"><div><strong>Корпус публичных высказываний</strong><p>Независимый учебно-исследовательский прототип. Не является официальным сайтом МГИМО, органов власти или представленных политиков.</p></div><div><a href="method.html">Методика и ограничения</a><a href="https://github.com/2001092236/Emotional-tone-of-the-text" target="_blank" rel="noopener noreferrer">Код и версии данных</a><span>Обновления в реальном времени отключены</span></div></footer>
   </div>
+  <script src="lexical-shift.js" defer></script>
   <script src="app.js" defer></script>
 </body>
 </html>
