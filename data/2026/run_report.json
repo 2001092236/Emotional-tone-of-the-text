@@ -1,0 +1,69 @@
+{
+  "started_at":"2026-11-07T22:01:02.103414+00:00",
+  "since":"2026-01-01",
+  "until":"2026-11-07",
+  "mode":"historical_2026_only",
+  "sources":{
+    "trump":{
+      "status":"ok",
+      "observed":5065,
+      "stored":5065,
+      "changed":5065,
+      "previously_stored":0,
+      "warnings":[],
+      "is_full_year_verified":false,
+      "subsources":{
+        "truth_social":{
+          "status":"ok",
+          "documents":5065
+        }
+      }
+    },
+    "putin":{
+      "status":"partial",
+      "observed":1098,
+      "stored":1098,
+      "changed":1098,
+      "previously_stored":0,
+      "warnings":[
+        "official: AccessDenied: robots.txt check failed: https://kremlin.ru: HTTPSConnectionPool(host='kremlin.ru', port=443): Max retries exceeded with url: /robots.txt (Caused by ConnectTimeoutError(<HTTPSConnection(host='kremlin.ru', port=443) at 0x7b4c8becc770>, 'Connection to kremlin.ru timed out. (connect timeout=12)'))"
+      ],
+      "is_full_year_verified":false,
+      "subsources":{
+        "official":{
+          "status":"error",
+          "documents":0,
+          "error":"robots.txt check failed: https://kremlin.ru: HTTPSConnectionPool(host='kremlin.ru', port=443): Max retries exceeded with url: /robots.txt (Caused by ConnectTimeoutError(<HTTPSConnection(host='kremlin.ru', port=443) at 0x7b4c8becc770>, 'Connection to kremlin.ru timed out. (connect timeout=12)'))"
+        },
+        "telegram":{
+          "status":"ok",
+          "documents":1098
+        }
+      }
+    },
+    "zelenskyy":{
+      "status":"partial",
+      "observed":1217,
+      "stored":1217,
+      "changed":1217,
+      "previously_stored":0,
+      "warnings":[
+        "official: AccessDenied: robots.txt HTTP 403: https://www.president.gov.ua",
+        "telegram: Maximum Telegram preview pages reached; archive may be incomplete"
+      ],
+      "is_full_year_verified":false,
+      "subsources":{
+        "official":{
+          "status":"error",
+          "documents":0,
+          "error":"robots.txt HTTP 403: https://www.president.gov.ua"
+        },
+        "telegram":{
+          "status":"partial",
+          "documents":1217
+        }
+      }
+    }
+  },
+  "finished_at":"2026-11-07T22:05:47.231590+00:00"
+}
