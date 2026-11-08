@@ -1,0 +1,36 @@
+name: Публикация сайта на Hugging Face Spaces
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  deploy:
+    name: Статический сайт (без GPU и сервера)
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Проверить, что токен и Space ID заданы в настройках GitHub
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          HF_SPACE_ID: ${{ vars.HF_SPACE_ID }}
+        run: |
+          test -n "$HF_TOKEN" || { echo '::error::Нет GitHub Secret HF_TOKEN'; exit 1; }
+          test -n "$HF_SPACE_ID" || { echo '::error::Нет GitHub Variable HF_SPACE_ID'; exit 1; }
+      - name: Установить клиент HF и тестовые зависимости
+        run: python -m pip install 'huggingface_hub>=0.36,<2' 'pytest>=8,<10'
+      - name: Проверить состав статических файлов и права
+        run: |
+          python -m pytest -q tests/test_hf_static_space.py
+          test -f LICENSE
+          test -f DATA_RIGHTS.md
+          test -f docs/data/rights.json
+      - name: Синхронизировать /docs в бесплатный статический Space
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          HF_SPACE_ID: ${{ vars.HF_SPACE_ID }}
+          HF_SPACE_VISIBILITY: ${{ vars.HF_SPACE_VISIBILITY || 'private' }}
+        run: python scripts/publish_hf_space.py

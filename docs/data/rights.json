@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "as_of": "2026-11-08",
+  "project_code": {
+    "license": "PolyForm Noncommercial 1.0.0",
+    "license_url": "https://polyformproject.org/licenses/noncommercial/1.0.0/"
+  },
+  "original_analysis": {
+    "license": "CC BY-NC 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-nc/4.0/"
+  },
+  "sources": {
+    "kremlin_transcripts": {"license": "CC BY 4.0", "license_url": "https://creativecommons.org/licenses/by/4.0/", "origin": "https://kremlin.ru/about/copyrights"},
+    "hf_zelensky_speeches": {"license": "CC BY-NC-ND 4.0 (консервативная трактовка)", "license_url": "https://creativecommons.org/licenses/by-nc-nd/4.0/", "origin": "https://www.president.gov.ua/en/subscribe/", "secondary": "https://huggingface.co/datasets/slava-medvedev/zelensky-speeches", "direct_original_comparison_verified": false},
+    "cnn_truth_archive": {"license": "Не установлена", "origin": "https://ix.cnn.io/data/truth-social/truth_archive.json"},
+    "telegram_news_kremlin": {"license": "Требует отдельной проверки", "origin": "https://t.me/news_kremlin"},
+    "telegram_v_zelenskiy_official": {"license": "Требует отдельной проверки", "origin": "https://t.me/V_Zelenskiy_official"}
+  }
+}

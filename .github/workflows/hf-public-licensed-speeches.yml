@@ -1,0 +1,57 @@
+name: Некоммерческая публикация неизменённых речей 2026
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/hf-public-licensed-speeches.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: mgimo-public-licensed-speeches-2026
+  cancel-in-progress: false
+jobs:
+  publish:
+    if: github.event_name == 'workflow_dispatch' || startsWith(github.event.head_commit.message, 'Некоммерческая публикация речей 2026')
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Установить зависимости
+        run: python -m pip install -r requirements-analysis.txt 'pyarrow>=18,<23' 'pytest>=8,<10'
+      - name: Тесты сохранения неизменённых текстов и атрибуции
+        run: python -m pytest -q tests/test_publish_licensed_speeches.py tests/test_hf_zelensky.py
+      - name: Скачать открытый Parquet и подготовить неизменённые тексты за 2026
+        run: python -m corpus2026.publish_licensed_speeches --until 2026-11-07
+      - name: Проверить метаданные, лицензии и фильтр 2026
+        run: |
+          python - <<'PY'
+          import json, hashlib
+          from pathlib import Path
+          x=json.loads(Path('docs/data/hf_speeches_full_2026.json').read_text(encoding='utf-8'))
+          assert x['total_documents'] > 0
+          assert x['period'] == ['2026-01-01','2026-11-07']
+          assert len(x['documents']) == x['total_documents']
+          for d in x['documents']:
+              assert d['date'].startswith('2026-')
+              assert d['url'].startswith('https://www.president.gov.ua/news/') or d['url'].startswith('https://www.president.gov.ua/en/news/') or d['url'].startswith('https://president.gov.ua/news/') or d['url'].startswith('https://president.gov.ua/en/news/')
+              assert d['original_material_license'] == 'CC BY-NC-ND 4.0'
+              assert hashlib.sha256(d['text'].encode('utf-8')).hexdigest() == d['text_sha256']
+              assert d['direct_original_comparison_verified'] is False
+          print('Опубликованных неизменённых текстов:', len(x['documents']))
+          PY
+      - name: Сохранить отдельно от постов Telegram и Truth Social
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add docs/data/hf_speeches_full_2026.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'Данные: неизменённые исследовательские копии речей CC BY-NC-ND 2026'
+            git pull --rebase origin main
+            git push origin 'HEAD:main'
+          fi
