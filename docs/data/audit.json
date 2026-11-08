@@ -1,0 +1,247 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-11-08T06:07:45.925309+00:00",
+  "window": {
+    "since": "2026-01-01",
+    "until": "2026-11-07"
+  },
+  "source_of_truth": "data/2026/*.jsonl (исходные записи)",
+  "total_observed": 8462,
+  "leaders": {
+    "trump": 5065,
+    "putin": 1098,
+    "zelenskyy": 2299
+  },
+  "source_count": {
+    "cnn_truth_archive": 5065,
+    "telegram_news_kremlin": 1098,
+    "telegram_v_zelenskiy_official": 2299
+  },
+  "duplicate_content_hash_count": 447,
+  "checks": {},
+  "invalid_examples": [],
+  "sources": {
+    "cnn_truth_archive": {
+      "leader": "trump",
+      "kind": "вторичный архив постов",
+      "attribution": "личный аккаунт, авторство не удостоверено",
+      "observed": 5065,
+      "unique_days": 309,
+      "first_date": "2026-01-01",
+      "last_date": "2026-11-07",
+      "by_month": {
+        "2026-01": 428,
+        "2026-02": 402,
+        "2026-03": 372,
+        "2026-04": 430,
+        "2026-05": 447,
+        "2026-06": 461,
+        "2026-07": 425,
+        "2026-08": 639,
+        "2026-09": 344,
+        "2026-10": 765,
+        "2026-11": 352
+      },
+      "empty_months": [],
+      "largest_unobserved_interval": {
+        "days": 1,
+        "start": "2026-01-04",
+        "end": "2026-01-04"
+      },
+      "median_words": 46,
+      "ingestion_status_initial": "ok",
+      "external_completeness_verified": false
+    },
+    "telegram_news_kremlin": {
+      "leader": "putin",
+      "kind": "сообщения ведомства",
+      "attribution": "пресс-служба, не личная речь",
+      "observed": 1098,
+      "unique_days": 259,
+      "first_date": "2026-01-01",
+      "last_date": "2026-11-06",
+      "by_month": {
+        "2026-01": 79,
+        "2026-02": 68,
+        "2026-03": 98,
+        "2026-04": 92,
+        "2026-05": 114,
+        "2026-06": 124,
+        "2026-07": 78,
+        "2026-08": 101,
+        "2026-09": 160,
+        "2026-10": 157,
+        "2026-11": 27
+      },
+      "empty_months": [],
+      "largest_unobserved_interval": {
+        "days": 4,
+        "start": "2026-01-07",
+        "end": "2026-01-10"
+      },
+      "median_words": 50,
+      "ingestion_status_initial": "ok",
+      "external_completeness_verified": false,
+      "telegram_ids": {
+        "min": 7032,
+        "max": 8306,
+        "unique_observed": 1098,
+        "possible_identifier_span": 1275,
+        "note": "Пропущенные номера НЕ равны недостающим текстам: среди них могли быть удалённые или мультимедийные сообщения."
+      }
+    },
+    "telegram_v_zelenskiy_official": {
+      "leader": "zelenskyy",
+      "kind": "публикации канала",
+      "attribution": "автор отдельного сообщения не установлен",
+      "observed": 2299,
+      "unique_days": 311,
+      "first_date": "2026-01-01",
+      "last_date": "2026-11-07",
+      "by_month": {
+        "2026-01": 187,
+        "2026-02": 211,
+        "2026-03": 226,
+        "2026-04": 224,
+        "2026-05": 238,
+        "2026-06": 222,
+        "2026-07": 258,
+        "2026-08": 208,
+        "2026-09": 231,
+        "2026-10": 230,
+        "2026-11": 64
+      },
+      "empty_months": [],
+      "largest_unobserved_interval": {
+        "days": 0,
+        "start": null,
+        "end": null
+      },
+      "median_words": 112,
+      "ingestion_status_initial": "partial",
+      "external_completeness_verified": false,
+      "telegram_ids": {
+        "min": 17499,
+        "max": 21722,
+        "unique_observed": 2299,
+        "possible_identifier_span": 4224,
+        "note": "Пропущенные номера НЕ равны недостающим текстам: среди них могли быть удалённые или мультимедийные сообщения."
+      }
+    },
+    "kremlin_transcripts": {
+      "leader": "putin",
+      "kind": "официальная стенограмма",
+      "attribution": "реплики требуют выделения спикера",
+      "observed": 0,
+      "unique_days": 0,
+      "first_date": null,
+      "last_date": null,
+      "by_month": {
+        "2026-01": 0,
+        "2026-02": 0,
+        "2026-03": 0,
+        "2026-04": 0,
+        "2026-05": 0,
+        "2026-06": 0,
+        "2026-07": 0,
+        "2026-08": 0,
+        "2026-09": 0,
+        "2026-10": 0,
+        "2026-11": 0
+      },
+      "empty_months": [
+        "2026-01",
+        "2026-02",
+        "2026-03",
+        "2026-04",
+        "2026-05",
+        "2026-06",
+        "2026-07",
+        "2026-08",
+        "2026-09",
+        "2026-10",
+        "2026-11"
+      ],
+      "largest_unobserved_interval": {
+        "days": 311,
+        "start": "2026-01-01",
+        "end": "2026-11-07"
+      },
+      "median_words": null,
+      "ingestion_status_initial": "error",
+      "external_completeness_verified": false
+    },
+    "zelenskyy_speeches": {
+      "leader": "zelenskyy",
+      "kind": "официальные речи",
+      "attribution": "подготовленный текст выступления",
+      "observed": 0,
+      "unique_days": 0,
+      "first_date": null,
+      "last_date": null,
+      "by_month": {
+        "2026-01": 0,
+        "2026-02": 0,
+        "2026-03": 0,
+        "2026-04": 0,
+        "2026-05": 0,
+        "2026-06": 0,
+        "2026-07": 0,
+        "2026-08": 0,
+        "2026-09": 0,
+        "2026-10": 0,
+        "2026-11": 0
+      },
+      "empty_months": [
+        "2026-01",
+        "2026-02",
+        "2026-03",
+        "2026-04",
+        "2026-05",
+        "2026-06",
+        "2026-07",
+        "2026-08",
+        "2026-09",
+        "2026-10",
+        "2026-11"
+      ],
+      "largest_unobserved_interval": {
+        "days": 311,
+        "start": "2026-01-01",
+        "end": "2026-11-07"
+      },
+      "median_words": null,
+      "ingestion_status_initial": "error",
+      "external_completeness_verified": false
+    }
+  },
+  "completeness_verified": false,
+  "not_complete_reason": "Ни для одного канала не получен независимый источник полного числа публикаций и подтверждение доступности всех дней.",
+  "extension": {
+    "generated_at": "2026-11-08T06:07:44.990287+00:00",
+    "leader": "zelenskyy",
+    "source": "telegram_v_zelenskiy_official",
+    "window": [
+      "2026-01-01",
+      "2026-11-07"
+    ],
+    "initial_before_message_id": 19300,
+    "last_before_message_id": 17451,
+    "pages_fetched": 85,
+    "message_identifiers_observed": 1111,
+    "new_text_documents": 1082,
+    "total_text_documents": 2299,
+    "oldest_date_on_pages": "2025-12-27",
+    "reached_lower_boundary": true,
+    "stop_reason": "older_than_2026_reached",
+    "warnings": [],
+    "external_completeness_verified": false,
+    "note": "Достижение января и переход в 2025 означает окончание пагинации, но не гарантирует полноту медиа/удалённых сообщений."
+  },
+  "methodology": [
+    "Ненайденные документы не равны отсутствующим высказываниям.",
+    "Пустой месяц и длинный интервал без документов являются сигналами для проверки, а не оценкой активности.",
+    "Посты пресс-службы нельзя интерпретировать как личную речь политика.",
+    "Разрывы чисел Telegram не измеряют полноту из-за медиа, удалений и других типов сообщений."
+  ]
+}

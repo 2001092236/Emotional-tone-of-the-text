@@ -1,0 +1,21 @@
+{
+  "generated_at": "2026-11-08T06:07:44.990287+00:00",
+  "leader": "zelenskyy",
+  "source": "telegram_v_zelenskiy_official",
+  "window": [
+    "2026-01-01",
+    "2026-11-07"
+  ],
+  "initial_before_message_id": 19300,
+  "last_before_message_id": 17451,
+  "pages_fetched": 85,
+  "message_identifiers_observed": 1111,
+  "new_text_documents": 1082,
+  "total_text_documents": 2299,
+  "oldest_date_on_pages": "2025-12-27",
+  "reached_lower_boundary": true,
+  "stop_reason": "older_than_2026_reached",
+  "warnings": [],
+  "external_completeness_verified": false,
+  "note": "Достижение января и переход в 2025 означает окончание пагинации, но не гарантирует полноту медиа/удалённых сообщений."
+}

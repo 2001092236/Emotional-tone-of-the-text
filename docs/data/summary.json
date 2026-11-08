@@ -6,12 +6,12 @@
     "putin":"Владимир Путин",
     "zelenskyy":"Владимир Зеленский"
   },
-  "total":7380,
-  "words":609480,
+  "total":8462,
+  "words":740657,
   "by_leader":{
     "trump":5065,
     "putin":1098,
-    "zelenskyy":1217
+    "zelenskyy":2299
   },
   "by_month":{
     "trump":{
@@ -41,7 +41,11 @@
       "2026-11":27
     },
     "zelenskyy":{
-      "2026-05":4,
+      "2026-01":187,
+      "2026-02":211,
+      "2026-03":226,
+      "2026-04":224,
+      "2026-05":238,
       "2026-06":222,
       "2026-07":258,
       "2026-08":208,
@@ -53,7 +57,7 @@
   "by_source":{
     "cnn_truth_archive":5065,
     "telegram_news_kremlin":1098,
-    "telegram_v_zelenskiy_official":1217
+    "telegram_v_zelenskiy_official":2299
   },
   "files":{
     "putin:2026-01":"putin_2026-01.json",
@@ -78,6 +82,10 @@
     "trump:2026-09":"trump_2026-09.json",
     "trump:2026-10":"trump_2026-10.json",
     "trump:2026-11":"trump_2026-11.json",
+    "zelenskyy:2026-01":"zelenskyy_2026-01.json",
+    "zelenskyy:2026-02":"zelenskyy_2026-02.json",
+    "zelenskyy:2026-03":"zelenskyy_2026-03.json",
+    "zelenskyy:2026-04":"zelenskyy_2026-04.json",
     "zelenskyy:2026-05":"zelenskyy_2026-05.json",
     "zelenskyy:2026-06":"zelenskyy_2026-06.json",
     "zelenskyy:2026-07":"zelenskyy_2026-07.json",
@@ -156,5 +164,26 @@
       }
     },
     "finished_at":"2026-11-07T22:05:47.231590+00:00"
+  },
+  "telegram_extension":{
+    "generated_at":"2026-11-08T06:07:44.990287+00:00",
+    "leader":"zelenskyy",
+    "source":"telegram_v_zelenskiy_official",
+    "window":[
+      "2026-01-01",
+      "2026-11-07"
+    ],
+    "initial_before_message_id":19300,
+    "last_before_message_id":17451,
+    "pages_fetched":85,
+    "message_identifiers_observed":1111,
+    "new_text_documents":1082,
+    "total_text_documents":2299,
+    "oldest_date_on_pages":"2025-12-27",
+    "reached_lower_boundary":true,
+    "stop_reason":"older_than_2026_reached",
+    "warnings":[],
+    "external_completeness_verified":false,
+    "note":"Достижение января и переход в 2025 означает окончание пагинации, но не гарантирует полноту медиа/удалённых сообщений."
   }
 }
