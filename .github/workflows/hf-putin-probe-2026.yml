@@ -25,7 +25,7 @@ jobs:
       - name: Проверить 2026 год и отсутствие полных текстов в JSON
         run: python -m pytest -q tests/test_hf_putin.py
       - name: Проверить доступную российскую часть датасета
-        run: python -m corpus2026.probe_hf_putin
+        run: python -m corpus2026.probe_hf_putin --public-texts docs/data/hf_putin_candidate_texts.json
       - name: Сверить период и лицензирование
         run: |
           python - <<'PY'
@@ -33,7 +33,13 @@ jobs:
           from pathlib import Path
           m=json.loads(Path('docs/data/hf_putin_probe.json').read_text())
           rows=json.loads(Path('docs/data/hf_putin_speeches_index.json').read_text())
-          assert m['year']==2026 and not m['public_full_text']
+          assert m['year']==2026
+          assert m['public_full_text'] == (m['matching_russian_putin_speeches']>0)
+          if m['public_full_text']:
+              texts=json.loads(Path('docs/data/hf_putin_candidate_texts.json').read_text())
+              assert len(texts)==len(rows)
+              assert all(t['source_url'].startswith(('https://kremlin.ru/','http://kremlin.ru/')) for t in texts)
+              assert all(t['text'] and t['original_rights']=='https://kremlin.ru/about/copyrights' for t in texts)
           assert m['matching_russian_putin_speeches']==len(rows)
           for r in rows:
               assert 'text' not in r and 'speech_text' not in r
@@ -44,6 +50,7 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add docs/data/hf_putin_probe.json docs/data/hf_putin_speeches_index.json
+          if test -f docs/data/hf_putin_candidate_texts.json; then git add docs/data/hf_putin_candidate_texts.json; fi
           if ! git diff --cached --quiet; then
             git commit -m 'Данные: проверить наличие официальных речей Путина за 2026'
             git push origin 'HEAD:main'

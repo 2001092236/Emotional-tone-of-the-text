@@ -9,6 +9,8 @@ async function start(){
       fetch('data/hf_putin_speeches_index.json',{cache:'no-store'})]);
     if(!a.ok||!b.ok)throw new Error('исследовательская проверка ещё не была выполнена');
     const meta=await a.json(),list=await b.json();
+    let original=[];try{const x=await fetch('data/hf_putin_candidate_texts.json',{cache:'no-store'});if(x.ok)original=await x.json()}catch(e){}
+    const fullById=new Map(Array.isArray(original)?original.map(x=>[x.id,x]):[]);
     if(meta.year!==2026||!Array.isArray(list))throw Error('неподдерживаемый формат отчёта');
     $('putinCount').textContent=fmt(meta.matching_russian_putin_speeches);
     $('putinFirst').textContent=meta.earliest||'—';$('putinLast').textContent=meta.latest||'—';
@@ -20,7 +22,11 @@ async function start(){
     for(const r of list.slice(0,80)){
       const entry=el('article',undefined,'putin-entry'),link=el('a',r.title||'Оригинальный источник');
       link.href=r.source_url;link.target='_blank';link.rel='noopener noreferrer';
-      entry.append(link,el('small',`${r.date} · ${fmt(r.word_count)} слов · ID SHA256 ${String(r.text_sha256).slice(0,12)}`));root.append(entry);
+      entry.append(link,el('small',`${r.date} · ${fmt(r.word_count)} слов · ID SHA256 ${String(r.text_sha256).slice(0,12)}`));
+      const full=fullById.get(r.id);
+      if(full?.text){const details=el('details'),heading=el('summary','Текст научной копии (не проверен по оригиналу)'),body=el('div',full.text,'doc-body');
+        const source=el('small','Републикация с атрибуцией: '+full.original_rights);details.append(heading,body,source);entry.append(details);}
+      root.append(entry);
     }
     if(!list.length)root.append(el('p','Пока нет подтверждённых документов в этой выборке.'));
   }catch(e){$('putinStatus').textContent='Отчёт ещё недоступен: '+e.message;}

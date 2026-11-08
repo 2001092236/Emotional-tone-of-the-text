@@ -108,14 +108,14 @@ def report(records: list[dict], files: list[dict], *, manifest_sha: str,
             ]}
 
 
-def run(out: Path, index: Path, *, request: requests.Session | None = None) -> dict:
+def run(out: Path, index: Path, *, texts_out: Path | None = None, request: requests.Session | None = None) -> dict:
     import pyarrow.parquet as pq
     session=request or requests.Session()
     response=session.get(MANIFEST,timeout=(12,35))
     response.raise_for_status()
     manifest=response.json()
     files=index_files(manifest)
-    errors=[]; rows=[]
+    errors=[]; rows=[]; original_by_id={}
     if not files:
         errors.append('Отдельный российский Parquet-конфиг не обнаружен; большой общий корпус не скачивался')
     with TemporaryDirectory() as temp:
@@ -139,12 +139,28 @@ def run(out: Path, index: Path, *, request: requests.Session | None = None) -> d
                 table=pq.read_table(location,columns=['speaker_name','speech_date','language_iso','speech_title','speech_text','source_url','speech_id'])
                 for row in table.to_pylist():
                     item=as_record(row)
-                    if item is not None: rows.append(item)
+                    if item is not None:
+                        rows.append(item)
+                        original_by_id[item['id']]=str(row.get('speech_text') or '').strip()
             except (requests.RequestException,ValueError,KeyError,OSError,Exception) as exc:
                 errors.append(f'Parquet {i}: {type(exc).__name__}: {str(exc)[:230]}')
     canonical={r['id']:r for r in rows}
     items=sorted(canonical.values(),key=lambda r:(r['date'],r['id']),reverse=True)
     m=report(items,files,manifest_sha=hashlib.sha256(response.content).hexdigest(),errors=errors)
+    if texts_out is not None and items:
+        # Original Kremlin material expressly permits reproduction with attribution:
+        # https://kremlin.ru/about/copyrights
+        # The research HF dataset is labelled CC BY 4.0; source URLs retained.
+        material=[{**item,'text':original_by_id[item['id']],
+             'provenance_warning':'Вторичная научная копия: сверка с оригиналом не выполнена',
+             'original_rights':'https://kremlin.ru/about/copyrights'} for item in items]
+        texts_out.parent.mkdir(parents=True,exist_ok=True)
+        texts_out.write_text(json.dumps(material,ensure_ascii=False,indent=2)+'\n',encoding='utf8')
+        m['public_full_text']=True
+        m['public_text_records']=len(material)
+        m['reproduction_basis']='Первичный kremlin.ru/about/copyrights разрешает перепечатку с обязательной ссылкой на источник; HF cc-by-4.0, атрибуция обязательна'
+    else:
+        m['public_text_records']=0
     out.parent.mkdir(parents=True,exist_ok=True)
     index.parent.mkdir(parents=True,exist_ok=True)
     out.write_text(json.dumps(m,ensure_ascii=False,indent=2)+'\n',encoding='utf8')
@@ -156,9 +172,10 @@ def main() -> None:
     p=argparse.ArgumentParser(description='2026 Путин, только метаданные исследований Hugging Face')
     p.add_argument('--out',type=Path,default=Path('docs/data/hf_putin_probe.json'))
     p.add_argument('--index',type=Path,default=Path('docs/data/hf_putin_speeches_index.json'))
+    p.add_argument('--public-texts',type=Path,default=None,help='Сохранять тексты только при подтверждённых правах на перепечатку; с URL оригинала')
     args=p.parse_args()
     try:
-        r=run(args.out,args.index)
+        r=run(args.out,args.index,texts_out=args.public_texts)
         print(json.dumps({k:r[k] for k in ['matching_russian_putin_speeches','status','errors']},ensure_ascii=False))
     except requests.RequestException as exc:
         # Fail explicitly, don't save fabricated zeros.
