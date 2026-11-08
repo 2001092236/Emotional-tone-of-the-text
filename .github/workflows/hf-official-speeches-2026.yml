@@ -1,0 +1,54 @@
+name: Разовая проверка официальных речей Зеленского в HF — 2026
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/hf-official-speeches-2026.yml']
+permissions:
+  contents: write
+concurrency:
+  group: mgimo-hf-official-speeches-2026
+  cancel-in-progress: false
+jobs:
+  inspect:
+    if: github.event_name == 'workflow_dispatch' || startsWith(github.event.head_commit.message, 'Пилот HF 2026')
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - run: python -m pip install -r requirements-analysis.txt 'pyarrow>=18,<23'
+      - name: Протестировать безопасную фильтрацию и запрет на публикацию текстов
+        run: python -m pytest -q tests/test_hf_zelensky.py
+      - name: Считать датасет речей и рассчитать темы на CPU
+        run: python -m corpus2026.import_hf_zelensky --until 2026-11-07
+      - name: Проверить файлы и происхождение
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          summary=json.loads(Path('docs/data/hf_speeches_2026.json').read_text())
+          topics=json.loads(Path('docs/data/hf_official_topics.json').read_text())
+          assert summary['full_text_stored_publicly'] is False
+          assert summary['period']==['2026-01-01','2026-11-07']
+          assert topics['year']==2026
+          for d in json.loads(Path('docs/data/hf_speeches_index.json').read_text()):
+              assert 'text' not in d and 'full_text' not in d
+          for row in Path('data/2026/hf_zelensky_speeches_index.jsonl').read_text().splitlines():
+              d=json.loads(row)
+              assert 'text' not in d and 'full_text' not in d
+              assert d['date'].startswith('2026-')
+          print('Доказательства и права зафиксированы')
+          PY
+      - name: Сохранить только метаданные и статистические темы
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add docs/data/hf_speeches_2026.json docs/data/hf_speeches_index.json docs/data/hf_official_topics.json data/2026/hf_zelensky_speeches_index.jsonl
+          if ! git diff --cached --quiet; then
+            git commit -m 'Данные: метаданные официальных речей Зеленского за 2026'
+            git push origin 'HEAD:main'
+          fi
