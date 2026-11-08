@@ -1,0 +1,422 @@
+{
+  "schema_version": 1,
+  "year": 2026,
+  "status": "experimental",
+  "created_at": "2026-11-08T07:20:45.234884+00:00",
+  "method": "ITAR-inspired independent pilot, not BigARTM or authors code",
+  "paper": "https://arxiv.org/abs/2408.05840",
+  "leaders": {
+    "trump": {
+      "method": "ITAR-inspired: ARTM + R_fix(10) + R_filter(11) + hard fixation safeguard",
+      "paper": "https://arxiv.org/abs/2408.05840",
+      "replica_of_authors_code": false,
+      "baseline_seed_count": 3,
+      "baseline_stability_mean": 0.68581,
+      "baseline_stability_pairwise": [
+        0.68578,
+        0.68201,
+        0.68962
+      ],
+      "baseline_best_mean_npmi": 0.37228,
+      "baseline_topic_count_over_threshold": 2,
+      "good_threshold_npmi": 0.60256,
+      "bad_threshold_npmi": 0.16536,
+      "good_topics_accumulated": 2,
+      "good_topic_diversity_10": 1.0,
+      "topics": [
+        {
+          "id": "itar_1",
+          "accepted_round": 1,
+          "coherence": 0.76674,
+          "keywords": [
+            "tax",
+            "radical",
+            "men",
+            "women",
+            "wants",
+            "sports",
+            "dangerous",
+            "left",
+            "transgender",
+            "open",
+            "borders",
+            "children"
+          ]
+        },
+        {
+          "id": "itar_2",
+          "accepted_round": 1,
+          "coherence": 0.76292,
+          "keywords": [
+            "american",
+            "always",
+            "secure",
+            "district",
+            "endorsement",
+            "total",
+            "complete",
+            "amendment",
+            "second",
+            "election",
+            "siege",
+            "taxes"
+          ]
+        }
+      ],
+      "rounds": [
+        {
+          "round": 1,
+          "random_seed": 23,
+          "mean_npmi": 0.37228,
+          "accepted_total": 2,
+          "accepted_added": 2,
+          "filtered_bad_bank": 1,
+          "fixed_previous": 0
+        },
+        {
+          "round": 2,
+          "random_seed": 126,
+          "mean_npmi": 0.39476,
+          "accepted_total": 2,
+          "accepted_added": 0,
+          "filtered_bad_bank": 2,
+          "fixed_previous": 2
+        },
+        {
+          "round": 3,
+          "random_seed": 243,
+          "mean_npmi": 0.3449,
+          "accepted_total": 2,
+          "accepted_added": 0,
+          "filtered_bad_bank": 4,
+          "fixed_previous": 2
+        },
+        {
+          "round": 4,
+          "random_seed": 320,
+          "mean_npmi": 0.37139,
+          "accepted_total": 2,
+          "accepted_added": 0,
+          "filtered_bad_bank": 6,
+          "fixed_previous": 2
+        }
+      ],
+      "scientific_limitations": [
+        "Coherence thresholds are in-sample baseline quantiles, not expert calibration",
+        "Hard-fix safeguard differs from paper soft-only regularizer",
+        "A monotone topic bank does not imply superior held-out predictive quality",
+        "Short source texts are genre-specific, not direct psychological observations",
+        "Cross-language and cross-source topic rankings are not valid"
+      ],
+      "status": "experimental",
+      "sample_documents": 890,
+      "language": "en",
+      "source_jsonl_sha256": "a7be19d3b197d837df4d8ad4f6670f4c978b538e5bf557e3f519a7a64fcc0ed4",
+      "sample_date_min": "2026-01-02",
+      "sample_date_max": "2026-11-07",
+      "source_counts": {
+        "cnn_truth_archive": 890
+      }
+    },
+    "putin": {
+      "method": "ITAR-inspired: ARTM + R_fix(10) + R_filter(11) + hard fixation safeguard",
+      "paper": "https://arxiv.org/abs/2408.05840",
+      "replica_of_authors_code": false,
+      "baseline_seed_count": 3,
+      "baseline_stability_mean": 0.55669,
+      "baseline_stability_pairwise": [
+        0.56182,
+        0.55923,
+        0.54903
+      ],
+      "baseline_best_mean_npmi": 0.17777,
+      "baseline_topic_count_over_threshold": 2,
+      "good_threshold_npmi": 0.20708,
+      "bad_threshold_npmi": 0.03382,
+      "good_topics_accumulated": 3,
+      "good_topic_diversity_10": 0.8,
+      "topics": [
+        {
+          "id": "itar_1",
+          "accepted_round": 1,
+          "coherence": 0.51878,
+          "keywords": [
+            "президентом",
+            "владимира",
+            "путина",
+            "разговор",
+            "телефонный",
+            "республики",
+            "состоялся",
+            "ходе",
+            "сотрудничества",
+            "российско",
+            "государств",
+            "аль"
+          ]
+        },
+        {
+          "id": "itar_2",
+          "accepted_round": 1,
+          "coherence": 0.26776,
+          "keywords": [
+            "россии",
+            "путина",
+            "владимира",
+            "республики",
+            "сша",
+            "российско",
+            "стороны",
+            "президентом",
+            "государств",
+            "россия",
+            "кремле",
+            "стратегического"
+          ]
+        },
+        {
+          "id": "itar_3",
+          "accepted_round": 3,
+          "coherence": 0.23008,
+          "keywords": [
+            "провёл",
+            "безопасности",
+            "россии",
+            "совещание",
+            "совета",
+            "членами",
+            "развития",
+            "вопросы",
+            "оперативное",
+            "встречу",
+            "россия",
+            "видеосвязи"
+          ]
+        }
+      ],
+      "rounds": [
+        {
+          "round": 1,
+          "random_seed": 11,
+          "mean_npmi": 0.17777,
+          "accepted_total": 2,
+          "accepted_added": 2,
+          "filtered_bad_bank": 0,
+          "fixed_previous": 0
+        },
+        {
+          "round": 2,
+          "random_seed": 126,
+          "mean_npmi": 0.20088,
+          "accepted_total": 2,
+          "accepted_added": 0,
+          "filtered_bad_bank": 0,
+          "fixed_previous": 2
+        },
+        {
+          "round": 3,
+          "random_seed": 243,
+          "mean_npmi": 0.18959,
+          "accepted_total": 3,
+          "accepted_added": 1,
+          "filtered_bad_bank": 1,
+          "fixed_previous": 2
+        },
+        {
+          "round": 4,
+          "random_seed": 320,
+          "mean_npmi": 0.19188,
+          "accepted_total": 3,
+          "accepted_added": 0,
+          "filtered_bad_bank": 2,
+          "fixed_previous": 3
+        }
+      ],
+      "scientific_limitations": [
+        "Coherence thresholds are in-sample baseline quantiles, not expert calibration",
+        "Hard-fix safeguard differs from paper soft-only regularizer",
+        "A monotone topic bank does not imply superior held-out predictive quality",
+        "Short source texts are genre-specific, not direct psychological observations",
+        "Cross-language and cross-source topic rankings are not valid"
+      ],
+      "status": "experimental",
+      "sample_documents": 859,
+      "language": "ru",
+      "source_jsonl_sha256": "b7e155548490ea08fdb760aff11e18289ea9156412620d03e545664ad6275699",
+      "sample_date_min": "2026-01-01",
+      "sample_date_max": "2026-11-06",
+      "source_counts": {
+        "telegram_news_kremlin": 859
+      }
+    },
+    "zelenskyy": {
+      "method": "ITAR-inspired: ARTM + R_fix(10) + R_filter(11) + hard fixation safeguard",
+      "paper": "https://arxiv.org/abs/2408.05840",
+      "replica_of_authors_code": false,
+      "baseline_seed_count": 3,
+      "baseline_stability_mean": 0.68992,
+      "baseline_stability_pairwise": [
+        0.70164,
+        0.66046,
+        0.70768
+      ],
+      "baseline_best_mean_npmi": 0.09675,
+      "baseline_topic_count_over_threshold": 2,
+      "good_threshold_npmi": 0.09233,
+      "bad_threshold_npmi": 0.06305,
+      "good_topics_accumulated": 5,
+      "good_topic_diversity_10": 0.78,
+      "topics": [
+        {
+          "id": "itar_1",
+          "accepted_round": 1,
+          "coherence": 0.21876,
+          "keywords": [
+            "людей",
+            "зараз",
+            "росіяни",
+            "хто",
+            "ракет",
+            "всім",
+            "дронів",
+            "жаль",
+            "співчуття",
+            "росія",
+            "мої",
+            "удар"
+          ]
+        },
+        {
+          "id": "itar_2",
+          "accepted_round": 1,
+          "coherence": 0.14671,
+          "keywords": [
+            "україни",
+            "підтримку",
+            "обговорили",
+            "щодо",
+            "важливо",
+            "вдячний",
+            "ппо",
+            "рішення",
+            "захисту",
+            "говорили",
+            "підтримки",
+            "зустрічі"
+          ]
+        },
+        {
+          "id": "itar_3",
+          "accepted_round": 2,
+          "coherence": 0.1285,
+          "keywords": [
+            "росія",
+            "буде",
+            "саме",
+            "тому",
+            "україна",
+            "цього",
+            "якщо",
+            "війну",
+            "росії",
+            "ніж",
+            "війни",
+            "зараз"
+          ]
+        },
+        {
+          "id": "itar_4",
+          "accepted_round": 2,
+          "coherence": 0.09662,
+          "keywords": [
+            "україни",
+            "оборони",
+            "наші",
+            "наших",
+            "хто",
+            "слава",
+            "нашим",
+            "україні",
+            "людей",
+            "має",
+            "україну",
+            "всім"
+          ]
+        },
+        {
+          "id": "itar_5",
+          "accepted_round": 2,
+          "coherence": 0.09516,
+          "keywords": [
+            "росії",
+            "війну",
+            "проти",
+            "війни",
+            "наші",
+            "зараз",
+            "україни",
+            "буде",
+            "україна",
+            "разом",
+            "будуть",
+            "треба"
+          ]
+        }
+      ],
+      "rounds": [
+        {
+          "round": 1,
+          "random_seed": 23,
+          "mean_npmi": 0.09675,
+          "accepted_total": 2,
+          "accepted_added": 2,
+          "filtered_bad_bank": 3,
+          "fixed_previous": 0
+        },
+        {
+          "round": 2,
+          "random_seed": 126,
+          "mean_npmi": 0.11689,
+          "accepted_total": 5,
+          "accepted_added": 3,
+          "filtered_bad_bank": 3,
+          "fixed_previous": 2
+        },
+        {
+          "round": 3,
+          "random_seed": 243,
+          "mean_npmi": 0.1187,
+          "accepted_total": 5,
+          "accepted_added": 0,
+          "filtered_bad_bank": 4,
+          "fixed_previous": 5
+        },
+        {
+          "round": 4,
+          "random_seed": 320,
+          "mean_npmi": 0.11769,
+          "accepted_total": 5,
+          "accepted_added": 0,
+          "filtered_bad_bank": 5,
+          "fixed_previous": 5
+        }
+      ],
+      "scientific_limitations": [
+        "Coherence thresholds are in-sample baseline quantiles, not expert calibration",
+        "Hard-fix safeguard differs from paper soft-only regularizer",
+        "A monotone topic bank does not imply superior held-out predictive quality",
+        "Short source texts are genre-specific, not direct psychological observations",
+        "Cross-language and cross-source topic rankings are not valid"
+      ],
+      "status": "experimental",
+      "sample_documents": 833,
+      "language": "uk",
+      "source_jsonl_sha256": "dc6e9b8809eff55672ed34312521c26f42174ab084da48d037b4b58d2ad29db5",
+      "sample_date_min": "2026-01-01",
+      "sample_date_max": "2026-11-07",
+      "source_counts": {
+        "telegram_v_zelenskiy_official": 833
+      }
+    }
+  }
+}
