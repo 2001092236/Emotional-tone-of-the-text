@@ -1,0 +1,273 @@
+{
+  "year": 2026,
+  "source": "https://huggingface.co/datasets/slava-medvedev/zelensky-speeches",
+  "rights": "CC BY-NC-ND 4.0 (LICENSE.md и оригинальный сайт; карточка HF противоречит)",
+  "original_speeches": {
+    "status": "experimental",
+    "method": "ARTM-inspired regularized PLSA, 30 EM iterations",
+    "language": "uk",
+    "genre": "official_speech_or_address",
+    "sample_documents": 115,
+    "vocabulary": 2400,
+    "coherence_mean": 0.07958214743972819,
+    "diversity_10": 0.7,
+    "topics": [
+      {
+        "id": "official_artm_1",
+        "keywords": [
+          "треба",
+          "разом",
+          "говорили",
+          "роботу",
+          "будуть",
+          "щодо",
+          "більше",
+          "росії",
+          "зокрема",
+          "хочу",
+          "подякувати",
+          "відновлення"
+        ],
+        "proportion": 0.21164992471764604,
+        "coherence": 0.021135421611178186,
+        "by_month": {
+          "2026-01": 0.273836,
+          "2026-02": 0.23006,
+          "2026-03": 0.129379,
+          "2026-04": 0.164067,
+          "2026-05": 0.467877,
+          "2026-06": 0.280563,
+          "2026-07": 0.187459
+        },
+        "examples": [
+          {
+            "id": "b87d4fd26ac29cc34100cb81",
+            "date": "2026-01-14",
+            "title": "Доручив переглянути правила для комендантської години: на час надзвичайної ситуації можемо прибрати комендантську годину для частини міст і громад – звернення Президента",
+            "url": "https://www.president.gov.ua/news/doruchiv-pereglyanuti-pravila-dlya-komendantskoyi-godini-na-102421",
+            "attribution": "prepared_official_speech_secondary_copy"
+          },
+          {
+            "id": "18dbb1b39ea11fe33318df27",
+            "date": "2026-04-01",
+            "title": "Тиша на Великдень могла б бути саме тим сигналом, який усім скаже: дипломатія може бути успішною – звернення Президента",
+            "url": "https://www.president.gov.ua/news/tisha-na-velikden-mogla-b-buti-same-tim-signalom-yakij-usim-103697",
+            "attribution": "prepared_official_speech_secondary_copy"
+          },
+          {
+            "id": "42000551f5d5e3c518278dff",
+            "date": "2026-01-31",
+            "title": "Вранці сталась технологічна аварія на мережі, зараз триває стабілізація та відновлення забезпечення людей – звернення Президента",
+            "url": "https://www.president.gov.ua/news/vranci-stalas-tehnologichna-avariya-na-merezhi-zaraz-trivaye-102653",
+            "attribution": "prepared_official_speech_secondary_copy"
+          }
+        ]
+      },
+      {
+        "id": "official_artm_2",
+        "keywords": [
+          "життя",
+          "війни",
+          "дронів",
+          "безпеки",
+          "українці",
+          "може",
+          "кожен",
+          "багато",
+          "тому",
+          "просто",
+          "якщо",
+          "будь"
+        ],
+        "proportion": 0.15943262846794304,
+        "coherence": 0.050068716633824915,
+        "by_month": {
+          "2026-01": 0.118259,
+          "2026-02": 0.167809,
+          "2026-03": 0.163333,
+          "2026-04": 0.191743,
+          "2026-05": 0.07913,
+          "2026-06": 0.162757,
+          "2026-07": 0.211652
+        },
+        "examples": [
+          {
+            "id": "b22b2ed4e5ddbb52c87d88b6",
+            "date": "2026-04-12",
+            "title": "Великоднє привітання Президента України та першої леді",
+            "url": "https://www.president.gov.ua/news/velikodnye-privitannya-prezidenta-ukrayini-ta-pershoyi-ledi-103797",
+            "attribution": "prepared_official_speech_secondary_copy"
+          },
+          {
+            "id": "babde0ace2be65cb34333c4c",
+            "date": "2026-03-17",
+            "title": "Звернення Президента України Володимира Зеленського до парламенту Великої Британії",
+            "url": "https://www.president.gov.ua/news/zvernennya-prezidenta-ukrayini-volodimira-zelenskogo-do-parl-103413",
+            "attribution": "prepared_official_speech_secondary_copy"
+          },
+          {
+            "id": "99e26f44a2c630c75a4ae1b0",
+            "date": "2026-04-13",
+            "title": "Кожна нова українська розробка скорочує дистанцію до миру – звернення Президента з нагоди Дня зброяра",
+            "url": "https://www.president.gov.ua/news/kozhna-nova-ukrayinska-rozrobka-skorochuye-distanciyu-do-mir-103809",
+            "attribution": "prepared_official_speech_secondary_copy"
+          }
+        ]
+      },
+      {
+        "id": "official_artm_3",
+        "keywords": [
+          "європі",
+          "європи",
+          "більше",
+          "разом",
+          "лише",
+          "може",
+          "росія",
+          "справді",
+          "багато",
+          "війни",
+          "світі",
+          "держави"
+        ],
+        "proportion": 0.16878096785971783,
+        "coherence": 0.08387040080058557,
+        "by_month": {
+          "2026-01": 0.105259,
+          "2026-02": 0.189014,
+          "2026-03": 0.201164,
+          "2026-04": 0.191538,
+          "2026-05": 0.141315,
+          "2026-06": 0.184643,
+          "2026-07": 0.104553
+        },
+        "examples": [
+          {
+            "id": "034ae9438ccdeec536ce8425",
+            "date": "2026-03-26",
+            "title": "Наша мета проста й чітка: Україна готова стати повноправним членом JEF – звернення Президента до учасників саміту лідерів JEF",
+            "url": "https://www.president.gov.ua/news/nasha-meta-prosta-j-chitka-ukrayina-gotova-stati-povnopravni-103533",
+            "attribution": "prepared_official_speech_secondary_copy"
+          },
+          {
+            "id": "086e0dea4e653d9024713596",
+            "date": "2026-04-16",
+            "title": "Звернення Президента до учасників церемонії нагородження Four Freedoms Awards",
+            "url": "https://www.president.gov.ua/news/zvernennya-prezidenta-do-uchasnikiv-ceremoniyi-nagorodzhenny-103905",
+            "attribution": "prepared_official_speech_secondary_copy"
+          },
+          {
+            "id": "1e9bc5a2c60817f3473d2cd7",
+            "date": "2026-06-28",
+            "title": "Звернення Президента України Володимира Зеленського з нагоди Дня Конституції",
+            "url": "https://president.gov.ua/news/zvernennya-prezidenta-ukrayini-volodimira-zelenskogo-z-nagod-105113",
+            "attribution": "prepared_official_speech_secondary_copy"
+          }
+        ]
+      },
+      {
+        "id": "official_artm_4",
+        "keywords": [
+          "захисту",
+          "щодо",
+          "ударів",
+          "удари",
+          "фактично",
+          "рішення",
+          "говорили",
+          "роботи",
+          "європі",
+          "проти",
+          "підтримку",
+          "працювати"
+        ],
+        "proportion": 0.2815657856497024,
+        "coherence": 0.07433952386900378,
+        "by_month": {
+          "2026-01": 0.318093,
+          "2026-02": 0.289285,
+          "2026-03": 0.317207,
+          "2026-04": 0.275781,
+          "2026-05": 0.290082,
+          "2026-06": 0.135907,
+          "2026-07": 0.1388
+        },
+        "examples": [
+          {
+            "id": "dbe04833973a6c3880e306bd",
+            "date": "2026-02-09",
+            "title": "На тижні будуть значні міжнародні заходи – оборонні, безпекові; у Європі наша позиція буде представлена достатньо, і так само з Америкою – звернення Президента",
+            "url": "https://www.president.gov.ua/news/na-tizhni-budut-znachni-mizhnarodni-zahodi-oboronni-bezpekov-102781",
+            "attribution": "prepared_official_speech_secondary_copy"
+          },
+          {
+            "id": "498ff7e37d595c26f724bd4e",
+            "date": "2026-02-01",
+            "title": "Сьогоднішній російській удар по автобусу на Дніпровщині – це злочин, злочин показовий, який ще раз демонструє, що саме Росія несе відповідальність за ескалацію – звернення Президента",
+            "url": "https://www.president.gov.ua/news/sogodnishnij-rosijskij-udar-po-avtobusu-na-dniprovshini-ce-z-102657",
+            "attribution": "prepared_official_speech_secondary_copy"
+          },
+          {
+            "id": "006f6a40dd14a52c4c328550",
+            "date": "2026-03-13",
+            "title": "Заява Президента України під час спільного з Президентом Франції спілкування з журналістами",
+            "url": "https://www.president.gov.ua/news/zayava-prezidenta-ukrayini-pid-chas-spilnogo-z-prezidentom-f-103349",
+            "attribution": "prepared_official_speech_secondary_copy"
+          }
+        ]
+      },
+      {
+        "id": "official_artm_5",
+        "keywords": [
+          "проти",
+          "росія",
+          "росії",
+          "європа",
+          "війну",
+          "європи",
+          "війни",
+          "тому",
+          "час",
+          "європі",
+          "нашу",
+          "нами"
+        ],
+        "proportion": 0.17857069330499065,
+        "coherence": 0.16849667428404852,
+        "by_month": {
+          "2026-01": 0.184552,
+          "2026-02": 0.123831,
+          "2026-03": 0.188917,
+          "2026-04": 0.176872,
+          "2026-05": 0.021596,
+          "2026-06": 0.236131,
+          "2026-07": 0.357537
+        },
+        "examples": [
+          {
+            "id": "28f2c28bde2c372acae8e784",
+            "date": "2026-04-03",
+            "title": "Звернення Президента під час вручення державних нагород України представникам кримськотатарського народу",
+            "url": "https://www.president.gov.ua/news/zvernennya-prezidenta-pid-chas-vruchennya-derzhavnih-nagorod-103725",
+            "attribution": "prepared_official_speech_secondary_copy"
+          },
+          {
+            "id": "61257e505f811068f00e503d",
+            "date": "2026-04-26",
+            "title": "Звернення Президента до учасників Міжнародної Чорнобильської конференції з питань відновлення та ядерної безпеки",
+            "url": "https://www.president.gov.ua/news/zvernennya-prezidenta-do-uchasnikiv-mizhnarodnoyi-chornobils-104129",
+            "attribution": "prepared_official_speech_secondary_copy"
+          },
+          {
+            "id": "2d34134d164a0d00a381bfdd",
+            "date": "2026-03-31",
+            "title": "Звернення Президента України на засіданні міністрів закордонних справ Євросоюзу",
+            "url": "https://www.president.gov.ua/news/zvernennya-prezidenta-ukrayini-na-zasidanni-ministriv-zakord-103665",
+            "attribution": "prepared_official_speech_secondary_copy"
+          }
+        ]
+      }
+    ],
+    "note": "Full texts processed transiently; this is NOT a personal psychological profile or expert-validated topic set."
+  }
+}

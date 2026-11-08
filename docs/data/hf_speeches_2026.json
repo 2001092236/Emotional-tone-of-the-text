@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-11-08T07:16:14.563228+00:00",
+  "dataset": "https://huggingface.co/datasets/slava-medvedev/zelensky-speeches",
+  "parquet_sha256": "e9ca254acecddb003d396357ea3c4ee00932b78ed6a63bdf3f93fb967b562295",
+  "period": [
+    "2026-01-01",
+    "2026-11-07"
+  ],
+  "total_2026_speeches": 221,
+  "original_uk": 115,
+  "official_translation_en": 106,
+  "earliest": "2026-01-01",
+  "latest": "2026-07-04",
+  "by_month": {
+    "2026-01": 58,
+    "2026-02": 57,
+    "2026-03": 47,
+    "2026-04": 38,
+    "2026-05": 1,
+    "2026-06": 13,
+    "2026-07": 7
+  },
+  "exclusions": {
+    "outside_period_or_undated": 3407,
+    "insufficient_text": 70
+  },
+  "rights": "CC BY-NC-ND 4.0 (LICENSE.md и оригинальный сайт; карточка HF противоречит)",
+  "full_text_stored_publicly": false,
+  "external_completeness_verified": false,
+  "notes": [
+    "Secondary HF copy; each record cites the original president.gov.ua URL",
+    "Card metadata claims CC BY 4.0 but LICENSE.md and primary site are BY-NC-ND 4.0",
+    "Published output contains metadata, hashes and non-verbatim topic statistics, never full text",
+    "The dataset may stop earlier than Nov 2026; missing days must not be treated as silence",
+    "Prepared speeches are not reliably spontaneous or personally authored text"
+  ]
+}
