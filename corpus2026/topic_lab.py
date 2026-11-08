@@ -44,13 +44,13 @@ ENTITY_RULES = {
         (r"\b(?:european union|e\.u\.)\b", "term_eu"),
     ],
     "ru": [
-        (r"\b(?:соедин[её]нн(?:ые|ых) штаты(?: америки)?|сша)\b", "term_usa"),
+        (r"\b(?:соедин[её]нн(?:ые|ых|ым|ыми) штат(?:ы|ов|ах|ами|ам)(?: америки)?|сша)\b", "term_usa"),
         (r"\b(?:североатлантический альянс|нато)\b", "term_nato"),
         (r"\b(?:европейский союз|евросоюз|ес)\b", "term_eu"),
         (r"\b(?:специальн(?:ая|ой|ую) военн(?:ая|ой|ую) операци(?:я|и|ю)|сво)\b", "term_svo"),
     ],
     "uk": [
-        (r"\b(?:сполучен(?:і|их) штат(?:и|ів)(?: америки)?|сша)\b", "term_usa"),
+        (r"\b(?:сполучен(?:і|их|им|ими) штат(?:и|ів|ах|ами|ам)(?: америки)?|сша)\b", "term_usa"),
         (r"\b(?:північноатлантичний альянс|нато)\b", "term_nato"),
         (r"\b(?:європейський союз|євросоюз|єс)\b", "term_eu"),
     ],
@@ -356,8 +356,40 @@ def topic_npmi(X: csr_matrix, H: np.ndarray, top_k: int = 10) -> list[float]:
     return out
 
 
+def merge_duplicate_topics(W: np.ndarray, H: np.ndarray) -> tuple[np.ndarray, np.ndarray, int]:
+    """Aggregate near-identical topic-word distributions before scoring labels."""
+    H = np.asarray(H, dtype=float)
+    W = np.asarray(W, dtype=float)
+    k = H.shape[0]
+    parent = list(range(k))
+    def root(i):
+        while parent[i] != i:
+            i = parent[i]
+        return i
+    tops = [set(np.argsort(row)[-10:]) for row in H]
+    norms = H / np.maximum(np.linalg.norm(H, axis=1, keepdims=True), 1e-12)
+    for i in range(k):
+        for j in range(i + 1, k):
+            jaccard = len(tops[i] & tops[j]) / max(1, len(tops[i] | tops[j]))
+            semantic_lexical_cos = float(np.dot(norms[i], norms[j]))
+            if jaccard >= .55 or (jaccard >= .4 and semantic_lexical_cos >= .94):
+                parent[root(j)] = root(i)
+    groups = defaultdict(list)
+    for i in range(k):
+        groups[root(i)].append(i)
+    if len(groups) == k:
+        return W, H, 0
+    merged_w, merged_h = [], []
+    for group in groups.values():
+        merged_w.append(W[:, group].sum(axis=1))
+        weights = np.maximum(W[:, group].sum(axis=0), 1e-8)
+        merged_h.append(np.average(H[group], axis=0, weights=weights))
+    return np.column_stack(merged_w), np.vstack(merged_h), k - len(groups)
+
+
 def evaluate(X: csr_matrix, W: np.ndarray, H: np.ndarray, vocab: np.ndarray) -> dict:
     W, H = np.asarray(W, float), np.asarray(H, float)
+    W, H, merged_topics = merge_duplicate_topics(W, H)
     if W.shape[0] != X.shape[0] or H.shape[1] != X.shape[1] or W.shape[1] != H.shape[0]:
         raise ValueError("Inconsistent document/topic/word matrices")
     good = (H.sum(axis=1) > 1e-10) & (W.sum(axis=0) > 1e-10)
@@ -369,7 +401,7 @@ def evaluate(X: csr_matrix, W: np.ndarray, H: np.ndarray, vocab: np.ndarray) -> 
     overlaps = [len(a&b)/max(1, len(a|b)) for i, a in enumerate(sets) for b in sets[i+1:]]
     npmis = topic_npmi(X, H)
     W = W/np.maximum(W.sum(axis=1, keepdims=True), 1e-12)
-    support = (W.argmax(axis=1)).tolist()
+    support = np.where(W.sum(axis=1) > 1e-9, W.argmax(axis=1), -1).tolist()
     sizes = [support.count(i) for i in range(H.shape[0])]
     diversity = len(set(w for ts in top for w in ts)) / sum(len(ts) for ts in top)
     duplicated = sum(float(x >= .45) for x in overlaps) / max(1, len(overlaps))
@@ -385,9 +417,11 @@ def evaluate(X: csr_matrix, W: np.ndarray, H: np.ndarray, vocab: np.ndarray) -> 
             "max_topword_jaccard": round(max(overlaps, default=0), 5),
             "min_topic_documents": int(min(sizes)),
             "topic_count": int(H.shape[0]),
+            "merged_near_duplicate_topics": int(merged_topics),
             "topics": [{"id": "topic_%02d" % (i+1), "keywords": [display_term(x) for x in t],
                         "coherence_npmi": round(npmis[i], 5),
-                        "documents": int(sizes[i])} for i, t in enumerate(top)],
+                        "documents": int(sizes[i]),
+                        "representative_indices": [int(j) for j in np.argsort(-W[:, i])[:35] if support[j] == i]} for i, t in enumerate(top)],
             "assignment": support, "topic_proportions": list(map(float, W.mean(axis=0)))}
 
 
@@ -395,12 +429,26 @@ def evidence(trial: dict, rows: list[dict], n: int = 5) -> list[dict]:
     topics = trial["metrics"]["topics"]
     assignments = trial["metrics"]["assignment"]
     for i, topic in enumerate(topics):
-        matches = [r for r, assigned in zip(rows, assignments) if assigned == i]
-        # Stable sample across months, rather than highest probability templates.
-        examples = sorted(matches, key=lambda x: (x["date"][:7], x["id"]))
-        if len(examples) > n:
-            idx = np.linspace(0, len(examples)-1, n, dtype=int)
-            examples = [examples[z] for z in idx]
+        ranked = topic.pop("representative_indices", [])
+        # Select high-probability documents across different months to avoid
+        # five versions of the same publication event.
+        examples, used_months = [], Counter()
+        for index in ranked:
+            r = rows[index]
+            month = r["date"][:7]
+            if used_months[month] >= 2:
+                continue
+            examples.append(r)
+            used_months[month] += 1
+            if len(examples) == n:
+                break
+        if len(examples) < 2:
+            matches = [r for r, assigned in zip(rows, assignments) if assigned == i]
+            examples = matches[:n]
+        per_month = Counter(r["date"][:7] for r in rows)
+        topic["by_month"] = {m: round(sum(r["date"].startswith(m) for r in rows
+                                         if assignments[rows.index(r)] == i) / count, 6)
+                              for m, count in sorted(per_month.items())}
         topic["examples"] = [
             {"id": r["id"], "date": r["date"], "url": r.get("url", ""),
              "title": r.get("title", "")}
