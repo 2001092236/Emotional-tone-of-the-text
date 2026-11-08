@@ -20,7 +20,7 @@ jobs:
         with:
           python-version: '3.12'
           cache: pip
-      - run: python -m pip install -r requirements-analysis.txt 'pyarrow>=18,<23'
+      - run: python -m pip install -r requirements-analysis.txt 'pyarrow>=18,<23' 'pytest>=8,<10'
       - name: Протестировать безопасную фильтрацию и запрет на публикацию текстов
         run: python -m pytest -q tests/test_hf_zelensky.py
       - name: Считать датасет речей и рассчитать темы на CPU
