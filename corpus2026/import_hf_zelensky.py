@@ -145,11 +145,39 @@ def topic_summary(rows: list[dict], max_docs: int = 1400, seed: int = 42) -> dic
     }
 
 
-def save_report(out:Path, index_out:Path, model_out:Path, until:date, rows:list[dict], sha:str, viewer_out:Path | None=None) -> dict:
+def official_itar_summary(rows: list[dict], max_docs: int = 115) -> dict:
+    """ITAR-inspired scientific pilot on separate official Ukrainian originals.
+
+    Compute on transient full_text; publish only non-verbatim statistics.
+    Only four topics because the first available 2026 archive is small.
+    """
+    import numpy as np
+    from .topic_model import stratified_subset, token_matrix
+    from .itar import learn_topic_history
+    originals = [r for r in rows if r['language']=='uk' and r['word_count']>=30]
+    if len(originals)<90:
+        return {'status':'insufficient_2026_original_speeches', 'documents':len(originals)}
+    subset=stratified_subset(originals,max_docs)
+    X,vocabulary=token_matrix(subset,'uk',max_features=1600)
+    keep=np.asarray((X>0).sum(axis=1)).ravel()>=3
+    X=X[keep]
+    subset=[r for r,k in zip(subset,keep) if k]
+    if X.shape[0]<90 or X.shape[1]<30:
+        return {'status':'insufficient_terms','documents':len(subset)}
+    result=learn_topic_history(X,vocabulary,K=4,iterations=18,rounds=3,seeds=(11,23,37))
+    result.update(status='experimental', documents=len(subset), language='uk',
+                  genre='official_speech_or_address',
+                  archive_scope='Secondary copy, 2026 only, rights: CC BY-NC-ND 4.0',
+                  full_original_text_published=False)
+    return result
+
+
+def save_report(out:Path, index_out:Path, model_out:Path, until:date, rows:list[dict], sha:str, viewer_out:Path | None=None, itar_out:Path | None=None) -> dict:
     index, texts, excluded = normalize_rows(rows, until)
     by_month = Counter(d['date'][:7] for d in index)
     by_lang = Counter(d['language'] for d in index)
     model = topic_summary(texts)
+    itar = official_itar_summary(texts) if itar_out is not None else None
     report = {
         'schema_version':1, 'created_at':datetime.now(timezone.utc).isoformat(),
         'dataset':SOURCE, 'parquet_sha256':sha, 'period':['2026-01-01',until.isoformat()],
@@ -178,6 +206,9 @@ def save_report(out:Path, index_out:Path, model_out:Path, until:date, rows:list[
         viewer_out.parent.mkdir(parents=True,exist_ok=True)
         viewer_out.write_text(json.dumps(index,ensure_ascii=False,separators=(',', ':'))+'\n',encoding='utf-8')
     model_out.write_text(json.dumps({'year':2026,'source':SOURCE,'rights':RIGHTS, 'original_speeches':model},ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+    if itar_out is not None:
+        itar_out.parent.mkdir(parents=True,exist_ok=True)
+        itar_out.write_text(json.dumps({'schema_version':1,'year':2026,'source':SOURCE,'rights':RIGHTS,'original_speeches':itar},ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     return report
 
 
@@ -188,10 +219,11 @@ def main() -> None:
     p.add_argument('--index',type=Path,default=Path('data/2026/hf_zelensky_speeches_index.jsonl'))
     p.add_argument('--topics',type=Path,default=Path('docs/data/hf_official_topics.json'))
     p.add_argument('--viewer',type=Path,default=Path('docs/data/hf_speeches_index.json'))
+    p.add_argument('--itar',type=Path,default=Path('docs/data/hf_official_itar.json'))
     args=p.parse_args()
     until=date.fromisoformat(args.until)
     rows,sha=download_rows()
-    report=save_report(args.out,args.index,args.topics,until,rows,sha,args.viewer)
+    report=save_report(args.out,args.index,args.topics,until,rows,sha,args.viewer,args.itar)
     print(json.dumps({k:report[k] for k in ('total_2026_speeches','original_uk','official_translation_en','earliest','latest','full_text_stored_publicly')},ensure_ascii=False))
 
 if __name__=='__main__':main()

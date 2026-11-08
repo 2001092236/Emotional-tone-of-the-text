@@ -35,6 +35,9 @@ jobs:
           assert summary['full_text_stored_publicly'] is False
           assert summary['period']==['2026-01-01','2026-11-07']
           assert topics['year']==2026
+          official_itar=json.loads(Path('docs/data/hf_official_itar.json').read_text())
+          assert official_itar['year']==2026
+          assert official_itar['original_speeches']['status'] in ('experimental','insufficient_terms','insufficient_2026_original_speeches')
           for d in json.loads(Path('docs/data/hf_speeches_index.json').read_text()):
               assert 'text' not in d and 'full_text' not in d
           for row in Path('data/2026/hf_zelensky_speeches_index.jsonl').read_text().splitlines():
@@ -47,7 +50,7 @@ jobs:
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add docs/data/hf_speeches_2026.json docs/data/hf_speeches_index.json docs/data/hf_official_topics.json data/2026/hf_zelensky_speeches_index.jsonl
+          git add docs/data/hf_speeches_2026.json docs/data/hf_speeches_index.json docs/data/hf_official_topics.json docs/data/hf_official_itar.json data/2026/hf_zelensky_speeches_index.jsonl
           if ! git diff --cached --quiet; then
             git commit -m 'Данные: метаданные официальных речей Зеленского за 2026'
             git push origin 'HEAD:main'
