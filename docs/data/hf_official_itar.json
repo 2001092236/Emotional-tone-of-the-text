@@ -1,0 +1,106 @@
+{
+  "schema_version": 1,
+  "year": 2026,
+  "source": "https://huggingface.co/datasets/slava-medvedev/zelensky-speeches",
+  "rights": "CC BY-NC-ND 4.0 (LICENSE.md и оригинальный сайт; карточка HF противоречит)",
+  "original_speeches": {
+    "method": "ITAR-inspired: ARTM + R_fix(10) + R_filter(11) + hard fixation safeguard",
+    "paper": "https://arxiv.org/abs/2408.05840",
+    "replica_of_authors_code": false,
+    "baseline_seed_count": 3,
+    "baseline_stability_mean": 0.71009,
+    "baseline_stability_pairwise": [
+      0.69743,
+      0.7299,
+      0.70293
+    ],
+    "baseline_best_mean_npmi": 0.09298,
+    "baseline_topic_count_over_threshold": 1,
+    "good_threshold_npmi": 0.11865,
+    "bad_threshold_npmi": 0.05039,
+    "good_topics_accumulated": 2,
+    "good_topic_diversity_10": 0.75,
+    "topics": [
+      {
+        "id": "itar_1",
+        "accepted_round": 1,
+        "coherence": 0.18011,
+        "keywords": [
+          "війни",
+          "проти",
+          "росія",
+          "європи",
+          "росії",
+          "європі",
+          "війну",
+          "європа",
+          "нашу",
+          "може",
+          "війна",
+          "безпеки"
+        ]
+      },
+      {
+        "id": "itar_2",
+        "accepted_round": 3,
+        "coherence": 0.1189,
+        "keywords": [
+          "війну",
+          "росія",
+          "росії",
+          "треба",
+          "росіяни",
+          "удари",
+          "більше",
+          "проти",
+          "життя",
+          "може",
+          "росію",
+          "російських"
+        ]
+      }
+    ],
+    "rounds": [
+      {
+        "round": 1,
+        "random_seed": 37,
+        "mean_npmi": 0.09298,
+        "accepted_total": 1,
+        "accepted_added": 1,
+        "filtered_bad_bank": 1,
+        "fixed_previous": 0
+      },
+      {
+        "round": 2,
+        "random_seed": 126,
+        "mean_npmi": 0.08475,
+        "accepted_total": 1,
+        "accepted_added": 0,
+        "filtered_bad_bank": 2,
+        "fixed_previous": 1
+      },
+      {
+        "round": 3,
+        "random_seed": 243,
+        "mean_npmi": 0.09518,
+        "accepted_total": 2,
+        "accepted_added": 1,
+        "filtered_bad_bank": 4,
+        "fixed_previous": 1
+      }
+    ],
+    "scientific_limitations": [
+      "Coherence thresholds are in-sample baseline quantiles, not expert calibration",
+      "Hard-fix safeguard differs from paper soft-only regularizer",
+      "A monotone topic bank does not imply superior held-out predictive quality",
+      "Short source texts are genre-specific, not direct psychological observations",
+      "Cross-language and cross-source topic rankings are not valid"
+    ],
+    "status": "experimental",
+    "documents": 115,
+    "language": "uk",
+    "genre": "official_speech_or_address",
+    "archive_scope": "Secondary copy, 2026 only, rights: CC BY-NC-ND 4.0",
+    "full_original_text_published": false
+  }
+}
