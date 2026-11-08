@@ -1,6 +1,8 @@
-"""One-off, allowed-access check of official and separately labelled mirrors.
+"""One-off, allowed-access check of official sources only.
 
-Does not ingest or publish copyrighted/full speech texts. Tests whether
+Does not ingest or publish copyrighted/full speech texts. PublicNow is
+excluded: its terms forbid automated access without prior express permission.
+Tests whether
 robots.txt and HTTP allow a read and records only titles and link metadata.
 No circumvention of access restrictions, proxies or login challenges.
 """
@@ -25,10 +27,6 @@ CANDIDATES = [
    'url':'https://news.kremlin.ru/events/president/transcripts', 'language':'ru', 'expected':'стенограммы'},
   {'id':'kremlin_english_index', 'type':'official_translation', 'country':'Россия',
    'url':'https://en.kremlin.ru/events/president/transcripts', 'language':'en', 'expected':'переводные стенограммы'},
-  {'id':'publicnow_ru_kremlin_example', 'type':'third_party_mirror', 'country':'Россия',
-   'url':'https://ebs.publicnow.com/view/58EBC741D00A0FD846C9798CF475ECCC1D3895F0', 'language':'ru', 'expected':'пример зеркальной стенограммы'},
-  {'id':'publicnow_ukraine_example', 'type':'third_party_mirror', 'country':'Украина',
-   'url':'https://ebs.publicnow.com/view/BE281DAFBF995F30277CA00A2DD29B7A7B045EA1', 'language':'en', 'expected':'пример зеркального обращения'},
 ]
 
 

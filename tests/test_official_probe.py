@@ -33,3 +33,7 @@ def test_probe_records_metadata_without_text():
     assert x['article_link_candidates']==1
     assert x['text_imported'] is False
     assert x['content_reproduction_permitted'] is None
+
+
+def test_restricted_mirror_not_probed():
+    assert all('publicnow.com' not in x['url'] for x in CANDIDATES)

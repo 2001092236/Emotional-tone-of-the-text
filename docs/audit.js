@@ -45,7 +45,7 @@ async function loadOfficialProbe(){
     wrap.replaceChildren();
     for(const x of report.candidates){
       const card=add('article','audit-card'),heading=add('div','audit-card-head'),left=add('div');
-      left.append(add('div','small-overline',x.country+' · '+(x.type==='third_party_mirror'?'СТОРОННЕЕ ЗЕРКАЛО':'ОФИЦИАЛЬНЫЙ АДРЕС')));
+      left.append(add('div','small-overline',x.country+' · '+'ОФИЦИАЛЬНЫЙ АДРЕС'));
       left.append(add('h2',null,x.expected));
       heading.append(left,add('strong',null,x.status==='ok'?'Доступен':'Не подтверждён'));card.append(heading);
       const link=add('a',null,'Открыть проверенный адрес');link.href=x.url;link.target='_blank';link.rel='noopener noreferrer';card.append(link);
