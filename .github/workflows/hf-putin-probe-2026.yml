@@ -1,0 +1,50 @@
+name: "Проверка корпуса речей Путина 2026 — Hugging Face"
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/hf-putin-probe-2026.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: mgimo-hf-putin-2026
+  cancel-in-progress: false
+jobs:
+  probe:
+    if: github.event_name == 'workflow_dispatch' || startsWith(github.event.head_commit.message, 'Проверка HF Путин 2026')
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Установить ограниченные зависимости
+        run: python -m pip install -r requirements-dev.txt 'pyarrow>=18,<23'
+      - name: Проверить 2026 год и отсутствие полных текстов в JSON
+        run: python -m pytest -q tests/test_hf_putin.py
+      - name: Проверить доступную российскую часть датасета
+        run: python -m corpus2026.probe_hf_putin
+      - name: Сверить период и лицензирование
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          m=json.loads(Path('docs/data/hf_putin_probe.json').read_text())
+          rows=json.loads(Path('docs/data/hf_putin_speeches_index.json').read_text())
+          assert m['year']==2026 and not m['public_full_text']
+          assert m['matching_russian_putin_speeches']==len(rows)
+          for r in rows:
+              assert 'text' not in r and 'speech_text' not in r
+              assert '2026-01-01'<=r['date']<='2026-11-07'
+          PY
+      - name: Сохранить только индекс и технический отчёт
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add docs/data/hf_putin_probe.json docs/data/hf_putin_speeches_index.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'Данные: проверить наличие официальных речей Путина за 2026'
+            git push origin 'HEAD:main'
+          fi
