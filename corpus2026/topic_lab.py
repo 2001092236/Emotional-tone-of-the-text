@@ -18,7 +18,7 @@ from pathlib import Path
 
 import numpy as np
 from scipy.sparse import csr_matrix, hstack
-from sklearn.cluster import KMeans
+from sklearn.cluster import AgglomerativeClustering, KMeans
 from sklearn.decomposition import LatentDirichletAllocation, NMF, TruncatedSVD
 from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 from sklearn.metrics.pairwise import cosine_similarity
@@ -61,15 +61,28 @@ DISPLAY_TERMS = {
 }
 # Boilerplate, stylistic fillers and salutation formulas are not topics.
 GENERIC = {
-    "en": set("great thanks thank wonderful amazing fantastic biggest total always congratulations truly really everyone today".split()),
-    "ru": set("подробнее смотреть видео подписаться здравствуйте дорогой уважаемый глава провёл прошёл".split()),
-    "uk": set("дивитися відео читати посилання дякую всім вітаю".split()),
+    "en": set("great thanks thank wonderful amazing fantastic biggest total always congratulations truly really everyone today president donald trump rt god bless".split()),
+    "ru": set("подробнее смотреть видео подписаться здравствуйте дорогой уважаемый глава провёл прошёл путин владимир президент rutube кремль сайт полный пресс секретарь песков дмитрий".split()),
+    "uk": set("дивитися відео читати посилання дякую всім вітаю слава".split()),
+}
+
+
+BOILERPLATE_PATTERNS = {
+    "en": (r"\bpresident\s+donald\s+j\.?\s+trump\b",
+           r"\bhe\s+will\s+never\s+let\s+you\s+down\b"),
+    "ru": (r"\bподробнее\s*[—–-]?\s*на\s+сайте\s+кремля\b",
+           r"\bполное\s+видео\s*(?:на\s+rutube)?\b",
+           r"\bвидео\s+на\s+rutube\b",
+           r"\bконференс[- ]колл\s+пресс[- ]секретаря\s+президента\b"),
+    "uk": (r"\bслава\s+україні\b",),
 }
 
 
 def clean_entities(raw: str, language: str) -> str:
     s = re.sub(r"https?://\S+|www\.\S+|@[A-Za-z0-9_]+", " ", raw or "", flags=re.I)
     s = s.lower().replace("\u00a0", " ")
+    for pattern in BOILERPLATE_PATTERNS[language]:
+        s = re.sub(pattern, " ", s, flags=re.I)
     for pattern, replacement in ENTITY_RULES[language]:
         s = re.sub(pattern, " " + replacement + " ", s, flags=re.I)
     return re.sub(r"\s+", " ", s).strip()
@@ -84,7 +97,7 @@ def clean_rows(data_dir: Path, leader: str, cap: int) -> tuple[list[dict], dict]
         if not isinstance(s, str) or len(s.split()) < 8:
             issues["too_short"] += 1
             continue
-        if r.get("is_repost"):
+        if r.get("is_repost") or re.match(r"\s*RT\s*[@:]", s, re.I):
             issues["repost"] += 1
             continue
         if r.get("language") and r["language"] not in {language, language + "-UK", language + "-RU", language + "-US"}:
@@ -96,6 +109,9 @@ def clean_rows(data_dir: Path, leader: str, cap: int) -> tuple[list[dict], dict]
             issues["script_mismatch"] += 1
             continue
         canonical = clean_entities(s, language)
+        if len(canonical.split()) < 8:
+            issues["boilerplate_only"] += 1
+            continue
         unique = hashlib.sha256(canonical.encode("utf8")).hexdigest()
         if unique in seen:
             issues["exact_duplicate"] += 1
@@ -224,6 +240,15 @@ def fit(algo: str, X: csr_matrix, tfidf: csr_matrix, vocab: np.ndarray,
         ids = KMeans(n_clusters=k, random_state=seed, n_init=8).fit_predict(normalize(Z))
         W, H = ctfidf(X, ids, k)
         return W, H, {}
+    if algo == "tfidf_kmeans":
+        ids = KMeans(n_clusters=k, random_state=seed, n_init=12).fit_predict(tfidf)
+        W, H = ctfidf(X, ids, k)
+        return W, H, {"algorithm": "k-means directly in sparse TF-IDF space"}
+    if algo == "hierarchical_svd":
+        Z = TruncatedSVD(n_components=min(72, X.shape[1] - 1), random_state=seed).fit_transform(tfidf)
+        ids = AgglomerativeClustering(n_clusters=k, linkage="average", metric="cosine").fit_predict(normalize(Z))
+        W, H = ctfidf(X, ids, k)
+        return W, H, {"algorithm": "average-linkage agglomerative clustering on dense SVD"}
     if algo == "btm":
         import bitermplus as btm
         btm_docs = btm.get_vectorized_docs(processed, vocab)
@@ -406,9 +431,17 @@ def evaluate(X: csr_matrix, W: np.ndarray, H: np.ndarray, vocab: np.ndarray) -> 
     diversity = len(set(w for ts in top for w in ts)) / sum(len(ts) for ts in top)
     duplicated = sum(float(x >= .45) for x in overlaps) / max(1, len(overlaps))
     small = sum(x < max(8, int(.012 * X.shape[0])) for x in sizes)
-    # Coherence alone is gameable: reward distinct themes and document support.
-    score = (0.45 * float(np.mean(npmis)) + 0.30 * diversity
-             + 0.15 * (1 - duplicated) + 0.10 * (1 - small / H.shape[0]))
+    # Coverage MUST be evaluated: a tiny high-coherence topic bank is not
+    # a good explanation of most documents.
+    covered = sum(sizes) / X.shape[0]
+    shares = np.asarray(sizes, dtype=float) / max(sum(sizes), 1)
+    effective_topics = float(np.exp(-(shares[shares > 0] * np.log(shares[shares > 0])).sum()))
+    balance = effective_topics / len(sizes)
+    max_share = float(max(sizes) / max(sum(sizes), 1))
+    score = (0.35 * float(np.mean(npmis)) + 0.20 * diversity
+             + 0.15 * (1 - duplicated) + 0.15 * covered + 0.15 * balance
+             - 0.15 * max(0., max_share - .35)
+             - 0.15 * (1 - covered))
     return {"score_proxy": round(score, 5),
             "npmi_mean": round(float(np.mean(npmis)), 5),
             "npmi_per_topic": [round(x, 5) for x in npmis],
@@ -416,6 +449,9 @@ def evaluate(X: csr_matrix, W: np.ndarray, H: np.ndarray, vocab: np.ndarray) -> 
             "duplicate_pair_ratio": round(duplicated, 5),
             "max_topword_jaccard": round(max(overlaps, default=0), 5),
             "min_topic_documents": int(min(sizes)),
+            "document_coverage": round(covered, 5),
+            "topic_balance_effective_fraction": round(balance, 5),
+            "largest_topic_fraction": round(max_share, 5),
             "topic_count": int(H.shape[0]),
             "merged_near_duplicate_topics": int(merged_topics),
             "topics": [{"id": "topic_%02d" % (i+1), "keywords": [display_term(x) for x in t],
@@ -471,6 +507,8 @@ def configurations(mode: str) -> list[tuple[str, int, int, float, str | None]]:
         for penalty in (.09, .3):
             config.append(("plsa_artm_lite", k, 17, penalty, None))
         config.append(("svd_kmeans", k, 17, 0., None))
+        config.append(("tfidf_kmeans", k, 17, 0., None))
+        config.append(("hierarchical_svd", k, 17, 0., None))
     config += [("itar", 9, 17, .1, None), ("btm", 9, 17, .1, None),
                ("bigartm", 9, 17, .1, None)]
     if mode == "full":
@@ -493,7 +531,8 @@ def run(args) -> dict:
               "critical_note": "No empirical GPU results until a CUDA runner successfully finishes; LLM naming is pending without local endpoint.",
               "models_hf": list(ENCODERS), "scientific_methods": [
                   "LDA", "NMF", "ARTM-inspired pLSA", "SVD+k-means", "ITAR-inspired",
-                  "BTM", "BigARTM C++", "Embedding k-means",
+                  "BTM", "BigARTM C++", "TF-IDF k-means", "Hierarchical SVD",
+                  "Embedding k-means",
                   "BERTopic HDBSCAN", "CombinedTM", "Top2Vec"],
               "leaders": {}}
     for leader in LANGUAGES:
@@ -522,7 +561,10 @@ def run(args) -> dict:
             attempts.append(trial)
             print(leader, trial["trial_id"], algo, trial["status"],
                   trial.get("metrics", {}).get("score_proxy"), flush=True)
-        completed.sort(key=lambda t: (t["metrics"]["score_proxy"],
+        completed.sort(key=lambda t: (t["metrics"]["document_coverage"] >= .90
+                                      and t["metrics"]["topic_count"] >= max(4, int(t["topics_requested"] * .55))
+                                      and t["metrics"]["largest_topic_fraction"] <= .45,
+                                      t["metrics"]["score_proxy"],
                                       t["metrics"]["npmi_mean"]), reverse=True)
         for trial in completed[:5]:
             evidence(trial, rows)
@@ -530,7 +572,10 @@ def run(args) -> dict:
         encoders = sorted(set(t["hf_encoder"] for t in completed if t["hf_encoder"]))
         quality = (len(completed) >= 20 and len(algos) >= 7
                    and len(encoders) >= 3 and
-                   completed[0]["metrics"]["duplicate_pair_ratio"] <= .15)
+                   completed[0]["metrics"]["duplicate_pair_ratio"] <= .15
+                   and completed[0]["metrics"]["document_coverage"] >= .90
+                   and completed[0]["metrics"]["topic_count"] >= max(4, int(completed[0]["topics_requested"] * .55))
+                   and completed[0]["metrics"]["largest_topic_fraction"] <= .45)
         report["leaders"][leader] = {
             "status": "awaiting_semantic_approval" if quality else "incomplete",
             "coverage": coverage, "linguistics": linguistic,
