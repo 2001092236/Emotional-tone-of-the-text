@@ -1,0 +1,61 @@
+name: Научный эксперимент — качество тем 2026 (CPU)
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - research/topic-quality-multilingual-2026
+    paths:
+      - corpus2026/topic_lab.py
+      - corpus2026/topic_review.py
+      - .github/workflows/topic-quality-lab.yml
+permissions:
+  contents: write
+concurrency:
+  group: research-topic-quality-2026
+  cancel-in-progress: false
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - name: Install CPU dependencies and full language-aware lemmatizers
+        run: |
+          python -m pip install -U pip
+          python -m pip install -r requirements-analysis.txt
+          python -m pip install "spacy>=3.8,<3.9" "gensim>=4.3,<5" "bitermplus>=0.10"
+          python -m spacy download en_core_web_sm
+          python -m spacy download ru_core_news_sm
+          python -m spacy download uk_core_news_sm
+      - name: Python compile and existing ITAR regression test
+        run: |
+          python -m py_compile corpus2026/topic_lab.py corpus2026/topic_review.py
+          python -m pytest -q tests/test_itar.py
+      - name: CPU benchmark with 28+ combinations for each leader
+        run: |
+          python -m corpus2026.topic_lab --max-docs 900 --mode cpu --out docs/data/topic_lab_2026.json
+      - name: Validate truthful status
+        run: |
+          python - <<'PY'
+          import json
+          r=json.load(open('docs/data/topic_lab_2026.json',encoding='utf8'))
+          assert r['status']=='incomplete', 'CPU pilot is not the full experiment'
+          assert set(r['leaders'])=={'trump','putin','zelenskyy'}
+          for leader,data in r['leaders'].items():
+              assert data['requested_trials']>=20, (leader,data['requested_trials'])
+              assert not data['completed_gpu_encoders'], leader
+              assert not data['acceptance_gate_pass'], leader
+          PY
+      - name: Commit diagnostic JSON only to research branch
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add docs/data/topic_lab_2026.json
+          if ! git diff --cached --quiet; then
+            git commit -m "Research: CPU multilingual topic sweep, not approved"
+            git push origin "HEAD:$GITHUB_REF_NAME"
+          fi
