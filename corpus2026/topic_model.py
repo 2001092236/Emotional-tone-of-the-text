@@ -204,6 +204,7 @@ def build_models(data_dir:Path,out_path:Path,max_docs_per_leader:int=1400,topics
         pm=h/np.maximum(h.sum(axis=0,keepdims=True),1e-12)
         control_coh=npmi_top_words(X,pm)
         result['leaders'][leader]={
+          'source_jsonl_sha256': hashlib.sha256((data_dir/f'{leader}.jsonl').read_bytes()).hexdigest(),
           'status':'experimental','language':language,'documents':len(source_rows),
           'sample_documents':len(rows),'vocabulary_size':len(vocab),
           'topics':built,'method':'regularized_plsa_sparse_decorrelation',
