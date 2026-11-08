@@ -3,7 +3,7 @@
   "status": "experimental",
   "year": 2026,
   "method": "Регуляризованная PLSA (ARTM-подход) + NMF (контрольная модель)",
-  "created_at": "2026-11-07 UTC",
+  "created_at": "2026-11-08 UTC",
   "limitations": [
     "Не используется BigARTM / ITAR; реализована лишь часть семейства ARTM",
     "Темы по языкам не выровнены; сравнение тем между лидерами запрещено без дополнительной проверки",
@@ -26,6 +26,7 @@
   ],
   "leaders": {
     "trump": {
+      "source_jsonl_sha256": "a7be19d3b197d837df4d8ad4f6670f4c978b538e5bf557e3f519a7a64fcc0ed4",
       "status": "experimental",
       "language": "en",
       "documents": 4220,
@@ -432,6 +433,7 @@
       }
     },
     "putin": {
+      "source_jsonl_sha256": "b7e155548490ea08fdb760aff11e18289ea9156412620d03e545664ad6275699",
       "status": "experimental",
       "language": "ru",
       "documents": 1069,
@@ -838,52 +840,277 @@
       }
     },
     "zelenskyy": {
+      "source_jsonl_sha256": "dc6e9b8809eff55672ed34312521c26f42174ab084da48d037b4b58d2ad29db5",
       "status": "experimental",
       "language": "uk",
-      "documents": 1140,
-      "sample_documents": 1069,
+      "documents": 2161,
+      "sample_documents": 1280,
       "vocabulary_size": 2400,
       "topics": [
         {
           "id": "artm_1",
           "keywords": [
-            "буде",
-            "україна",
-            "росія",
-            "якщо",
+            "проти",
+            "життя",
+            "хто",
+            "зараз",
             "росії",
+            "росія",
             "війну",
-            "тому",
+            "людей",
             "війни",
-            "україни",
-            "цього",
             "саме",
-            "має"
+            "всім",
+            "україна"
           ],
-          "proportion": 0.1499417817221786,
-          "coherence": 0.13546479597747849,
+          "proportion": 0.1411141672947965,
+          "coherence": 0.14294976727746422,
           "by_month": {
-            "2026-05": 0.351009,
-            "2026-06": 0.167997,
-            "2026-07": 0.128901,
-            "2026-08": 0.146288,
-            "2026-09": 0.138863,
-            "2026-10": 0.153312,
-            "2026-11": 0.202434
+            "2026-01": 0.105278,
+            "2026-02": 0.143036,
+            "2026-03": 0.17766,
+            "2026-04": 0.168571,
+            "2026-05": 0.15317,
+            "2026-06": 0.138258,
+            "2026-07": 0.111389,
+            "2026-08": 0.154091,
+            "2026-09": 0.150085,
+            "2026-10": 0.121043,
+            "2026-11": 0.125389
           },
           "examples": [
             {
-              "id": "fcb11bc2625a7b820a2400f6",
-              "date": "2026-07-13",
-              "title": "Telegram · 2026-07-13",
-              "url": "https://t.me/V_Zelenskiy_official/19908",
+              "id": "2a4994602bf021c842701124",
+              "date": "2026-08-21",
+              "title": "Telegram · 2026-08-21",
+              "url": "https://t.me/V_Zelenskiy_official/20476",
               "attribution": "leader_channel_unverified_author"
             },
             {
-              "id": "10892f236c1d45ed49407df8",
-              "date": "2026-11-03",
-              "title": "Telegram · 2026-11-03",
-              "url": "https://t.me/V_Zelenskiy_official/21628",
+              "id": "517abccf38acebb2d308cd06",
+              "date": "2026-03-21",
+              "title": "Telegram · 2026-03-21",
+              "url": "https://t.me/V_Zelenskiy_official/18381",
+              "attribution": "leader_channel_unverified_author"
+            },
+            {
+              "id": "8c8e83dc1ab017c324ecbca5",
+              "date": "2026-06-04",
+              "title": "Telegram · 2026-06-04",
+              "url": "https://t.me/V_Zelenskiy_official/19339",
+              "attribution": "leader_channel_unverified_author"
+            }
+          ]
+        },
+        {
+          "id": "artm_2",
+          "keywords": [
+            "людей",
+            "хто",
+            "всім",
+            "наших",
+            "дронів",
+            "україни",
+            "росіяни",
+            "удари",
+            "ударів",
+            "жаль",
+            "співчуття",
+            "мої"
+          ],
+          "proportion": 0.1075645373866776,
+          "coherence": 0.13605726518557046,
+          "by_month": {
+            "2026-01": 0.146676,
+            "2026-02": 0.126498,
+            "2026-03": 0.064391,
+            "2026-04": 0.082197,
+            "2026-05": 0.112071,
+            "2026-06": 0.054391,
+            "2026-07": 0.124786,
+            "2026-08": 0.11329,
+            "2026-09": 0.109416,
+            "2026-10": 0.133294,
+            "2026-11": 0.124199
+          },
+          "examples": [
+            {
+              "id": "8e8cdc5ff702c3fa26576851",
+              "date": "2026-09-06",
+              "title": "Telegram · 2026-09-06",
+              "url": "https://t.me/V_Zelenskiy_official/20726",
+              "attribution": "leader_channel_unverified_author"
+            },
+            {
+              "id": "ca4f5b9f82f76b4f927dac98",
+              "date": "2026-02-22",
+              "title": "Telegram · 2026-02-22",
+              "url": "https://t.me/V_Zelenskiy_official/18051",
+              "attribution": "leader_channel_unverified_author"
+            },
+            {
+              "id": "9c523df26f27086a46ff1745",
+              "date": "2026-05-24",
+              "title": "Telegram · 2026-05-24",
+              "url": "https://t.me/V_Zelenskiy_official/19187",
+              "attribution": "leader_channel_unverified_author"
+            }
+          ]
+        },
+        {
+          "id": "artm_3",
+          "keywords": [
+            "підтримку",
+            "україни",
+            "обговорили",
+            "важливо",
+            "наші",
+            "вдячний",
+            "говорили",
+            "україна",
+            "час",
+            "захисту",
+            "разом",
+            "над"
+          ],
+          "proportion": 0.18467445380211486,
+          "coherence": 0.10288639466126637,
+          "by_month": {
+            "2026-01": 0.159192,
+            "2026-02": 0.205044,
+            "2026-03": 0.194686,
+            "2026-04": 0.214259,
+            "2026-05": 0.185863,
+            "2026-06": 0.241805,
+            "2026-07": 0.234415,
+            "2026-08": 0.114915,
+            "2026-09": 0.171554,
+            "2026-10": 0.129724,
+            "2026-11": 0.161275
+          },
+          "examples": [
+            {
+              "id": "ee66c4be435341d95ca0909f",
+              "date": "2026-07-13",
+              "title": "Telegram · 2026-07-13",
+              "url": "https://t.me/V_Zelenskiy_official/19902",
+              "attribution": "leader_channel_unverified_author"
+            },
+            {
+              "id": "173f50d7f9f18c1c39bb0d60",
+              "date": "2026-06-18",
+              "title": "Telegram · 2026-06-18",
+              "url": "https://t.me/V_Zelenskiy_official/19530",
+              "attribution": "leader_channel_unverified_author"
+            },
+            {
+              "id": "cd32130794e5666eb87067a7",
+              "date": "2026-07-01",
+              "title": "Telegram · 2026-07-01",
+              "url": "https://t.me/V_Zelenskiy_official/19696",
+              "attribution": "leader_channel_unverified_author"
+            }
+          ]
+        },
+        {
+          "id": "artm_4",
+          "keywords": [
+            "україни",
+            "україні",
+            "наших",
+            "людей",
+            "зараз",
+            "нашої",
+            "міністром",
+            "держави",
+            "буде",
+            "україна",
+            "європі",
+            "нашу"
+          ],
+          "proportion": 0.12809451492422788,
+          "coherence": 0.06289480706397926,
+          "by_month": {
+            "2026-01": 0.154095,
+            "2026-02": 0.122559,
+            "2026-03": 0.119569,
+            "2026-04": 0.133919,
+            "2026-05": 0.133821,
+            "2026-06": 0.117896,
+            "2026-07": 0.11464,
+            "2026-08": 0.138862,
+            "2026-09": 0.12731,
+            "2026-10": 0.131371,
+            "2026-11": 0.110472
+          },
+          "examples": [
+            {
+              "id": "ca342a9fab9dbba7071ee857",
+              "date": "2026-01-28",
+              "title": "Telegram · 2026-01-28",
+              "url": "https://t.me/V_Zelenskiy_official/17788",
+              "attribution": "leader_channel_unverified_author"
+            },
+            {
+              "id": "4c37e94ae69e0ee4d464962b",
+              "date": "2026-10-02",
+              "title": "Telegram · 2026-10-02",
+              "url": "https://t.me/V_Zelenskiy_official/21179",
+              "attribution": "leader_channel_unverified_author"
+            },
+            {
+              "id": "3d4d55ea8655c3a146090e21",
+              "date": "2026-10-14",
+              "title": "Telegram · 2026-10-14",
+              "url": "https://t.me/V_Zelenskiy_official/21370",
+              "attribution": "leader_channel_unverified_author"
+            }
+          ]
+        },
+        {
+          "id": "artm_5",
+          "keywords": [
+            "україни",
+            "наших",
+            "наші",
+            "хто",
+            "оборони",
+            "україні",
+            "сил",
+            "нашим",
+            "слава",
+            "всім",
+            "нашої",
+            "війну"
+          ],
+          "proportion": 0.14035593006841615,
+          "coherence": 0.09525300327034891,
+          "by_month": {
+            "2026-01": 0.130629,
+            "2026-02": 0.091307,
+            "2026-03": 0.115629,
+            "2026-04": 0.126635,
+            "2026-05": 0.185557,
+            "2026-06": 0.159317,
+            "2026-07": 0.165259,
+            "2026-08": 0.206925,
+            "2026-09": 0.128556,
+            "2026-10": 0.124719,
+            "2026-11": 0.053694
+          },
+          "examples": [
+            {
+              "id": "25bb6eace65d44ce562a9d78",
+              "date": "2026-05-10",
+              "title": "Telegram · 2026-05-10",
+              "url": "https://t.me/V_Zelenskiy_official/18936",
+              "attribution": "leader_channel_unverified_author"
+            },
+            {
+              "id": "238482e2f51c053bd4c527dd",
+              "date": "2026-01-19",
+              "title": "Telegram · 2026-01-19",
+              "url": "https://t.me/V_Zelenskiy_official/17689",
               "attribution": "leader_channel_unverified_author"
             },
             {
@@ -896,256 +1123,56 @@
           ]
         },
         {
-          "id": "artm_2",
-          "keywords": [
-            "україни",
-            "хто",
-            "наших",
-            "людей",
-            "нашої",
-            "україна",
-            "україні",
-            "всім",
-            "життя",
-            "держави",
-            "україну",
-            "нашим"
-          ],
-          "proportion": 0.14676079596580885,
-          "coherence": 0.0842301146656204,
-          "by_month": {
-            "2026-05": 0.187319,
-            "2026-06": 0.177837,
-            "2026-07": 0.147803,
-            "2026-08": 0.193795,
-            "2026-09": 0.112184,
-            "2026-10": 0.114612,
-            "2026-11": 0.128247
-          },
-          "examples": [
-            {
-              "id": "1a4866503d853ddd3b95e2a1",
-              "date": "2026-10-04",
-              "title": "Telegram · 2026-10-04",
-              "url": "https://t.me/V_Zelenskiy_official/21197",
-              "attribution": "leader_channel_unverified_author"
-            },
-            {
-              "id": "3b645db870217f9e082c6faf",
-              "date": "2026-07-20",
-              "title": "Telegram · 2026-07-20",
-              "url": "https://t.me/V_Zelenskiy_official/20065",
-              "attribution": "leader_channel_unverified_author"
-            },
-            {
-              "id": "f4b93fc821091f5494b87d91",
-              "date": "2026-10-20",
-              "title": "Telegram · 2026-10-20",
-              "url": "https://t.me/V_Zelenskiy_official/21450",
-              "attribution": "leader_channel_unverified_author"
-            }
-          ]
-        },
-        {
-          "id": "artm_3",
-          "keywords": [
-            "людей",
-            "росіяни",
-            "зараз",
-            "хто",
-            "життя",
-            "росія",
-            "удари",
-            "співчуття",
-            "всім",
-            "жаль",
-            "проти",
-            "мої"
-          ],
-          "proportion": 0.12766221247104506,
-          "coherence": 0.22212284902425392,
-          "by_month": {
-            "2026-05": 0.109572,
-            "2026-06": 0.069468,
-            "2026-07": 0.120368,
-            "2026-08": 0.126163,
-            "2026-09": 0.160768,
-            "2026-10": 0.16003,
-            "2026-11": 0.121823
-          },
-          "examples": [
-            {
-              "id": "f6be1d156dcf439048730482",
-              "date": "2026-10-08",
-              "title": "Telegram · 2026-10-08",
-              "url": "https://t.me/V_Zelenskiy_official/21277",
-              "attribution": "leader_channel_unverified_author"
-            },
-            {
-              "id": "788952f8f33e8ddc5da488d4",
-              "date": "2026-08-18",
-              "title": "Telegram · 2026-08-18",
-              "url": "https://t.me/V_Zelenskiy_official/20411",
-              "attribution": "leader_channel_unverified_author"
-            },
-            {
-              "id": "cb0b24d6d5d308d45bc3ea10",
-              "date": "2026-08-09",
-              "title": "Telegram · 2026-08-09",
-              "url": "https://t.me/V_Zelenskiy_official/20347",
-              "attribution": "leader_channel_unverified_author"
-            }
-          ]
-        },
-        {
-          "id": "artm_4",
-          "keywords": [
-            "підтримку",
-            "обговорили",
-            "україни",
-            "важливо",
-            "україна",
-            "наші",
-            "україні",
-            "зараз",
-            "разом",
-            "прем",
-            "росія",
-            "нашої"
-          ],
-          "proportion": 0.16472271138432296,
-          "coherence": 0.05878763899613821,
-          "by_month": {
-            "2026-05": 0.195414,
-            "2026-06": 0.144409,
-            "2026-07": 0.148255,
-            "2026-08": 0.135077,
-            "2026-09": 0.188477,
-            "2026-10": 0.197938,
-            "2026-11": 0.185575
-          },
-          "examples": [
-            {
-              "id": "4ea53d885856f16d59798e3d",
-              "date": "2026-09-11",
-              "title": "Telegram · 2026-09-11",
-              "url": "https://t.me/V_Zelenskiy_official/20811",
-              "attribution": "leader_channel_unverified_author"
-            },
-            {
-              "id": "43f03d0dc919c821ef1dd553",
-              "date": "2026-06-09",
-              "title": "Telegram · 2026-06-09",
-              "url": "https://t.me/V_Zelenskiy_official/19440",
-              "attribution": "leader_channel_unverified_author"
-            },
-            {
-              "id": "c15a250924da5647db20786c",
-              "date": "2026-07-07",
-              "title": "Telegram · 2026-07-07",
-              "url": "https://t.me/V_Zelenskiy_official/19834",
-              "attribution": "leader_channel_unverified_author"
-            }
-          ]
-        },
-        {
-          "id": "artm_5",
-          "keywords": [
-            "україни",
-            "щодо",
-            "наших",
-            "україні",
-            "російських",
-            "оборони",
-            "проти",
-            "обговорили",
-            "людей",
-            "рішення",
-            "партнерами",
-            "ппо"
-          ],
-          "proportion": 0.12114419411220607,
-          "coherence": 0.08699267654888408,
-          "by_month": {
-            "2026-05": 0.027463,
-            "2026-06": 0.114656,
-            "2026-07": 0.147292,
-            "2026-08": 0.128114,
-            "2026-09": 0.090311,
-            "2026-10": 0.1167,
-            "2026-11": 0.150213
-          },
-          "examples": [
-            {
-              "id": "00a9658741767f682e8fabf6",
-              "date": "2026-11-03",
-              "title": "Telegram · 2026-11-03",
-              "url": "https://t.me/V_Zelenskiy_official/21625",
-              "attribution": "leader_channel_unverified_author"
-            },
-            {
-              "id": "f3cd60897d3ef89f4ff2badd",
-              "date": "2026-08-27",
-              "title": "Telegram · 2026-08-27",
-              "url": "https://t.me/V_Zelenskiy_official/20615",
-              "attribution": "leader_channel_unverified_author"
-            },
-            {
-              "id": "474802d5b8673ef2fdc4491d",
-              "date": "2026-06-08",
-              "title": "Telegram · 2026-06-08",
-              "url": "https://t.me/V_Zelenskiy_official/19418",
-              "attribution": "leader_channel_unverified_author"
-            }
-          ]
-        },
-        {
           "id": "artm_6",
           "keywords": [
+            "щодо",
             "україни",
-            "наші",
-            "наших",
-            "росії",
-            "війну",
+            "буде",
+            "війни",
+            "зустрічі",
+            "україна",
+            "обговорили",
+            "разом",
+            "партнерами",
             "україні",
-            "оборони",
-            "проти",
-            "має",
-            "регіоні",
-            "всім",
-            "нашої"
+            "цього",
+            "будуть"
           ],
-          "proportion": 0.13250770904891074,
-          "coherence": 0.09510550487974377,
+          "proportion": 0.16634440472451334,
+          "coherence": 0.03533134506596392,
           "by_month": {
-            "2026-05": 0.092997,
-            "2026-06": 0.147441,
-            "2026-07": 0.162045,
-            "2026-08": 0.128959,
-            "2026-09": 0.131465,
-            "2026-10": 0.104042,
-            "2026-11": 0.080504
+            "2026-01": 0.202447,
+            "2026-02": 0.167658,
+            "2026-03": 0.153508,
+            "2026-04": 0.152966,
+            "2026-05": 0.112847,
+            "2026-06": 0.175685,
+            "2026-07": 0.130423,
+            "2026-08": 0.147541,
+            "2026-09": 0.196499,
+            "2026-10": 0.197985,
+            "2026-11": 0.246056
           },
           "examples": [
             {
-              "id": "b920ba27ad891806a89d46ba",
-              "date": "2026-09-04",
-              "title": "Telegram · 2026-09-04",
-              "url": "https://t.me/V_Zelenskiy_official/20701",
+              "id": "60f058ebe05de3a00c8b5968",
+              "date": "2026-01-03",
+              "title": "Telegram · 2026-01-03",
+              "url": "https://t.me/V_Zelenskiy_official/17541",
               "attribution": "leader_channel_unverified_author"
             },
             {
-              "id": "731ba571dff786090409584c",
-              "date": "2026-09-07",
-              "title": "Telegram · 2026-09-07",
-              "url": "https://t.me/V_Zelenskiy_official/20741",
+              "id": "eed35de10514cec706284312",
+              "date": "2026-06-12",
+              "title": "Telegram · 2026-06-12",
+              "url": "https://t.me/V_Zelenskiy_official/19462",
               "attribution": "leader_channel_unverified_author"
             },
             {
-              "id": "f4913663f7486978bdb8116c",
-              "date": "2026-09-09",
-              "title": "Telegram · 2026-09-09",
-              "url": "https://t.me/V_Zelenskiy_official/20781",
+              "id": "5dc84de88690610dec926bfb",
+              "date": "2026-07-20",
+              "title": "Telegram · 2026-07-20",
+              "url": "https://t.me/V_Zelenskiy_official/20058",
               "attribution": "leader_channel_unverified_author"
             }
           ]
@@ -1153,50 +1180,54 @@
         {
           "id": "artm_7",
           "keywords": [
-            "підтримку",
-            "україни",
-            "хто",
-            "людей",
             "зараз",
-            "обговорили",
-            "життя",
-            "важливо",
-            "миру",
-            "наших",
-            "вдячний",
-            "допомогти"
+            "ракет",
+            "ракети",
+            "тому",
+            "дронів",
+            "росія",
+            "якщо",
+            "ппо",
+            "цього",
+            "людей",
+            "будуть",
+            "має"
           ],
-          "proportion": 0.15726059529552772,
-          "coherence": 0.07462476102849556,
+          "proportion": 0.13185199179925364,
+          "coherence": 0.1730075689707447,
           "by_month": {
-            "2026-05": 0.036227,
-            "2026-06": 0.178191,
-            "2026-07": 0.145335,
-            "2026-08": 0.141604,
-            "2026-09": 0.177932,
-            "2026-10": 0.153366,
-            "2026-11": 0.131203
+            "2026-01": 0.101683,
+            "2026-02": 0.143899,
+            "2026-03": 0.174557,
+            "2026-04": 0.121453,
+            "2026-05": 0.116672,
+            "2026-06": 0.112648,
+            "2026-07": 0.119088,
+            "2026-08": 0.124376,
+            "2026-09": 0.11658,
+            "2026-10": 0.161865,
+            "2026-11": 0.178916
           },
           "examples": [
             {
-              "id": "c3029a268c214b3e2a4e51d7",
-              "date": "2026-07-08",
-              "title": "Telegram · 2026-07-08",
-              "url": "https://t.me/V_Zelenskiy_official/19844",
+              "id": "8758037c75bb7b5a1bfd49bf",
+              "date": "2026-01-02",
+              "title": "Telegram · 2026-01-02",
+              "url": "https://t.me/V_Zelenskiy_official/17530",
               "attribution": "leader_channel_unverified_author"
             },
             {
-              "id": "ea50361aedd864b712dbc318",
-              "date": "2026-07-28",
-              "title": "Telegram · 2026-07-28",
-              "url": "https://t.me/V_Zelenskiy_official/20200",
+              "id": "f2b09426a4ca1e0c12f1ed8c",
+              "date": "2026-05-11",
+              "title": "Telegram · 2026-05-11",
+              "url": "https://t.me/V_Zelenskiy_official/18954",
               "attribution": "leader_channel_unverified_author"
             },
             {
-              "id": "d3c06c9bdb7ead91d22217b0",
-              "date": "2026-08-22",
-              "title": "Telegram · 2026-08-22",
-              "url": "https://t.me/V_Zelenskiy_official/20498",
+              "id": "7ef60527c816ccf231d5c5bf",
+              "date": "2026-04-21",
+              "title": "Telegram · 2026-04-21",
+              "url": "https://t.me/V_Zelenskiy_official/18733",
               "attribution": "leader_channel_unverified_author"
             }
           ]
@@ -1204,15 +1235,15 @@
       ],
       "method": "regularized_plsa_sparse_decorrelation",
       "quality": {
-        "npmi_mean": 0.1082,
-        "topic_diversity_10": 0.5286,
+        "npmi_mean": 0.1069,
+        "topic_diversity_10": 0.6571,
         "negative_npmi_topics": 0,
-        "nmf_npmi_mean": -0.6592,
-        "nmf_reconstruction_error": 32.6956
+        "nmf_npmi_mean": -0.6366,
+        "nmf_reconstruction_error": 35.7771
       },
       "attribution_note": "Посты Telegram, авторство отдельных сообщений не подтверждено",
       "source_documents": {
-        "telegram_v_zelenskiy_official": 1140
+        "telegram_v_zelenskiy_official": 2161
       }
     }
   }
