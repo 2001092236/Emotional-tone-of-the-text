@@ -59,14 +59,31 @@ class Client:
         return self._robot_cache[origin].can_fetch(USER_AGENT, url)
 
     def get(self, url: str) -> requests.Response:
-        if not self.allowed(url):
-            raise AccessDenied(f'robots.txt disallows {url}')
-        rsp = self.session.get(url, timeout=(12, 35), allow_redirects=True)
-        if rsp.status_code in (401, 403, 429):
-            raise AccessDenied(f'HTTP {rsp.status_code}: {url}')
-        rsp.raise_for_status()
-        time.sleep(self.delay)
-        return rsp
+        """Follow only HTTPS redirects, checking robots.txt on *every* hop.
+
+        Requests' default allow_redirects=True could silently cross to a host
+        whose robots.txt denies automated access, so redirects are explicit.
+        """
+        current = url
+        for _ in range(6):
+            if not self.allowed(current):
+                raise AccessDenied(f'robots.txt disallows {current}')
+            rsp = self.session.get(current, timeout=(12, 35), allow_redirects=False)
+            if rsp.status_code in (301, 302, 303, 307, 308):
+                location = rsp.headers.get('Location')
+                if not location:
+                    raise AccessDenied(f'Redirect with no Location: {current}')
+                next_url = urljoin(current, location)
+                if urlparse(next_url).scheme != 'https':
+                    raise AccessDenied(f'Unsafe redirect target: {next_url}')
+                current = next_url
+                continue
+            if rsp.status_code in (401, 403, 429):
+                raise AccessDenied(f'HTTP {rsp.status_code}: {current}')
+            rsp.raise_for_status()
+            time.sleep(self.delay)
+            return rsp
+        raise AccessDenied(f'Too many redirects: {url}')
 
 
 def collect_trump(client: Client, since: date, until: date, *, max_items: int = 0) -> tuple[list[dict], list[str]]:
