@@ -1,0 +1,55 @@
+name: Пилот ITAR: устойчивость и итеративное накопление тем — 2026
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/itar-pilot-2026.yml']
+permissions:
+  contents: write
+concurrency:
+  group: mgimo-itar-historical-2026
+  cancel-in-progress: false
+jobs:
+  experiment:
+    if: github.event_name == 'workflow_dispatch' || startsWith(github.event.head_commit.message, 'Пилот ITAR 2026')
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      OPENBLAS_NUM_THREADS: '2'
+      OMP_NUM_THREADS: '2'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - run: python -m pip install -r requirements-analysis.txt 'pytest>=8,<10'
+      - name: Проверить математические свойства и защиту от подмены темы
+        run: python -m pytest -q tests/test_itar.py tests/test_hf_zelensky.py
+      - name: Обучить несколько моделей и накопить отличные темы (CPU)
+        run: python -m corpus2026.itar --data-dir data/2026 --out docs/data/itar_experiment.json --topics 7 --max-docs 900 --iterations 22 --rounds 4
+      - name: Проверить происхождение результатов и даты
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('docs/data/itar_experiment.json').read_text(encoding='utf8'))
+          assert r['year']==2026 and r['schema_version']==1
+          for key, data in r['leaders'].items():
+              if data['status']=='experimental':
+                  assert len(data['source_jsonl_sha256'])==64
+                  assert data['sample_date_min']>='2026-01-01' and data['sample_date_max']<='2026-11-07'
+                  n=[x['accepted_total'] for x in data['rounds']]
+                  assert n == sorted(n)
+                  assert data['replica_of_authors_code'] is False
+          print('Проверки ITAR завершены')
+          PY
+      - name: Сохранить только результаты ITAR, не изменяя исходный корпус
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add docs/data/itar_experiment.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'Данные: эксперимент ITAR на выборке 2026'
+            git push origin 'HEAD:main'
+          fi
