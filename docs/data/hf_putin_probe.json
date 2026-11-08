@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-11-08T07:33:01.806260+00:00",
+  "dataset": "laylaylo/global-leaders-discourses",
+  "year": 2026,
+  "period": [
+    "2026-01-01",
+    "2026-11-07"
+  ],
+  "source_type": "third_party_research_aggregation",
+  "public_full_text": false,
+  "source_license_claim": "CC BY 4.0 (dataset card); verify original material rights independently",
+  "manifest_sha256": "9d9d63b1eef47af83c2b7b6254c9a96796fd8c8787c2bf8cad657c98dcb386d7",
+  "russia_parquet_parts": [
+    {
+      "filename": "0000.parquet",
+      "size": 14313687
+    }
+  ],
+  "matching_russian_putin_speeches": 13,
+  "earliest": "2026-01-12",
+  "latest": "2026-04-28",
+  "months": {
+    "2026-01": 2,
+    "2026-02": 4,
+    "2026-03": 4,
+    "2026-04": 3
+  },
+  "status": "candidate_2026_records_found",
+  "errors": [],
+  "limitations": [
+    "Первоначальный год выхода датасета не гарантирует наличия выступлений за 2026 год",
+    "Это вторичный архив: требуется сверка даты, первичного URL и атрибуции с оригиналом",
+    "Неполные и смешанные стенограммы не должны приниматься за личную речь без проверки",
+    "Число записей не является числом всех существующих речей 2026 года",
+    "Полные тексты не копируются в открытый GitHub"
+  ]
+}
