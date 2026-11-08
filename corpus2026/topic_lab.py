@@ -202,7 +202,7 @@ def gpu_embeddings(rows: list[dict], name: str, cache_dir: Path, language: str) 
 
 
 def fit(algo: str, X: csr_matrix, tfidf: csr_matrix, vocab: np.ndarray,
-        rows: list[dict], k: int, seed: int, strength: float, E: np.ndarray | None = None):
+        rows: list[dict], k: int, seed: int, strength: float, E: np.ndarray | None = None, processed: list[str] | None = None, encoder_name: str | None = None):
     if algo == "nmf":
         model = NMF(n_components=k, init="nndsvda", random_state=seed,
                     max_iter=220, alpha_W=strength, alpha_H=.005, l1_ratio=.2)
@@ -226,7 +226,7 @@ def fit(algo: str, X: csr_matrix, tfidf: csr_matrix, vocab: np.ndarray,
         return W, H, {}
     if algo == "btm":
         import bitermplus as btm
-        btm_docs = btm.get_vectorized_docs([" ".join(vocab[X[i].indices]) for i in range(X.shape[0])], vocab)
+        btm_docs = btm.get_vectorized_docs(processed, vocab)
         pairs = btm.get_biterms(btm_docs, win=12)
         model = btm.BTM(X.astype(np.int32), vocab.tolist(), T=k, seed=seed)
         model.fit(pairs, iterations=80)
@@ -315,9 +315,9 @@ def fit(algo: str, X: csr_matrix, tfidf: csr_matrix, vocab: np.ndarray,
         from top2vec import Top2Vec
         from sentence_transformers import SentenceTransformer
         import torch
-        model_embed = SentenceTransformer("paraphrase-multilingual-MiniLM-L12-v2", device="cuda")
+        model_embed = SentenceTransformer(encoder_name, device="cuda")
         model = Top2Vec(
-            documents=[" ".join(vocab[X[i].indices]) for i in range(X.shape[0])],
+            documents=processed,
             embedding_model=lambda docs: model_embed.encode(docs, show_progress_bar=False),
             min_count=3, workers=2, ngram_vocab=True, verbose=False,
             umap_args={"n_neighbors": 15, "n_components": 5, "metric": "cosine"},
@@ -403,7 +403,7 @@ def evidence(trial: dict, rows: list[dict], n: int = 5) -> list[dict]:
             examples = [examples[z] for z in idx]
         topic["examples"] = [
             {"id": r["id"], "date": r["date"], "url": r.get("url", ""),
-             "title": r.get("title", ""), "excerpt": r["text"][:650]}
+             "title": r.get("title", "")}
             for r in examples
         ]
         topic["name_ru"] = None
@@ -464,7 +464,7 @@ def run(args) -> dict:
                 if encoder and encoder not in by_model:
                     by_model[encoder] = gpu_embeddings(rows, encoder, args.cache_dir, LANGUAGES[leader])
                 W, H, extras = fit(algo, X, tfidf, vocab, rows, k, seed, strength,
-                                   by_model.get(encoder))
+                                   by_model.get(encoder), processed, encoder)
                 metric = evaluate(X, W, H, vocab)
                 trial.update({"status": "completed", "metrics": metric, "details": extras})
                 completed.append(trial)
@@ -475,8 +475,8 @@ def run(args) -> dict:
                   trial.get("metrics", {}).get("score_proxy"), flush=True)
         completed.sort(key=lambda t: (t["metrics"]["score_proxy"],
                                       t["metrics"]["npmi_mean"]), reverse=True)
-        if completed:
-            evidence(completed[0], rows)
+        for trial in completed[:5]:
+            evidence(trial, rows)
         algos = sorted(set(t["algorithm"] for t in completed))
         encoders = sorted(set(t["hf_encoder"] for t in completed if t["hf_encoder"]))
         quality = (len(completed) >= 20 and len(algos) >= 7
