@@ -446,8 +446,9 @@ def evidence(trial: dict, rows: list[dict], n: int = 5) -> list[dict]:
             matches = [r for r, assigned in zip(rows, assignments) if assigned == i]
             examples = matches[:n]
         per_month = Counter(r["date"][:7] for r in rows)
-        topic["by_month"] = {m: round(sum(r["date"].startswith(m) for r in rows
-                                         if assignments[rows.index(r)] == i) / count, 6)
+        matched = Counter(r["date"][:7] for r, assigned in zip(rows, assignments)
+                          if assigned == i)
+        topic["by_month"] = {m: round(matched[m] / count, 6)
                               for m, count in sorted(per_month.items())}
         topic["examples"] = [
             {"id": r["id"], "date": r["date"], "url": r.get("url", ""),
