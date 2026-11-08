@@ -46,13 +46,13 @@ ENTITY_RULES = {
     "ru": [
         (r"\b(?:соедин[её]нн(?:ые|ых|ым|ыми) штат(?:ы|ов|ах|ами|ам)(?: америки)?|сша)\b", "term_usa"),
         (r"\b(?:североатлантический альянс|нато)\b", "term_nato"),
-        (r"\b(?:европейский союз|евросоюз|ес)\b", "term_eu"),
+        (r"\b(?:европейск(?:ий|ого|ому|им|ом)\s+союз(?:а|у|ом|е)?|евросоюз(?:а|у|ом|е)?|ес)\b", "term_eu"),
         (r"\b(?:специальн(?:ая|ой|ую) военн(?:ая|ой|ую) операци(?:я|и|ю)|сво)\b", "term_svo"),
     ],
     "uk": [
         (r"\b(?:сполучен(?:і|их|им|ими) штат(?:и|ів|ах|ами|ам)(?: америки)?|сша)\b", "term_usa"),
         (r"\b(?:північноатлантичний альянс|нато)\b", "term_nato"),
-        (r"\b(?:європейський союз|євросоюз|єс)\b", "term_eu"),
+        (r"\b(?:європейськ(?:ий|ого|ому|им|ім)\s+союз(?:у|ом|і)?|євросоюз(?:у|ом|і)?|єс)\b", "term_eu"),
     ],
 }
 DISPLAY_TERMS = {
@@ -246,7 +246,13 @@ def fit(algo: str, X: csr_matrix, tfidf: csr_matrix, vocab: np.ndarray,
         return W, H, {"algorithm": "k-means directly in sparse TF-IDF space"}
     if algo == "hierarchical_svd":
         Z = TruncatedSVD(n_components=min(72, X.shape[1] - 1), random_state=seed).fit_transform(tfidf)
-        ids = AgglomerativeClustering(n_clusters=k, linkage="average", metric="cosine").fit_predict(normalize(Z))
+        Z = normalize(Z)
+        empty = np.linalg.norm(Z, axis=1) < 1e-10
+        # Zero lexical vectors (e.g. only out-of-vocabulary tokens) must not
+        # make cosine linkage crash; all such rows share one neutral vector.
+        if np.any(empty):
+            Z[empty] = np.full(Z.shape[1], 1 / np.sqrt(Z.shape[1]))
+        ids = AgglomerativeClustering(n_clusters=k, linkage="average", metric="cosine").fit_predict(Z)
         W, H = ctfidf(X, ids, k)
         return W, H, {"algorithm": "average-linkage agglomerative clustering on dense SVD"}
     if algo == "btm":
@@ -391,7 +397,8 @@ def merge_duplicate_topics(W: np.ndarray, H: np.ndarray) -> tuple[np.ndarray, np
         while parent[i] != i:
             i = parent[i]
         return i
-    tops = [set(np.argsort(row)[-10:]) for row in H]
+    top_n = min(10, max(2, H.shape[1] // 3))
+    tops = [set(np.argsort(row)[-top_n:]) for row in H]
     norms = H / np.maximum(np.linalg.norm(H, axis=1, keepdims=True), 1e-12)
     for i in range(k):
         for j in range(i + 1, k):
@@ -500,7 +507,7 @@ def evidence(trial: dict, rows: list[dict], n: int = 5) -> list[dict]:
 def configurations(mode: str) -> list[tuple[str, int, int, float, str | None]]:
     config = []
     for k in (6, 9, 12, 15):
-        for reg in (0.0, .015):
+        for reg in (0.0, .00005, .00025):
             config.append(("nmf", k, 17, reg, None))
         for prior in (.12, .45):
             config.append(("lda", k, 17, prior, None))
