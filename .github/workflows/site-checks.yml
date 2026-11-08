@@ -22,6 +22,7 @@ jobs:
         run: |
           node --check docs/app.js
           node --check docs/lexical-shift.js
+          node --check docs/audit.js
       - name: Проверить лексическую статистику на контрольных данных
         run: node tests/test_lexical.js
       - name: Проверить базовые файлы и вкладки
@@ -32,7 +33,7 @@ jobs:
           for (const id of ['view-overview','view-themes','view-documents','lexicalResult']) {
             if (!html.includes('id="'+id+'"')) throw Error('Нет раздела '+id);
           }
-          for (const p of ['docs/assets/mark.svg','docs/data/summary.json','docs/method.html']) {
+          for (const p of ['docs/assets/mark.svg','docs/data/summary.json','docs/method.html','docs/audit.html','docs/audit.js']) {
             if (!fs.existsSync(p)) throw Error('Нет файла '+p);
           }
           console.log('Интерфейс: структурные проверки пройдены');

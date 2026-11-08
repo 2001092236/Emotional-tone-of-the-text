@@ -2,6 +2,7 @@
 from __future__ import annotations
 import argparse
 import json
+import re
 import sys
 from collections import Counter, defaultdict
 from datetime import date, datetime, timezone
@@ -29,7 +30,7 @@ def build_site(data_dir: Path, site_dir: Path) -> dict:
     dest.mkdir(parents=True, exist_ok=True)
     # Remove old month payloads so the index cannot reference stale years.
     for f in dest.glob('*.json'):
-        if f.name != 'summary.json':
+        if re.fullmatch(r'(trump|putin|zelenskyy)_2026-\d{2}\.json', f.name):
             f.unlink()
     files = {}
     for (leader, month), rows in sorted(by_bucket.items()):
@@ -52,6 +53,9 @@ def build_site(data_dir: Path, site_dir: Path) -> dict:
     report_path = data_dir / 'run_report.json'
     if report_path.exists():
         summary['last_run'] = json.loads(report_path.read_text(encoding='utf-8'))
+    extension_path = data_dir / 'telegram_extend_report.json'
+    if extension_path.exists():
+        summary['telegram_extension'] = json.loads(extension_path.read_text(encoding='utf-8'))
     write_json(dest / 'summary.json', summary)
     return summary
 
