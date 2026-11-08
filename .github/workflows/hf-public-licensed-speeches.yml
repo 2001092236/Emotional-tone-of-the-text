@@ -2,7 +2,7 @@ name: Некоммерческая публикация неизменённых
 on:
   push:
     branches: [main]
-    paths: ['.github/workflows/hf-public-licensed-speeches.yml']
+    paths: ['.github/workflows/hf-public-licensed-speeches.yml', 'corpus2026/publish_licensed_speeches.py']
   workflow_dispatch:
 permissions:
   contents: write

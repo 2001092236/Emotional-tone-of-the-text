@@ -24,6 +24,7 @@ jobs:
           node --check docs/lexical-shift.js
           node --check docs/audit.js
           node --check docs/official-speeches.js
+          node --check docs/official-speeches.js
           node --check docs/itar.js
       - name: Проверить лексическую статистику на контрольных данных
         run: node tests/test_lexical.js

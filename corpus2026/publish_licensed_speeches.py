@@ -27,6 +27,7 @@ def build_release(rows: list[dict], until: date, parquet_sha256: str) -> dict:
         assert hashlib.sha256(text.encode('utf-8')).hexdigest() == row['text_sha256']
         public.append({
             **row,
+            'license_note': 'Опубликована неизменённая копия полученного HF-датасета для некоммерческого использования, с CC BY-NC-ND 4.0 и ссылкой на официальный источник',
             'rights_holder_credit': SOURCE_CREDIT,
             'original_material_license': 'CC BY-NC-ND 4.0',
             'original_material_license_url': LICENSE_URL,
