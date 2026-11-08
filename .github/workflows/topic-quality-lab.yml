@@ -57,5 +57,7 @@ jobs:
           git add docs/data/topic_lab_2026.json
           if ! git diff --cached --quiet; then
             git commit -m "Research: CPU multilingual topic sweep, not approved"
+            git fetch origin "$GITHUB_REF_NAME"
+            git rebase "origin/$GITHUB_REF_NAME"
             git push origin "HEAD:$GITHUB_REF_NAME"
           fi
