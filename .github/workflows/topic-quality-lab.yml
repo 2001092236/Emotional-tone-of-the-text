@@ -12,7 +12,7 @@ permissions:
   contents: write
 concurrency:
   group: research-topic-quality-2026
-  cancel-in-progress: false
+  cancel-in-progress: true
 jobs:
   benchmark:
     runs-on: ubuntu-latest
