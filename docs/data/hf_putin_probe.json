@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "created_at": "2026-11-08T07:33:01.806260+00:00",
+  "created_at": "2026-11-08T07:36:28.033606+00:00",
   "dataset": "laylaylo/global-leaders-discourses",
   "year": 2026,
   "period": [
@@ -8,7 +8,7 @@
     "2026-11-07"
   ],
   "source_type": "third_party_research_aggregation",
-  "public_full_text": false,
+  "public_full_text": true,
   "source_license_claim": "CC BY 4.0 (dataset card); verify original material rights independently",
   "manifest_sha256": "9d9d63b1eef47af83c2b7b6254c9a96796fd8c8787c2bf8cad657c98dcb386d7",
   "russia_parquet_parts": [
@@ -34,5 +34,7 @@
     "Неполные и смешанные стенограммы не должны приниматься за личную речь без проверки",
     "Число записей не является числом всех существующих речей 2026 года",
     "Полные тексты не копируются в открытый GitHub"
-  ]
+  ],
+  "public_text_records": 13,
+  "reproduction_basis": "Первичный kremlin.ru/about/copyrights разрешает перепечатку с обязательной ссылкой на источник; HF cc-by-4.0, атрибуция обязательна"
 }
