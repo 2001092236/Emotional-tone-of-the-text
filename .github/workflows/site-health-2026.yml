@@ -1,0 +1,19 @@
+name: Однократная HTTP-проверка GitHub Pages
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/site-health-2026.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 9
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Проверить опубликованные страницы и JSON по HTTPS
+        run: python scripts/site_health_2026.py
